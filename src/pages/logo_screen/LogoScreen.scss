@@ -1,0 +1,19 @@
+body,
+html {
+  margin: 0;
+  height: 100%;
+}
+
+.logoScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #310f9f !important;
+}
+
+.logoScreen img {
+  max-width: 100%;
+  height: auto;
+}
