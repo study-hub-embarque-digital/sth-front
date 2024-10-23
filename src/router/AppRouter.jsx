@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LogoScreen from "../pages/logo_screen/LogoScreen";
 import ProfilePage from "../pages/profile_page/ProfilePage";
 import LoginPage from "../pages/login/LoginPage";
+import RegisterPage from "../pages/register/RegisterPage";
 // import AdminDashboard from '../features/admin/AdminDashboard';
 // import UserDashboard from '../features/user/UserDashboard';
 // import GuestInfo from '../features/guest/GuestInfo';
@@ -18,6 +19,7 @@ const AppRouter = () => {
       <Route path="/" element={<LogoScreen />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       {/* Usando PrivateRoute para proteger as rotas por perfil */}
       <Route
