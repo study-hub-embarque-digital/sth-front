@@ -13,20 +13,17 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  display: 'flex',
-  flexDirection: 'column',
-  borderRadius: 4
+  display: "flex",
+  flexDirection: "column",
+  borderRadius: 4,
 };
 
 const ModalSquad = ({ onClose, open, squad }) => {
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-    >
+    <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Detalhes do {squad.squad}
+          Detalhes do {squad.nome}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           Alunos: {squad.alunos}

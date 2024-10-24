@@ -8,11 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-// import Button from "@mui/material/Button";
 import Button from "../../../components/buttons/Button";
 import ModalSquad from "./ModalSquad";
+import Skeleton from "@mui/material/Skeleton";
 
-const TableSquad = () => {
+const TableSquad = ({ squads, loading }) => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
   const [selectedSquad, setSelectedSquad] = React.useState(null);
@@ -36,18 +36,6 @@ const TableSquad = () => {
     },
   }));
 
-  function createData(squad, alunos, entregas, instituicao, id) {
-    return { squad, alunos, entregas, instituicao, id };
-  }
-
-  const rows = [
-    createData("Squad A", 25, "Entrega 1", "Unicap", 1),
-    createData("Squad B", 30, "Entrega 2", "Senac", 2),
-    createData("Squad C", 22, "Entrega 3", "Cesár", 3),
-    createData("Squad D", 28, "Entrega 4", "Senac", 4),
-    createData("Squad E", 18, "Entrega 5", "Unicap", 5),
-  ];
-
   const handleRowClick = (squad) => {
     setSelectedSquad(squad);
     setOpenModal(true);
@@ -64,39 +52,51 @@ const TableSquad = () => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{ cursor: "pointer" }}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Squad</StyledTableCell>
-              <StyledTableCell align="right">Alunos</StyledTableCell>
-              <StyledTableCell align="right">Entregas</StyledTableCell>
-              <StyledTableCell align="right">Instituição</StyledTableCell>
+              <StyledTableCell align="right">Tipo</StyledTableCell>
               <StyledTableCell align="right">Ações</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow
-                key={row.squad}
-                onClick={() => handleRowClick(row)}
-              >
-                <StyledTableCell component="th" scope="row">
-                  {row.squad}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.alunos}</StyledTableCell>
-                <StyledTableCell align="right">{row.entregas}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.instituicao}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    handleMentoriaClick={() => handleMentoriaClick(row.id)}
-                    name={"Ver mentoria"}
-                  />
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {loading
+              ? [...Array(5)].map((_, index) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell component="th" scope="row">
+                      <Skeleton variant="text" width={150} />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Skeleton variant="text" width={100} />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Skeleton variant="rectangular" width={120} height={40} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              : squads.map((squad) => (
+                  <StyledTableRow
+                    key={squad.id}
+                    onClick={() => handleRowClick(squad)}
+                  >
+                    <StyledTableCell component="th" scope="row">
+                      {squad.nome}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {squad.tipo}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Button
+                        handleMentoriaClick={() =>
+                          handleMentoriaClick(squad.id)
+                        }
+                        name={"Ver mentoria"}
+                      />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>
