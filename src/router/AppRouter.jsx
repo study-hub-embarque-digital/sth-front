@@ -9,6 +9,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import ProfilePage from "../pages/profile_page/ProfilePage";
 import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
+import Mentoria from "../features/mentor/mentoria/Mentoria";
 
 const AppRouter = () => {
   return (
@@ -34,6 +35,7 @@ const AppRouter = () => {
           }
         />
         <Route path="squad" element={<Squad />} />
+        <Route path="mentoria/:id" element={<Mentoria />} />
       </Route>
 
       <Route

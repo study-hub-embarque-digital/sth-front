@@ -48,3 +48,20 @@
 .active-text {
   color: #6947db;
 }
+
+.buttonDefault {
+  font-size: 12px !important;
+  font-family: "Poppins", sans-serif !important;
+  
+  width: 120px;
+  height: 30px;
+
+  background-color: #6947db !important;
+  color: #fff !important;
+
+  border-radius: 10px;
+}
+
+.buttonDefault:hover {
+  background-color: #20124d !important;
+}
