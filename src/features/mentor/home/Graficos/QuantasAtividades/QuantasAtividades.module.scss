@@ -1,0 +1,24 @@
+.QuantasAtividades {
+  border-radius: 10px;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  width: auto;
+  height: 35vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  color: #6947db;
+  font-weight: 600 !important;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+
+.chartContainer {
+  margin-top: auto;
+  width: 100%;
+}
