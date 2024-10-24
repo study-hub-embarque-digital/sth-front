@@ -1,4 +1,4 @@
-import MentorPage from "../features/mentor/MentorPage";
+import MentorPage from "../features/mentor";
 import RepresentativePage from "../features/representative/RepresentativePage";
 import StudentPage from "../features/student/StudentPage";
 

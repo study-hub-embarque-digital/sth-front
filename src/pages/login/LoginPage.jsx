@@ -20,6 +20,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import "./LoginPage.scss";
 import logo from "../../assets/logoInitial.png";
 
 const LoginPage = () => {
@@ -37,7 +38,6 @@ const LoginPage = () => {
     // Se a autenticação for bem-sucedida:
     const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
     if (profile) {
-      console.log(profile);
       navigate(`/${profile}`); // Redireciona para a página do perfil
     } else {
       console.error("Perfil não selecionado");

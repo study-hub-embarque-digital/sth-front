@@ -7,7 +7,6 @@ import {
   Grid,
   Paper,
   Typography,
-  Box,
   AppBar,
   Toolbar,
 } from "@mui/material";
