@@ -20,7 +20,6 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import "./LoginPage.scss";
 import logo from "../../assets/logoInitial.png";
 
 const LoginPage = () => {
@@ -58,6 +57,7 @@ const LoginPage = () => {
             marginTop: "20px",
             justifyContent: "center",
             alignItems: "center",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
           <img src={logo} alt="logo" width="170px" />
