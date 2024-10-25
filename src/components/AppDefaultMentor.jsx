@@ -6,6 +6,10 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logoSmall2.svg";
 import HomeIcon from "@mui/icons-material/Home";
+import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import Face6OutlinedIcon from "@mui/icons-material/Face6Outlined";
+import ChatIcon from "@mui/icons-material/Chat";
 import PeopleIcon from "@mui/icons-material/People";
 import "./components.scss";
 
@@ -22,6 +26,30 @@ const NAVIGATION = [
     title: "Squad",
     icon: <PeopleIcon />,
     path: "/mentor/squad",
+  },
+  {
+    segment: "mentor/artigos",
+    title: "Artigos",
+    icon: <BookOutlinedIcon />,
+    path: "/mentor/artigos",
+  },
+  {
+    segment: "mentor/rooms",
+    title: "Rooms",
+    icon: <MeetingRoomOutlinedIcon />,
+    path: "/mentor/rooms",
+  },
+  {
+    segment: "mentor/alunos",
+    title: "Alunos",
+    icon: <Face6OutlinedIcon />,
+    path: "/mentor/alunos",
+  },
+  {
+    segment: "mentor/comunidade",
+    title: "Comunidade",
+    icon: <ChatIcon />,
+    path: "/mentor/comunidade",
   },
 ];
 

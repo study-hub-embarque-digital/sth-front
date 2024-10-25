@@ -2,6 +2,10 @@ import React from "react";
 import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
+import Artigos from "../features/mentor/artigos/Artigos";
+import Rooms from "../features/mentor/rooms/Rooms";
+import Alunos from "../features/mentor/alunos/Alunos";
+import Comunidade from "../features/mentor/comunidade/Comunidade";
 import MentorPage from "../features/mentor";
 import LogoScreen from "../pages/logo_screen/LogoScreen";
 import StudentPage from "../features/student/StudentPage";
@@ -35,7 +39,16 @@ const AppRouter = () => {
           }
         />
         <Route path="squad" element={<Squad />} />
+
         <Route path="mentoria/:id" element={<Mentoria />} />
+
+        <Route path="artigos" element={<Artigos />} />
+
+        <Route path="rooms" element={<Rooms />} />
+
+        <Route path="alunos" element={<Alunos />} />
+
+        <Route path="comunidade" element={<Comunidade />} />
       </Route>
 
       <Route
