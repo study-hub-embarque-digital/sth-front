@@ -12,13 +12,14 @@ const RegisterPage = () => {
       <Box
       display="flex"
       flexDirection={'column'}
-      sx={{ height: '100vh', backgroundColor: '#310F9F' }}
+      sx={{ height: '100vh', backgroundColor: '#310F9F', minHeight:'800px'}}
       >
         <AppBar position="static" style={{ backgroundColor: "#310F9F" }}>
           <Toolbar
             style={{
               display: "flex",
               marginTop: "20px",
+              marginBottom: "20px",
               justifyContent: "center",
               alignItems: "stretch",
             }}
@@ -31,13 +32,13 @@ const RegisterPage = () => {
         display="flex"
         justifyContent="center"
         align-items='stretch' /* Faz os itens terem a mesma altura */
-        sx={{backgroundColor: '#310F9F' }}>
+        sx={{backgroundColor: '#310F9F' , marginBottom:'100px', width:'100%'}}>
         <Box
         marginTop={'10px'}
         marginBottom={'10px'}
           sx={{
             margin:'auto',
-            width: '100%',
+            width: '80%',
             maxWidth: 500,
             p: 3,
             backgroundColor: 'white',
@@ -53,7 +54,7 @@ const RegisterPage = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',  // Espaça os elementos igualmente
-        height: '70vh',                   // Ajuste a altura conforme necessário
+        minHeight:'500px',                 // Ajuste a altura conforme necessário
         padding: 3,                       // Espaçamento interno
       }}
           >
@@ -98,7 +99,19 @@ const RegisterPage = () => {
           </Box>
         </Box>
         {/* Box para o lado direito com imagem ou ilustração */}
-        <img src={logoLogin} alt="Ilustração" style={{ width: '40%', maxHeight:'800px', borderRadius: '2px' }}/>
+        <Box
+          component="img"
+          src={logoLogin}
+          alt="Ilustração"
+          sx={{
+            display: { xs: 'none', lg: 'block' }, // Exibe a imagem apenas quando a tela for maior que 1200px
+            width: { lg: '40%' },
+            maxHeight: '800px',
+            borderRadius: '2px',
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        />
       </Box>
     </Box>
   );
