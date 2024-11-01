@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, TextField, Button, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, TextField, Button, Typography, IconButton, InputAdornment,  AppBar,  Toolbar } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import logoLogin from "../../assets/logoLogin.png";
@@ -9,39 +9,36 @@ const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     return (
-      <Box>
-        <Box
-        sx={{
-          width: '100%',
-          height: '80px', 
-          display: 'flex',
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          backgroundColor: '#310F9F',
-          borderBottom: 3
-        }}
+      <Box
+      display="flex"
+      flexDirection={'column'}
+      sx={{ height: '100vh', backgroundColor: '#310F9F' }}
       >
-        {/* Imagem da logo */}
-        <Box
-          component="img"
-          src={logo} 
-          alt="Logo"
-          sx={{
-            maxHeight: '60%',
-          }}
-        />
-      </Box>
+        <AppBar position="static" style={{ backgroundColor: "#310F9F" }}>
+          <Toolbar
+            style={{
+              display: "flex",
+              marginTop: "20px",
+              justifyContent: "center",
+              alignItems: "stretch",
+            }}
+          >
+            <img src={logo} alt="logo" width="170px" />
+          </Toolbar>
+      </AppBar>
 
       <Box
         display="flex"
-        justifyContent="flex-end"
-        alignItems="center"
-        sx={{ height: '100vh', backgroundColor: '#310F9F' }}
-      >
+        justifyContent="center"
+        align-items='stretch' /* Faz os itens terem a mesma altura */
+        sx={{backgroundColor: '#310F9F' }}>
         <Box
+        marginTop={'10px'}
+        marginBottom={'10px'}
           sx={{
-            width: '40%',
-            maxWidth: 400,
+            margin:'auto',
+            width: '100%',
+            maxWidth: 500,
             p: 3,
             backgroundColor: 'white',
             borderRadius: 2,
@@ -51,7 +48,15 @@ const RegisterPage = () => {
           <Typography variant="h4" align="center" sx={{ mb: 2, fontWeight: 'bold' }}>
             Cadastro
           </Typography>
-          <Box component="form" noValidate autoComplete="off">
+          <Box component="form" noValidate autoComplete="off"
+          sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',  // Espaça os elementos igualmente
+        height: '70vh',                   // Ajuste a altura conforme necessário
+        padding: 3,                       // Espaçamento interno
+      }}
+          >
             <TextField label="Nome completo" fullWidth required sx={{ mb: 2 }} defaultValue="" />
             <TextField label="Instituição ou Empresa" fullWidth required sx={{ mb: 2 }} defaultValue="" />
             <TextField label="Email" type="email" fullWidth required sx={{ mb: 2 }} placeholder="" />
@@ -93,22 +98,7 @@ const RegisterPage = () => {
           </Box>
         </Box>
         {/* Box para o lado direito com imagem ou ilustração */}
-        <Box
-        width="60%"
-        >
-          <Box
-              width="100%"
-              display="flex"
-              justifyContent="flex-end"
-              sx={{ position: 'relative' }}
-            >
-              <img
-                src={logoLogin}
-                alt="Ilustração"
-                style={{ width: '70%', height: 'auto', borderRadius: '2px' }}
-              />
-            </Box>
-        </Box>
+        <img src={logoLogin} alt="Ilustração" style={{ width: '40%', maxHeight:'800px', borderRadius: '2px' }}/>
       </Box>
     </Box>
   );
