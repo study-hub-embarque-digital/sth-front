@@ -32,15 +32,14 @@ const RegisterPage = () => {
         display="flex"
         justifyContent="center"
         align-items='stretch' /* Faz os itens terem a mesma altura */
-        sx={{backgroundColor: '#310F9F' , marginBottom:'100px', width:'100%'}}>
+        sx={{backgroundColor: '#310F9F', width:'100%'}}>
         <Box
         marginTop={'10px'}
-        marginBottom={'10px'}
           sx={{
             margin:'auto',
-            width: '80%',
+            width: '40%',
             maxWidth: 500,
-            p: 3,
+            p: 1,
             backgroundColor: 'white',
             borderRadius: 2,
             boxShadow: 3,
@@ -54,7 +53,7 @@ const RegisterPage = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',  // Espaça os elementos igualmente
-        minHeight:'500px',                 // Ajuste a altura conforme necessário
+        minHeight:'500px',             // Ajuste a altura conforme necessário
         padding: 3,                       // Espaçamento interno
       }}
           >
@@ -105,11 +104,10 @@ const RegisterPage = () => {
           alt="Ilustração"
           sx={{
             display: { xs: 'none', lg: 'block' }, // Exibe a imagem apenas quando a tela for maior que 1200px
-            width: { lg: '40%' },
+            width: { lg: '45%' },
             maxHeight: '800px',
             borderRadius: '2px',
             marginTop: '10px',
-            marginBottom: '10px',
           }}
         />
       </Box>
