@@ -14,6 +14,7 @@ import ProfilePage from "../pages/profile_page/ProfilePage";
 import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
+import RegisterPage from "../pages/register/RegisterPage";
 
 const AppRouter = () => {
   return (
