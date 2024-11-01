@@ -1,144 +1,69 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  IconButton,
-  useMediaQuery,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import SchoolIcon from '@mui/icons-material/School';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import ForumIcon from '@mui/icons-material/Forum';
-import { useTheme } from '@mui/material/styles';
+import { Box, IconButton, Typography } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Sidebar from '../../components/aluno/Sidebar';
+import ToggleSidebarButton from '../../components/aluno/ToggleSidebarButton';
+import BreadcrumbsNav from '../../components/aluno/BreadcrumbsNav';
+import PostCard from '../../components/aluno/PostCard';
+import SearchBar from '../../components/aluno/SearchBar';
 
-function ListPost() {
+const ListPost = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [sidebarOpen, setSidebarOpen] = useState(!isSmallScreen);
 
-  const menuItems = [
-    { text: 'Home', icon: <HomeIcon /> },
-    { text: 'Comunidade', icon: <PeopleIcon /> },
-    { text: 'Entregas', icon: <AssignmentIcon /> },
-    { text: 'Rooms', icon: <SchoolIcon /> },
-    { text: 'Squad', icon: <RocketLaunchIcon /> },
-    { text: 'Fórum', icon: <ForumIcon /> },
-  ];
-
-  // Array fictício de artigos
-  const articles = [
+  const posts = [
     {
-      title: "Título do Artigo",
-      description: "Descrição do artigo.",
-      author: "Autor do Artigo",
-      image: "url_da_imagem.jpg",
+      title: "Primeiros passos Docker",
+      description: "Lorem ipsum dolor sit amet consectetur. Facilisis sem tortor in quam nec.",
+      author: "Camilla Barreto",
+      image: "url_da_imagem_docker.png",
+      tags: ["golang", "linux", "overflow"],
+      readingTime: "postado a 5 min",
+      date: "29 de Outubro de 2023",
     },
-    // Adicione mais artigos conforme necessário
+    {
+      title: "Introdução ao Kubernetes",
+      description: "Entenda os conceitos básicos de orquestração de contêineres e suas vantagens.",
+      author: "João Silva",
+      image: "url_da_imagem_kubernetes.png",
+      tags: ["Kubernetes", "Orquestração", "Cloud"],
+      readingTime: "postado a 5 dias",
+      date: "20 de Outubro de 2023",
+    },
+    {
+      title: "Desenvolvimento com React",
+      description: "Saiba como começar a desenvolver interfaces com React e suas bibliotecas.",
+      author: "Ana Paula",
+      image: "url_da_imagem_react.png",
+      tags: ["React", "Frontend", "JavaScript"],
+      readingTime: "postado a 1 mês",
+      date: "15 de setembro de 2023",
+    },
   ];
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#121212' }}>
-      {/* Sidebar */}
-      <Drawer
-        variant={isSmallScreen ? "temporary" : "permanent"}
-        open={isSmallScreen ? sidebarOpen : true}
-        onClose={toggleSidebar}
-        sx={{
-          width: sidebarOpen || !isSmallScreen ? 100 : 0,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: sidebarOpen || !isSmallScreen ? 100 : 0,
-            boxSizing: 'border-box',
-            backgroundColor: '#5B2C8E',
-            color: 'white',
-            transition: 'width 0.3s',
-          },
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 2 }}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white', mb: 3 }}>
-            sth
-          </Typography>
-          <List sx={{ width: '100%', textAlign: 'center' }}>
-            {menuItems.map((item, index) => (
-              <ListItem
-                key={index}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  paddingY: 1,
-                  '&:hover': { backgroundColor: '#6D35A0' },
-                }}
-              >
-                <ListItemIcon sx={{ color: 'white', minWidth: 0 }}>{item.icon}</ListItemIcon>
-                <Typography variant="caption" sx={{ color: 'white', mt: 0.5 }}>
-                  {item.text}
-                </Typography>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-
-      {/* Toggle Sidebar Button */}
-      {isSmallScreen && (
-        <IconButton
-          onClick={toggleSidebar}
-          sx={{
-            position: 'fixed',
-            top: 16,
-            right: 16, 
-            color: 'white',
-            zIndex: 1201,
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-      )}
-      
-
-      {/* Artigos Recomendados */}
+      <Sidebar isSmallScreen={isSmallScreen} sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      {isSmallScreen && <ToggleSidebarButton toggleSidebar={toggleSidebar} />}
       <Box sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>
-          Artigos Recomendados
-        </Typography>
-        {articles.map((article, index) => (
-          <Card key={index} sx={{ display: 'flex', mb: 2, backgroundColor: '#333' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, flexGrow: 1 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: 'white' }}>
-                {article.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'gray' }}>
-                {article.description}
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'gray', mt: 1 }}>
-                2 dias atrás por {article.author}
-              </Typography>
-            </Box>
-            <CardMedia
-              component="img"
-              sx={{ width: 100, objectFit: 'cover' }}
-              image={article.image}
-              alt={article.title}
-            />
-          </Card>
-        ))}
+        <BreadcrumbsNav />
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <IconButton sx={{ color: 'white', mr: 1 }}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'white' }}>
+            Comunidade
+          </Typography>
+        </Box>
+        <SearchBar />
+        {posts.map((post, index) => <PostCard key={index} post={post} />)}
       </Box>
     </Box>
   );
-}
+};
 
 export default ListPost;

@@ -14,6 +14,8 @@ import ProfilePage from "../pages/profile_page/ProfilePage";
 import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
+import ListPost from "../pages/listPost/ListPost";
+import HomeAluno from "../pages/homeAluno/HomeAluno";
 
 const AppRouter = () => {
   return (
@@ -68,8 +70,10 @@ const AppRouter = () => {
           <PrivateRoute profile="student">
             <StudentPage />
           </PrivateRoute>
+          
         }
       >
+        
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
 
