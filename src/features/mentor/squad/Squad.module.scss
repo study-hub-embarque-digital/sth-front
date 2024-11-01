@@ -1,0 +1,33 @@
+.Filter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  width: 190px;
+}
+
+.demoDay {
+  display: flex;
+
+  justify-content: center;
+  align-items: flex-end;
+
+  margin-top: auto;
+}
+
+.demoDayButton {
+  font-size: 12px !important;
+  font-family: "Poppins", sans-serif !important;
+
+  height: 40px;
+
+  background-color: #6947db !important;
+  color: #fff !important;
+
+  border-radius: 10px;
+}
+
+.demoDayButton:hover {
+  background-color: #20124d !important;
+}

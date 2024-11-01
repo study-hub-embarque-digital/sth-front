@@ -1,13 +1,67 @@
-.button{
-    height: 50px !important;
+.button {
+  height: 50px !important;
 
+  border-radius: 10px !important;
 
-    border-radius: 10px !important;
-    border: solid 2px #6947DB !important;
-    color: #fff !important;
-    background-color: #6947DB !important;
+  color: #fff !important;
+  background-color: #6947db !important;
 }
 
 .button:hover {
-    background-color: aqua;
+  background-color: #20124d !important;
+}
+
+.children {
+  margin: 20px;
+}
+
+.title {
+  color: #6947db;
+
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  color: #6947db;
+
+  font-size: 46px !important;
+
+  display: flex;
+  align-items: center;
+
+  margin-right: 10px;
+}
+
+.default-icon {
+  color: #878787 !important;
+}
+
+.active-icon {
+  color: #6947db !important;
+}
+
+.default-text {
+  color: #878787;
+}
+
+.active-text {
+  color: #6947db;
+}
+
+.buttonDefault {
+  font-size: 12px !important;
+  font-family: "Poppins", sans-serif !important;
+  
+  width: 120px;
+  height: 30px;
+
+  background-color: #6947db !important;
+  color: #fff !important;
+
+  border-radius: 10px;
+}
+
+.buttonDefault:hover {
+  background-color: #20124d !important;
 }

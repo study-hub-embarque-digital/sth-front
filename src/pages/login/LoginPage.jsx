@@ -37,7 +37,6 @@ const LoginPage = () => {
     // Se a autenticação for bem-sucedida:
     const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
     if (profile) {
-      console.log(profile);
       navigate(`/${profile}`); // Redireciona para a página do perfil
     } else {
       console.error("Perfil não selecionado");
@@ -58,6 +57,7 @@ const LoginPage = () => {
             marginTop: "20px",
             justifyContent: "center",
             alignItems: "center",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
           <img src={logo} alt="logo" width="170px" />

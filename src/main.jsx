@@ -4,12 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./router/AppRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
+import "./theme.scss"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <AppRouter />
+          <AppRouter />
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
