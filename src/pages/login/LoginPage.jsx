@@ -171,7 +171,7 @@ const LoginPage = () => {
           </Button>
 
           <Typography variant="body2" style={{ textAlign: "center" }}>
-            Novo usuário? <Link href="#">Cadastrar</Link>
+            Novo usuário? <Link href="/register">Cadastrar</Link>
           </Typography>
         </Box>
       </Grid>
