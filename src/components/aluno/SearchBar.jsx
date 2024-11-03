@@ -7,7 +7,7 @@ const SearchBar = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
         <TextField
         variant="outlined"
-        placeholder="Buscar posts"
+        placeholder="Buscar"
         sx={{
             backgroundColor: 'white',
             borderRadius: 4,

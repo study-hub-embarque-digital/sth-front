@@ -1,7 +1,9 @@
+import Artigos from "./artigos/Artigos";
+
 const StudentPage = () => {
   return (
     <div>
-      <h1>StudentPage</h1>
+      <Artigos />
     </div>
   );
 };
