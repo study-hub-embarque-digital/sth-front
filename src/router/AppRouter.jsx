@@ -18,6 +18,8 @@ import RegisterPage from "../pages/register/RegisterPage";
 import ListPost from "../pages/listPost/ListPost";
 import HomeAluno from "../pages/homeAluno/HomeAluno";
 import ArtigoDetalhes from "../features/mentor/artigos/ArtigoDetalhes";
+import HomeAluno from "../pages/homeAluno/HomeAluno"
+import ListPost from "../pages/listPost/ListPost"
 
 
 const AppRouter = () => {
@@ -27,6 +29,8 @@ const AppRouter = () => {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
+      <Route path="/comunidade-aluno" element={<ListPost/>} />
 
       <Route
         path="/mentor"
@@ -68,18 +72,16 @@ const AppRouter = () => {
         {/* <Route path="dashboard" element={<UserDashboard />} /> */}
       </Route>
 
-      {/***************************AQUI****************************/}
+      {/***STUDENT***/}
       <Route
         path="/student"
         element={
           <PrivateRoute profile="student">
-            <StudentPage />
+            <HomeAluno/>
           </PrivateRoute>
-          
         }
       >
-        
-        {/* <Route path="info" element={<GuestInfo />} /> */}
+
       </Route>
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}

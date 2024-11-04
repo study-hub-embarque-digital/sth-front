@@ -14,7 +14,7 @@ const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
   
   const menuItems = [
     { text: 'Home', icon: <HomeIcon /> },
-    { text: 'Comunidade', icon: <PeopleIcon /> },
+    { text: 'Comunidade', icon: <PeopleIcon />, path: "studend/comunidade-aluno" },
     { text: 'Entregas', icon: <AssignmentIcon /> },
     { text: 'Rooms', icon: <SchoolIcon /> },
     { text: 'Squad', icon: <RocketLaunchIcon /> },
