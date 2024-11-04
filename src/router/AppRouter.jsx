@@ -18,9 +18,6 @@ import RegisterPage from "../pages/register/RegisterPage";
 import ListPost from "../pages/listPost/ListPost";
 import HomeAluno from "../pages/homeAluno/HomeAluno";
 import ArtigoDetalhes from "../features/mentor/artigos/ArtigoDetalhes";
-import HomeAluno from "../pages/homeAluno/HomeAluno"
-import ListPost from "../pages/listPost/ListPost"
-
 
 const AppRouter = () => {
   return (
