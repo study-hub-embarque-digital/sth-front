@@ -14,7 +14,11 @@ const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
   
   const menuItems = [
     { text: 'Home', icon: <HomeIcon /> },
+<<<<<<< HEAD
     { text: 'Comunidade', icon: <PeopleIcon /> },
+=======
+    { text: 'Comunidade', icon: <PeopleIcon />, path: "studend/comunidade-aluno" },
+>>>>>>> b7070196ae859c581b2773e5ce402d64037440eb
     { text: 'Entregas', icon: <AssignmentIcon /> },
     { text: 'Rooms', icon: <SchoolIcon /> },
     { text: 'Squad', icon: <RocketLaunchIcon /> },

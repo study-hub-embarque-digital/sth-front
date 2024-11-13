@@ -15,8 +15,6 @@ import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
 import RegisterPage from "../pages/register/RegisterPage";
-import ArtigoDetalhes from "../features/mentor/artigos/ArtigoDetalhes";
-
 
 const AppRouter = () => {
   return (
@@ -25,6 +23,8 @@ const AppRouter = () => {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
+      <Route path="/comunidade-aluno" element={<ListPost/>} />
 
       <Route
         path="/mentor"
@@ -66,17 +66,15 @@ const AppRouter = () => {
         {/* <Route path="dashboard" element={<UserDashboard />} /> */}
       </Route>
 
-      {/***************************AQUI****************************/}
       <Route
         path="/student"
         element={
           <PrivateRoute profile="student">
-            <StudentPage />
+            <HomeAluno/>
           </PrivateRoute>
           
         }
       >
-        
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
 
