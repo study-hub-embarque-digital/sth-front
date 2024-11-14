@@ -23,13 +23,13 @@ function StudentPage() {
 
   return (
     <LayoutAluno title="home">
-      {/* Seção de Trilhas */}
+      
       <Box mb={4}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Trilha Obrigatória</Typography>
         <ActivityCard title="Take Off" />
       </Box>
 
-      {/* Seção de Rooms */}
+      
       <Box mb={4}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Meus Rooms</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', overflowX: 'auto' }}>
@@ -39,7 +39,7 @@ function StudentPage() {
         </Box>
       </Box>
 
-      {/* Seção de Atividades */}
+    
       <Box mb={4}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Próximas Atividades</Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
@@ -49,7 +49,7 @@ function StudentPage() {
         </Box>
       </Box>
 
-      {/* Seção de Artigos */}
+     
       <Box>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Artigos Recomendados</Typography>
         {articles.map((article, index) => (
