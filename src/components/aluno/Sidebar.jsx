@@ -8,17 +8,18 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import SchoolIcon from '@mui/icons-material/School'; 
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'; 
 import ForumIcon from '@mui/icons-material/Forum'; 
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
   const theme = useTheme();
   
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon /> },
-    { text: 'Comunidade', icon: <PeopleIcon /> },
-    { text: 'Entregas', icon: <AssignmentIcon /> },
-    { text: 'Rooms', icon: <SchoolIcon /> },
-    { text: 'Squad', icon: <RocketLaunchIcon /> },
-    { text: 'Fórum', icon: <ForumIcon /> },
+    { text: 'Home', icon: <HomeIcon />, path: "student" },
+    { text: 'Comunidade', icon: <PeopleIcon />, path: "student/comunidade-aluno"},
+    { text: 'Entregas', icon: <AssignmentIcon />},
+    { text: 'Rooms', icon: <SchoolIcon />},
+    { text: 'Squad', icon: <RocketLaunchIcon />},
+    { text: 'Fórum', icon: <ForumIcon />},
   ];
 
   return (
@@ -39,21 +40,31 @@ const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white', mb: 3 }}>sth</Typography> 
+       
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white', mb: 3 }}>STH</Typography> 
+
         <List sx={{ width: '100%', textAlign: 'center' }}>
           {menuItems.map((item, index) => (
             <ListItem
               key={index}
+              component={NavLink}
+              to={`/${item.path}`}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 paddingY: 1,
+                textDecoration: 'none',
                 '&:hover': { backgroundColor: '#6D35A0' },
+                '&.active': { backgroundColor: '#6D35A0' }, 
               }}
             >
-              <ListItemIcon sx={{ color: 'white', minWidth: 0 }}>{item.icon}</ListItemIcon>
-              <Typography variant="caption" sx={{ color: 'white', mt: 0.5 }}>{item.text}</Typography>
+              <ListItemIcon sx={{ color: 'white', minWidth: 0 }}>
+                {item.icon}
+              </ListItemIcon>
+              <Typography variant="caption" sx={{ color: 'white', mt: 0.5 }}>
+                {item.text}
+              </Typography>
             </ListItem>
           ))}
         </List>
@@ -62,4 +73,4 @@ const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

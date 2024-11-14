@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
-import { useMediaQuery, useTheme } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Sidebar from '../../components/aluno/Sidebar';
-import ToggleSidebarButton from '../../components/aluno/ToggleSidebarButton';
-import BreadcrumbsNav from '../../components/aluno/BreadcrumbsNav';
-import PostCard from '../../components/aluno/PostCard';
-import SearchBar from '../../components/aluno/SearchBar';
+import ToggleSidebarButton from '../../../components/aluno/ToggleSidebarButton';
+import BreadcrumbsNav from '../../../components/aluno/BreadcrumbsNav';
+import PostCard from '../../../components/aluno/PostCard';
+import SearchBar from '../../../components/aluno/SearchBar';
+import LayoutAluno from '../../../components/LayoutAluno';
+import { useMediaQuery, useTheme } from '@mui/material';
 
-const ListPost = () => {
+const Post = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [sidebarOpen, setSidebarOpen] = useState(!isSmallScreen);
@@ -46,24 +46,28 @@ const ListPost = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#121212' }}>
-      <Sidebar isSmallScreen={isSmallScreen} sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      {isSmallScreen && <ToggleSidebarButton toggleSidebar={toggleSidebar} />}
-      <Box sx={{ flexGrow: 1, p: 3 }}>
-        <BreadcrumbsNav />
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <IconButton sx={{ color: 'white', mr: 1 }}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'white' }}>
-            Comunidade
-          </Typography>
-        </Box>
-        <SearchBar />
-        {posts.map((post, index) => <PostCard key={index} post={post} />)}
+    <LayoutAluno title="Comunidade">
+      {/* Botão de Voltar e Cabeçalho */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <IconButton sx={{ color: 'white', mr: 1 }}>
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'white' }}>
+          Comunidade
+        </Typography>
       </Box>
-    </Box>
+
+      {/* Barra de Pesquisa */}
+      <SearchBar />
+
+      {/* Lista de Posts */}
+      <Box sx={{ mt: 2 }}>
+        {posts.map((post, index) => (
+          <PostCard key={index} post={post} />
+        ))}
+      </Box>
+    </LayoutAluno>
   );
 };
 
-export default ListPost;
+export default Post;
