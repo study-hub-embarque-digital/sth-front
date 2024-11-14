@@ -47,7 +47,7 @@ const Post = () => {
 
   return (
     <LayoutAluno title="Comunidade">
-      {/* Botão de Voltar e Cabeçalho */}
+      
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <IconButton sx={{ color: 'white', mr: 1 }}>
           <ArrowBackIcon />
@@ -57,10 +57,8 @@ const Post = () => {
         </Typography>
       </Box>
 
-      {/* Barra de Pesquisa */}
       <SearchBar />
-
-      {/* Lista de Posts */}
+      
       <Box sx={{ mt: 2 }}>
         {posts.map((post, index) => (
           <PostCard key={index} post={post} />
