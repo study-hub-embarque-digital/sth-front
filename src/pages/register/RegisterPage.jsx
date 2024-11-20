@@ -4,10 +4,55 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import logoLogin from "../../assets/logoLogin.png";
 import logo from "../../assets/logoInitial.png";
+import {alunoRegister} from "../../services/AlunoRegisterService"
 
 const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [formData, setFormData] = useState({
+      nome: "",
+      email: "",
+      senha: "",
+      confirmPassword: "",
+      dataNascimento:"",
+      periodo: 0,
+      curso: "string",
+      instituicaoEnsinoId: "9c60e6df-66d2-4898-a119-a865f7d0bee0"
+    });
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      if (formData.senha !== formData.confirmPassword) {
+        alert("Senha de cofirmação diferente");
+        return;
+      }
+
+      const { nome, email, senha, dataNascimento, periodo, curso, instituicaoEnsinoId } = formData;
+    
+      const body = {
+        novoUsuarioDto: {
+          nome,
+          email,
+          senha,
+          dataNascimento,
+        },
+        periodo: parseInt(periodo, 10), // Garante que é um número
+        curso,
+        instituicaoEnsinoId,
+      };
+  
+      await alunoRegister(body);
+    };
+
     return (
       <Box
       display="flex"
@@ -48,7 +93,7 @@ const RegisterPage = () => {
           <Typography variant="h4" align="center" sx={{ mb: 2, fontWeight: 'bold' }}>
             Cadastro
           </Typography>
-          <Box component="form" noValidate autoComplete="off"
+          <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}
           sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -57,42 +102,86 @@ const RegisterPage = () => {
         padding: 3,                       // Espaçamento interno
       }}
           >
-            <TextField label="Nome completo" fullWidth required sx={{ mb: 2 }} defaultValue="" />
-            <TextField label="Instituição ou Empresa" fullWidth required sx={{ mb: 2 }} defaultValue="" />
-            <TextField label="Email" type="email" fullWidth required sx={{ mb: 2 }} placeholder="" />
+            <TextField label="Nome completo"
+            name="nome"
+            value={formData.nome}
+            onChange={handleChange}
+            requiredfullWidth 
+            required sx={{ mb: 2 }} 
+            defaultValue="" />
+
+            <TextField 
+            label="Instituição ou Empresa" 
+            name="instituicao"
+            //value={formData.instituicaoEnsinoId}
+            //onChange={handleChange}
+            required
+            fullWidth
+            sx={{ mb: 2 }} 
+            defaultValue="" />
+
             <TextField
-              label="Senha"
-              type={showPassword ? 'text' : 'password'}
-              fullWidth
-              required
-              sx={{ mb: 2 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              label="Confirmar senha"
-              type={showConfirmPassword ? 'text' : 'password'}
-              fullWidth
-              required
-              sx={{ mb: 2 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
+            label="Email"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            fullWidth
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            label="Data de Nascimento"
+            variant="outlined"
+            fullWidth
+            type="date"
+            sx={{ mb: 2 }}
+            name="dataNascimento"
+            value={formData.dataNascimento}
+            onChange={handleChange}
+            InputLabelProps={{
+              shrink: true, // Mantém o label visível
+            }}
+            required
+          />
+          <TextField
+            label="senha"
+            variant="outlined"
+            fullWidth
+            type={showPassword ? 'text' : 'password'}
+            name="senha"
+            value={formData.senha}
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>)}}
+          />
+          <TextField
+            label="Confirme a senha"
+            variant="outlined"
+            fullWidth
+            type={showConfirmPassword ? 'text' : 'password'}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>)}}
+          />
+            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
               Cadastrar
             </Button>
           </Box>
