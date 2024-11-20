@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://sth-back.onrender.com';
+const BASE_URL = 'https://sth-front-dev.vercel.app';
 
 export const getRooms = async () => {
   try {
