@@ -1,9 +1,14 @@
 // services/squadService.js
 
+const BASE_URL = "https://sth-back-dev.onrender.com";
+
 const getAllSquads = async () => {
   try {
-    const response = await fetch(`https://sth-back.onrender.com/api/squads`, {
+    const response = await fetch(`${BASE_URL}/squads`, {
       method: "GET",
+      headers: {
+        authorization: "Bearer ola mundo",
+      },
     });
 
     if (!response.ok) {
@@ -20,9 +25,7 @@ const getAllSquads = async () => {
 
 const squadDetail = async (squadId) => {
   try {
-    const response = await fetch(
-      `https://sth-back.onrender.com/api/squads/${squadId}`
-    );
+    const response = await fetch(`${BASE_URL}/squads/${squadId}`);
 
     if (!response.ok) {
       throw new Error("Erro ao buscar os dados do squad");
