@@ -15,8 +15,7 @@ import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
 import RegisterPage from "../pages/register/RegisterPage";
-import ListPost from "../pages/listPost/ListPost";
-import HomeAluno from "../pages/homeAluno/HomeAluno";
+import Post from "../features/student/post/Post";
 
 const AppRouter = () => {
   return (
@@ -72,12 +71,17 @@ const AppRouter = () => {
           <PrivateRoute profile="student">
             <StudentPage />
           </PrivateRoute>
-          
+
         }
       >
-        
+
+
+
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
+
+      <Route path="student/comunidade-aluno" element={<Post />} />
+
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
       <Route path="*" element={<Navigate to="/profile" />} />

@@ -1,0 +1,27 @@
+separando components e criando tela ListPost
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# interactive rebase in progress; onto fb01ef0
+# Last commands done (2 commands done):
+#    pick bb933f0 adicionando tela home
+#    pick 9a8ec1e separando components e criando tela ListPost
+# Next commands to do (4 remaining commands):
+#    pick b02ed68 adaptando para a estrutura do projeto
+#    pick aa499d5 organizando layout
+# You are currently rebasing branch 'feature/homeAluno' on 'fb01ef0'.
+#
+# Changes to be committed:
+#	new file:   src/components/aluno/ActivityCard.jsx
+#	new file:   src/components/aluno/ArticleCard.jsx
+#	new file:   src/components/aluno/BreadcrumbsNav.jsx
+#	new file:   src/components/aluno/PostCard.jsx
+#	new file:   src/components/aluno/RoomCards.jsx
+#	new file:   src/components/aluno/SearchBar.jsx
+#	new file:   src/components/aluno/Sidebar.jsx
+#	new file:   src/components/aluno/ToggleSidebarButton.jsx
+#	modified:   src/pages/homeAluno/HomeAluno.jsx
+#	modified:   src/pages/listPost/ListPost.jsx
+#	modified:   src/router/AppRouter.jsx
+#
