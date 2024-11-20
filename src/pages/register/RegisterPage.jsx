@@ -132,6 +132,24 @@ const RegisterPage = () => {
             required
           />
           <TextField
+            label="Período"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            fullWidth
+            type="number"
+            name="periodo"
+            value={formData.periodo}
+            onChange={handleChange}
+            required
+            InputProps={{
+              inputProps: {
+                min: 1, // Valor mínimo
+                max: 5, // Valor máximo
+                step: 1, // Incremento
+              },
+            }}
+          />
+          <TextField
             label="Data de Nascimento"
             variant="outlined"
             fullWidth
