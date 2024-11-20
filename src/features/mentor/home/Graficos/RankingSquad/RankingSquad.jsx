@@ -15,7 +15,9 @@ const RankingSquad = () => {
         boxShadow: "0px 4px 12px rgba(105, 71, 219, 1.5)",
       }}
     >
-      <Typography className={styles.title}>Ranking dos Squads que mais fizeram entregas</Typography>
+      <Typography className={styles.title}>
+        Ranking dos Squads que mais fizeram entregas
+      </Typography>
       <div className={styles.chartContainer}>
         <SparkLineChart
           plotType="bar"

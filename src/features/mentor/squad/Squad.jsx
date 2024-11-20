@@ -3,7 +3,7 @@ import Filter from "./Filter";
 import TableSquad from "./TableSquad";
 import NavigationTitlePage from "../../../components/NavigationTitlePage";
 import styles from "./Squad.module.scss";
-import squadService from "../../../services/squadService";
+import squadService from "../../../services/squad/squadService";
 
 const Squad = () => {
   const [squads, setSquads] = useState([]);

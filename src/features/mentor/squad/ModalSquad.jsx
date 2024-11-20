@@ -23,7 +23,7 @@ const ModalSquad = ({ onClose, open, squad }) => {
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Detalhes do {squad.nome}
+          Detalhes do Squad {squad.nome}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           Alunos: {squad.alunos}

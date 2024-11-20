@@ -56,22 +56,26 @@ const TableSquad = ({ squads, loading }) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Squad</StyledTableCell>
-              <StyledTableCell align="right">Tipo</StyledTableCell>
-              <StyledTableCell align="right">Ações</StyledTableCell>
+              <StyledTableCell align="center">Squad</StyledTableCell>
+              <StyledTableCell align="center">Tipo</StyledTableCell>
+              <StyledTableCell align="center">Empresa</StyledTableCell>
+              <StyledTableCell align="center">Ações</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {loading
               ? [...Array(5)].map((_, index) => (
                   <StyledTableRow key={index}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell align="center" component="th" scope="row">
                       <Skeleton variant="text" width={150} />
                     </StyledTableCell>
-                    <StyledTableCell align="right">
+                    <StyledTableCell align="center">
                       <Skeleton variant="text" width={100} />
                     </StyledTableCell>
-                    <StyledTableCell align="right">
+                    <StyledTableCell align="center">
+                      <Skeleton variant="text" width={100} />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
                       <Skeleton variant="rectangular" width={120} height={40} />
                     </StyledTableCell>
                   </StyledTableRow>
@@ -81,13 +85,23 @@ const TableSquad = ({ squads, loading }) => {
                     key={squad.id}
                     onClick={() => handleRowClick(squad)}
                   >
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell
+                      align="center"
+                      component="th"
+                      scope="row"
+                      style={{ color: "#6947db", fontWeight: "bold" }}
+                    >
                       {squad.nome}
                     </StyledTableCell>
-                    <StyledTableCell align="right">
+                    <StyledTableCell align="center">
                       {squad.tipo}
                     </StyledTableCell>
-                    <StyledTableCell align="right">
+
+                    <StyledTableCell align="center">
+                      {squad.empresaId}
+                    </StyledTableCell>
+
+                    <StyledTableCell align="center">
                       <Button
                         handleMentoriaClick={() =>
                           handleMentoriaClick(squad.id)

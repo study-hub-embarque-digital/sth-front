@@ -7,21 +7,6 @@ import { BarChart } from "@mui/x-charts/BarChart";
 
 const QuantasAtividades = () => {
   const theme = useTheme();
-  const [seriesNb, setSeriesNb] = React.useState(2);
-  const [itemNb, setItemNb] = React.useState(5);
-
-  const handleItemNbChange = (event, newValue) => {
-    if (typeof newValue !== "number") {
-      return;
-    }
-    setItemNb(newValue);
-  };
-  const handleSeriesNbChange = (event, newValue) => {
-    if (typeof newValue !== "number") {
-      return;
-    }
-    setSeriesNb(newValue);
-  };
 
   const highlightScope = {
     highlight: "series",
@@ -115,27 +100,9 @@ const QuantasAtividades = () => {
       <BarChart
         height={200}
         series={series
-          .slice(0, seriesNb)
-          .map((s) => ({ ...s, data: s.data.slice(0, itemNb) }))}
+          .slice(0, 2)
+          .map((s) => ({ ...s, data: s.data.slice(0, 5) }))}
         skipAnimation={true}
-      />
-      <Typography style={{ fontSize: "12px" }}>Quantidade de items</Typography>
-      <Slider
-        value={itemNb}
-        onChange={handleItemNbChange}
-        valueLabelDisplay="auto"
-        min={1}
-        max={20}
-      />
-      <Typography style={{ fontSize: "12px" }}>
-        Quantidade de atividades
-      </Typography>
-      <Slider
-        value={seriesNb}
-        onChange={handleSeriesNbChange}
-        valueLabelDisplay="auto"
-        min={1}
-        max={10}
       />
     </div>
   );
