@@ -43,6 +43,13 @@ const LoginPage = () => {
     }
   };
 
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
+      navigate(`/register`); // Redireciona para a página de registro
+};
+
   return (
     <Grid container style={{ height: "100vh" }}>
       <AppBar
@@ -169,9 +176,8 @@ const LoginPage = () => {
           >
             Entrar
           </Button>
-
           <Typography variant="body2" style={{ textAlign: "center" }}>
-            Novo usuário? <Link href="/register">Cadastrar</Link>
+            Novo usuário? <button variant="body2" style={{ textAlign: "center" }} onClick={handleRegister}>Cadastrar-se</button>
           </Typography>
         </Box>
       </Grid>

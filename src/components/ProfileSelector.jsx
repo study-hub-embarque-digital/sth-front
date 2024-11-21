@@ -105,7 +105,7 @@ const ProfileSelector = () => {
         <img
           src={logoLogin}
           alt="Imagem Login"
-          style={{ width: "80%", height: "auto" }}
+          style={{ width: "auto", height: "auto" }}
         />
       </Grid>
     </Grid>
