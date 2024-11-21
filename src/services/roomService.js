@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://sth-back-dev.onrender.com';
+const BASE_URL = 'https://sth-back-dev.onrender.com/api';
 
 export const getRooms = async () => {
   try {
