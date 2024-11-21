@@ -1,4 +1,3 @@
-import React from "react";
 import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
@@ -16,6 +15,8 @@ import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
 import RegisterPage from "../pages/register/RegisterPage";
 import Post from "../features/student/post/Post";
+import StudentArtigos from "../features/student/artigos/StudentArtigos";
+import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 
 const AppRouter = () => {
   return (
@@ -71,16 +72,15 @@ const AppRouter = () => {
           <PrivateRoute profile="student">
             <StudentPage />
           </PrivateRoute>
-
+          
         }
-      >
-
-
-
+      >        
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
 
-      <Route path="student/comunidade-aluno" element={<Post />} />
+      <Route path="student/comunidade-aluno" element={<Post/>} />
+      <Route path="student/artigos" element={<StudentArtigos />} />
+      <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
