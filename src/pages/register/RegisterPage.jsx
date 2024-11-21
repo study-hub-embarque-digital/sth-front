@@ -5,8 +5,10 @@ import { useState } from 'react';
 import logoLogin from "../../assets/logoLogin.png";
 import logo from "../../assets/logoInitial.png";
 import {alunoRegister} from "../../services/AlunoRegisterService"
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -51,6 +53,8 @@ const RegisterPage = () => {
       };
   
       await alunoRegister(body);
+
+      navigate("/profile")
     };
 
     return (
