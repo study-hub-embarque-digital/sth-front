@@ -1,4 +1,4 @@
-import PrivateRoute from "./PrivateRoute";
+// import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
 import Artigos from "../features/mentor/artigos/Artigos";
@@ -29,9 +29,9 @@ const AppRouter = () => {
       <Route
         path="/mentor"
         element={
-          <PrivateRoute profile="mentor">
+          // <PrivateRoute profile="mentor">
             <MentorPage />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       >
         <Route
@@ -58,9 +58,9 @@ const AppRouter = () => {
       <Route
         path="/representative"
         element={
-          <PrivateRoute profile="representative">
+          // <PrivateRoute profile="representative">
             <RepresentativePage />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       >
         {/* <Route path="dashboard" element={<UserDashboard />} /> */}
@@ -69,9 +69,9 @@ const AppRouter = () => {
       <Route
         path="/student"
         element={
-          <PrivateRoute profile="student">
+          // <PrivateRoute profile="student">
             <StudentPage />
-          </PrivateRoute>
+          // </PrivateRoute>
           
         }
       >        
