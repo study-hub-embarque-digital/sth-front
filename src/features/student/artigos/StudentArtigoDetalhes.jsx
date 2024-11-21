@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Box, Typography, TextField, Button, List, ListItem } from "@mui/material";
 import { useParams } from "react-router-dom";
 import LayoutAluno from "../../../components/LayoutAluno";
 import BreadcrumbsNav from "../../../components/aluno/BreadcrumbsNav";
-import artigoService from "../../../services/artigoService"; 
+import artigoService from "../../../services/artigoService";
 
 const StudentArtigoDetalhes = () => {
   const { id } = useParams();
@@ -14,7 +13,7 @@ const StudentArtigoDetalhes = () => {
 
   const loadArtigoDetalhes = async () => {
     try {
-      const data = await artigoService.getArtigoDetalhes(id); 
+      const data = await artigoService.getArtigoDetalhes(id);
       setArtigo(data);
     } catch (error) {
       console.error("Erro ao carregar os detalhes do artigo:", error);
@@ -66,17 +65,17 @@ const StudentArtigoDetalhes = () => {
           sx={{
             mt: 2,
             mb: 2,
-            backgroundColor: "white", // Fundo branco
-            borderRadius: 1, // Borda arredondada
+            backgroundColor: "white",
+            borderRadius: 1,
           }}
         />
         <Button
           variant="contained"
           onClick={handleAddComment}
           sx={{
-            backgroundColor: "rgb(63, 29, 140)", // Cor roxa
+            backgroundColor: "rgb(63, 29, 140)",
             "&:hover": {
-              backgroundColor: "rgb(48, 22, 110)", // Tom mais escuro ao passar o mouse
+              backgroundColor: "rgb(48, 22, 110)",
             },
           }}
         >

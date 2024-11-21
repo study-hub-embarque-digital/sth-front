@@ -75,10 +75,7 @@ const AppRouter = () => {
           </PrivateRoute>
           
         }
-      >
-        
-        
-         
+      >        
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
 

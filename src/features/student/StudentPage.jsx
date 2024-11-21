@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import LayoutAluno from '../../components/LayoutAluno';
 import RoomCard from '../../components/aluno/RoomCards';
-import ArticleCard from '../../components/aluno/ArticleCard';
 import ActivityCard from '../../components/aluno/ActivityCard';
+import ArtigoCard from '../../components/aluno/ArtigoCard'; // Importe o ArtigoCard
+import artigoService from '../../services/artigoService'; // Importe o serviço de artigos
 
 function StudentPage() {
+  const [artigos, setArtigos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const rooms = new Array(5).fill({
     title: 'JavaScript',
     description: 'JavaScript: Intermediário 2023',
     image: 'https://via.placeholder.com/100x100',
   });
 
-  const articles = new Array(2).fill({
-    author: 'Dan Fontal',
-    title: 'Primeiros passos Docker',
-    description: 'Lorem ipsum dolor sit amet consectetur. Facilisi sem tortor in quam nec. Aliquam nibh habitant id nec quis.',
-    image: 'https://via.placeholder.com/100x100',
-  });
-
   const activities = ['Atividade 1', 'Atividade 2'];
+
+  const loadArtigos = async () => {
+    try {
+      const data = await artigoService.getAllArtigos();
+      setArtigos(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Erro ao carregar os artigos:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadArtigos();
+  }, []); 
 
   return (
     <LayoutAluno title="home">
@@ -29,7 +41,6 @@ function StudentPage() {
         <ActivityCard title="Take Off" />
       </Box>
 
-      
       <Box mb={4}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Meus Rooms</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', overflowX: 'auto' }}>
@@ -39,7 +50,6 @@ function StudentPage() {
         </Box>
       </Box>
 
-    
       <Box mb={4}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Próximas Atividades</Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
@@ -49,12 +59,15 @@ function StudentPage() {
         </Box>
       </Box>
 
-     
       <Box>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white', mb: 1 }}>Artigos Recomendados</Typography>
-        {articles.map((article, index) => (
-          <ArticleCard key={index} article={article} />
-        ))}
+        {loading ? (
+          <p>Carregando artigos...</p>
+        ) : (
+          artigos.map((artigo, index) => (
+            <ArtigoCard key={index} artigo={artigo} />
+          ))
+        )}
       </Box>
     </LayoutAluno>
   );

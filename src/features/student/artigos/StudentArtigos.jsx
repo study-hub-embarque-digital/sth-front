@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import BreadcrumbsNav from "../../../components/aluno/BreadcrumbsNav";
-import PostCard from "../../../components/aluno/PostCard";
 import SearchBar from "../../../components/aluno/SearchBar";
 import LayoutAluno from "../../../components/LayoutAluno";
-import artigoService from "../../../services/artigoService"; 
+import artigoService from "../../../services/artigoService";
+import ArtigoCard from "../../../components/aluno/ArtigoCard";
 
 const StudentArtigos = () => {
   const [artigos, setArtigos] = useState([]);
@@ -12,7 +12,7 @@ const StudentArtigos = () => {
 
   const loadArtigos = async () => {
     try {
-      const data = await artigoService.getAllArtigos(); 
+      const data = await artigoService.getAllArtigos();
       setArtigos(data);
       setLoading(false);
     } catch (error) {
@@ -33,8 +33,8 @@ const StudentArtigos = () => {
         {loading ? (
           <p>Carregando artigos...</p>
         ) : (
-          artigos.map((post, index) => (
-            <PostCard key={index} post={post} />
+          artigos.map((artigo) => (
+            <ArtigoCard key={artigo.id} artigo={artigo} />
           ))
         )}
       </Box>
