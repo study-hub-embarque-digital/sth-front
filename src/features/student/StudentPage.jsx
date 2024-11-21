@@ -1,37 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import LayoutAluno from '../../components/LayoutAluno';
 import RoomCard from '../../components/aluno/RoomCards';
 import ActivityCard from '../../components/aluno/ActivityCard';
 import ArtigoCard from '../../components/aluno/ArtigoCard'; // Importe o ArtigoCard
 import artigoService from '../../services/artigoService'; // Importe o serviço de artigos
+import { getRooms } from '../../services/roomService';
+
 
 function StudentPage() {
   const [artigos, setArtigos] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [rooms, setRooms] = useState([]);
 
-  const rooms = new Array(5).fill({
-    title: 'JavaScript',
-    description: 'JavaScript: Intermediário 2023',
-    image: 'https://via.placeholder.com/100x100',
-  });
 
   const activities = ['Atividade 1', 'Atividade 2'];
+
+  const fetchRooms = async () => {
+    try {
+      const fetchedRooms = await getRooms();
+      setRooms(fetchedRooms);
+    } catch (error) {
+      console.error('Erro ao buscar rooms:', error);
+    }
+    };
+  
 
   const loadArtigos = async () => {
     try {
       const data = await artigoService.getAllArtigos();
       setArtigos(data);
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
       console.error("Erro ao carregar os artigos:", error);
     }
   };
 
   useEffect(() => {
     loadArtigos();
+    fetchRooms();
+    setLoading(false);
+
   }, []); 
+
 
   return (
     <LayoutAluno title="home">
