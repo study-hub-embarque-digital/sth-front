@@ -17,6 +17,7 @@ import RegisterPage from "../pages/register/RegisterPage";
 import Post from "../features/student/post/Post";
 import StudentArtigos from "../features/student/artigos/StudentArtigos";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
+import EditPost from "../features/student/post/EditPost";
 
 const AppRouter = () => {
   return (
@@ -53,6 +54,8 @@ const AppRouter = () => {
         <Route path="alunos" element={<Alunos />} />
 
         <Route path="comunidade" element={<Comunidade />} />
+
+        
       </Route>
 
       <Route
@@ -79,6 +82,7 @@ const AppRouter = () => {
       </Route>
 
       <Route path="student/comunidade-aluno" element={<Post/>} />
+      <Route path="/editar-post" element={<EditPost />} />
       <Route path="student/artigos" element={<StudentArtigos />} />
       <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
 
