@@ -19,7 +19,7 @@ const RegisterPage = () => {
       confirmPassword: "",
       dataNascimento:"",
       periodo: 0,
-      curso: "string",
+      curso: "SI",
       instituicaoEnsinoId: "9c60e6df-66d2-4898-a119-a865f7d0bee0"
     });
   
@@ -43,19 +43,17 @@ const RegisterPage = () => {
         alert("Senha de cofirmação diferente");
         return;
       }
-
-      const { nome, email, senha, dataNascimento, periodo, curso, instituicaoEnsinoId } = formData;
     
       const body = {
         novoUsuarioDto: {
-          nome,
-          email,
-          senha,
-          dataNascimento,
+          nome: formData.nome,
+          email: formData.email,
+          senha: formData.senha,
+          dataNascimento: formData.dataNascimento, 
         },
-        periodo: parseInt(periodo, 10), // Garante que é um número
-        curso: 'SI',
-        instituicaoEnsinoId: "937a0822-2a47-49bc-895d-53f4c44ed058",
+        periodo: formData.periodo,
+        curso: formData.curso,
+        instituicaoEnsinoId: formData.instituicaoEnsinoId
       };
       try {
         // Chama a função de requisição importada
@@ -68,7 +66,6 @@ const RegisterPage = () => {
       } finally {
         setLoading(false); // Habilita o botão novamente após o fim da requisição
       }
-      
       
     };
 
@@ -130,7 +127,7 @@ const RegisterPage = () => {
             defaultValue="" />
 
             <TextField 
-            label="Instituição ou Empresa" 
+            label="Instituição" 
             name="instituicao"
             //value={formData.instituicaoEnsinoId}
             //onChange={handleChange}
