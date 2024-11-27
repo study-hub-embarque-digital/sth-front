@@ -54,13 +54,22 @@ const RegisterPage = () => {
           dataNascimento,
         },
         periodo: parseInt(periodo, 10), // Garante que é um número
-        curso,
-        instituicaoEnsinoId,
+        curso: 'SI',
+        instituicaoEnsinoId: "937a0822-2a47-49bc-895d-53f4c44ed058",
       };
+      try {
+        // Chama a função de requisição importada
+        await alunoRegister(body);
   
-      await alunoRegister(body);
-
-      navigate("/profile")
+        navigate('/profile'); 
+  
+      } catch (error) {
+        setErrorMessage(error.message || 'Ocorreu um erro ao tentar cadastrar!');
+      } finally {
+        setLoading(false); // Habilita o botão novamente após o fim da requisição
+      }
+      
+      
     };
 
     return (
