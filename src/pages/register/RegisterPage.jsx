@@ -11,6 +11,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
       nome: "",
       email: "",
@@ -32,6 +33,11 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if (loading) return;
+
+      // Define o estado do botão como "carregando"
+      setLoading(true);
   
       if (formData.senha !== formData.confirmPassword) {
         alert("Senha de cofirmação diferente");
@@ -203,7 +209,7 @@ const RegisterPage = () => {
                   </IconButton>
                 </InputAdornment>)}}
           />
-            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
+            <Button type="submit" disabled={loading} variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
               Cadastrar
             </Button>
           </Box>
