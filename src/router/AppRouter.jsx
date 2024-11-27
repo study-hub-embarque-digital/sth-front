@@ -1,5 +1,4 @@
-import React from "react";
-import PrivateRoute from "./PrivateRoute";
+// import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
 import Artigos from "../features/mentor/artigos/Artigos";
@@ -16,6 +15,9 @@ import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
 import RegisterPage from "../pages/register/RegisterPage";
 import Post from "../features/student/post/Post";
+import StudentArtigos from "../features/student/artigos/StudentArtigos";
+import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
+import EditPost from "../features/student/post/EditPost";
 
 const AppRouter = () => {
   return (
@@ -28,9 +30,9 @@ const AppRouter = () => {
       <Route
         path="/mentor"
         element={
-          <PrivateRoute profile="mentor">
+          // <PrivateRoute profile="mentor">
             <MentorPage />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       >
         <Route
@@ -52,14 +54,16 @@ const AppRouter = () => {
         <Route path="alunos" element={<Alunos />} />
 
         <Route path="comunidade" element={<Comunidade />} />
+
+        
       </Route>
 
       <Route
         path="/representative"
         element={
-          <PrivateRoute profile="representative">
+          // <PrivateRoute profile="representative">
             <RepresentativePage />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       >
         {/* <Route path="dashboard" element={<UserDashboard />} /> */}
@@ -68,19 +72,19 @@ const AppRouter = () => {
       <Route
         path="/student"
         element={
-          <PrivateRoute profile="student">
+          // <PrivateRoute profile="student">
             <StudentPage />
-          </PrivateRoute>
-
+          // </PrivateRoute>
+          
         }
-      >
-
-
-
+      >        
         {/* <Route path="info" element={<GuestInfo />} /> */}
       </Route>
 
-      <Route path="student/comunidade-aluno" element={<Post />} />
+      <Route path="student/comunidade-aluno" element={<Post/>} />
+      <Route path="/editar-post" element={<EditPost />} />
+      <Route path="student/artigos" element={<StudentArtigos />} />
+      <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
