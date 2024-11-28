@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -23,10 +22,10 @@ const ArtigoCard = ({ artigo }) => {
     >
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Avatar sx={{ width: 40, height: 40, mr: 2 }}>
-          {artigo.autor_usuario_id?.[0]?.toUpperCase() || "A"}
+          {artigo.autor.nome?.[0]?.toUpperCase() || "A"}
         </Avatar>
         <Typography variant="subtitle1" color="text.primary">
-          {artigo.autor_usuario_id || "Autor Desconhecido"}
+          {artigo.autor.nome || "Autor Desconhecido"}
         </Typography>
       </Box>
       <CardContent>
