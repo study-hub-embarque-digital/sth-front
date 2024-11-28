@@ -71,13 +71,9 @@ const LoginPage = () => {
         console.error("Perfil não selecionado");
       }
     } catch (error) {
-      alert("Email ou senha incorretos ");
     } finally {
       setLoading(false); // Habilita o botão novamente após o fim da requisição
     }
-
-    // Aqui você pode adicionar sua lógica de autenticação.
-    // Se a autenticação for bem-sucedida:
     
   };
 
