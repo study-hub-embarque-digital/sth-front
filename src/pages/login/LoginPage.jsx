@@ -21,26 +21,60 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 import logo from "../../assets/logoInitial.png";
+import { useState } from 'react';
+import { alunoLogin } from "../../services/AlunoLoginService";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    senha:""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Aqui você pode adicionar sua lógica de autenticação.
-    // Se a autenticação for bem-sucedida:
-    const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
-    if (profile) {
-      navigate(`/${profile}`); // Redireciona para a página do perfil
-    } else {
-      console.error("Perfil não selecionado");
+    if (loading) return;
+
+    // Define o estado do botão como "carregando"
+    setLoading(true);
+    
+    const body = {
+        email: formData.email,
+        senha:formData.senha
+      }
+    
+    try {
+      // Chama a função de requisição importada
+      await alunoLogin(body);
+
+      const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
+
+      if (profile) {
+        navigate(`/${profile}`); // Redireciona para a página do perfil
+      } else {
+        console.error("Perfil não selecionado");
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false); // Habilita o botão novamente após o fim da requisição
     }
+    
   };
 
   const handleRegister = (e) => {
@@ -115,9 +149,13 @@ const LoginPage = () => {
 
           <TextField
             fullWidth
-            label="Email ou Nome de usuário"
+            name="email"
+            label="Email"
             margin="normal"
             variant="outlined"
+            type="text"
+            value={formData.email}
+            onChange={handleChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -130,10 +168,13 @@ const LoginPage = () => {
           {/* Campo de Senha */}
           <TextField
             fullWidth
+            name="senha"
             label="Senha"
             type={showPassword ? "text" : "password"}
             margin="normal"
             variant="outlined"
+            value={formData.senha}
+            onChange={handleChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -167,6 +208,7 @@ const LoginPage = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            disabled={loading}
             style={{
               marginBottom: "20px",
               backgroundColor: "#6947DB",

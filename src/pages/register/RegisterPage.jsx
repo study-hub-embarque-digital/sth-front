@@ -11,6 +11,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
       nome: "",
       email: "",
@@ -18,7 +19,7 @@ const RegisterPage = () => {
       confirmPassword: "",
       dataNascimento:"",
       periodo: 0,
-      curso: "string",
+      curso: "SI",
       instituicaoEnsinoId: "9c60e6df-66d2-4898-a119-a865f7d0bee0"
     });
   
@@ -32,29 +33,40 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if (loading) return;
+
+      // Define o estado do botão como "carregando"
+      setLoading(true);
   
       if (formData.senha !== formData.confirmPassword) {
         alert("Senha de cofirmação diferente");
         return;
       }
-
-      const { nome, email, senha, dataNascimento, periodo, curso, instituicaoEnsinoId } = formData;
     
       const body = {
         novoUsuarioDto: {
-          nome,
-          email,
-          senha,
-          dataNascimento,
+          nome: formData.nome,
+          email: formData.email,
+          senha: formData.senha,
+          dataNascimento: formData.dataNascimento, 
         },
-        periodo: parseInt(periodo, 10), // Garante que é um número
-        curso,
-        instituicaoEnsinoId,
+        periodo: formData.periodo,
+        curso: formData.curso,
+        instituicaoEnsinoId: formData.instituicaoEnsinoId
       };
+      try {
+        // Chama a função de requisição importada
+        await alunoRegister(body);
   
-      await alunoRegister(body);
-
-      navigate("/profile")
+        navigate('/profile'); 
+  
+      } catch (error) {
+        setErrorMessage(error.message || 'Ocorreu um erro ao tentar cadastrar!');
+      } finally {
+        setLoading(false); // Habilita o botão novamente após o fim da requisição
+      }
+      
     };
 
     return (
@@ -115,7 +127,7 @@ const RegisterPage = () => {
             defaultValue="" />
 
             <TextField 
-            label="Instituição ou Empresa" 
+            label="Instituição" 
             name="instituicao"
             //value={formData.instituicaoEnsinoId}
             //onChange={handleChange}
@@ -203,7 +215,7 @@ const RegisterPage = () => {
                   </IconButton>
                 </InputAdornment>)}}
           />
-            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
+            <Button type="submit" disabled={loading} variant="contained" fullWidth sx={{ mt: 2, backgroundColor: '#6A00B9', '&:hover': { backgroundColor: '#5800A1' } }}>
               Cadastrar
             </Button>
           </Box>
