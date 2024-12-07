@@ -23,9 +23,7 @@ export const alunoRegister = async (formData) => {
     } 
     catch (error) {
       console.error("Error durante o registro:", error);
-      alert("Falha ao registrar");
       throw new Error(error.message);
-      
     }
   };
   

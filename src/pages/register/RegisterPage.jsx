@@ -22,7 +22,6 @@ const RegisterPage = () => {
       curso: "SI",
       instituicaoEnsinoId: "9c60e6df-66d2-4898-a119-a865f7d0bee0"
     });
-  
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData((prevData) => ({
@@ -148,23 +147,30 @@ const RegisterPage = () => {
             required
           />
           <TextField
-            label="Período"
-            variant="outlined"
-            sx={{ mb: 2 }}
-            fullWidth
-            type="number"
-            name="periodo"
-            value={formData.periodo}
-            onChange={handleChange}
-            required
-            InputProps={{
-              inputProps: {
-                min: 1, // Valor mínimo
-                max: 5, // Valor máximo
-                step: 1, // Incremento
-              },
-            }}
-          />
+              label="Período"
+              variant="outlined"
+              sx={{ mb: 2 }}
+              fullWidth
+              type="number"
+              name="periodo"
+              value={formData.periodo}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Permitir apenas números de 1 a 5
+                if (value.length <= 1 && /^[1-5]?$/.test(value)) {
+                  handleChange(e); // Atualizar estado apenas com valores válidos
+                }
+              }}
+              required
+              InputProps={{
+                inputProps: {
+                  min: 1, // Valor mínimo
+                  max: 5, // Valor máximo
+                  step: 1, // Incremento
+                },
+              }}
+            />
+
           <TextField
             label="Data de Nascimento"
             variant="outlined"
@@ -176,6 +182,9 @@ const RegisterPage = () => {
             onChange={handleChange}
             InputLabelProps={{
               shrink: true, // Mantém o label visível
+            }}
+            inputProps={{
+              max: new Date().toISOString().split("T")[0], // Limita a data ao dia atual
             }}
             required
           />
