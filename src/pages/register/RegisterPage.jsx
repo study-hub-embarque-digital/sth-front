@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, TextField, Button, Typography, IconButton, InputAdornment,  AppBar,  Toolbar } from '@mui/material';
+import { Box, TextField, Button, Typography, IconButton, InputAdornment,  AppBar,  Toolbar, MenuItem } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logoLogin from "../../assets/logoLogin.png";
 import logo from "../../assets/logoInitial.png";
 import {alunoRegister} from "../../services/AlunoRegisterService"
 import { useNavigate } from 'react-router-dom';
+import { getAllInstituicao } from "../../services/instituicaoService";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -20,8 +21,25 @@ const RegisterPage = () => {
       dataNascimento:"",
       periodo: 0,
       curso: "SI",
-      instituicaoEnsinoId: "9c60e6df-66d2-4898-a119-a865f7d0bee0"
+      instituicaoEnsinoId: ""
     });
+
+    const [instituicoes, setInstituicoes] = useState([]);
+    
+    // Buscar dados da API ao montar o componente
+    useEffect(() => {
+      const fetchInstituicoes = async () => {
+        try {
+          const data = await getAllInstituicao(); // Utilize a função importada
+          setInstituicoes(data);
+        } catch (error) {
+          console.error("Erro ao carregar instituições:", error);
+        }
+      };
+
+      fetchInstituicoes();
+    }, []);
+
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData((prevData) => ({
@@ -112,9 +130,9 @@ const RegisterPage = () => {
           sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',  // Espaça os elementos igualmente
-        minHeight:'500px',             // Ajuste a altura conforme necessário
-        padding: 3,                       // Espaçamento interno
+        justifyContent: 'space-between',  
+        minHeight:'500px',             
+        padding: 3,                       
       }}
           >
             <TextField label="Nome completo"
@@ -126,14 +144,26 @@ const RegisterPage = () => {
             defaultValue="" />
 
             <TextField 
+            select
             label="Instituição" 
-            name="instituicao"
-            //value={formData.instituicaoEnsinoId}
-            //onChange={handleChange}
+            name="instituicaoEnsinoId"
+            value={formData.instituicaoEnsinoId}
+            onChange={handleChange}
             required
             fullWidth
             sx={{ mb: 2 }} 
-            defaultValue="" />
+            defaultValue=""
+            > 
+             <MenuItem value="">
+              <em>Selecione uma instituição</em>
+            </MenuItem>
+            
+            {instituicoes.map((instituicao) => (
+              <MenuItem key={instituicao.id} value={instituicao.id}>
+                {instituicao.nome}
+              </MenuItem>
+            ))}
+            </TextField>
 
             <TextField
             label="Email"
