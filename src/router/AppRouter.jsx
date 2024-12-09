@@ -13,11 +13,14 @@ import ProfilePage from "../pages/profile_page/ProfilePage";
 import RepresentativePage from "../features/representative/RepresentativePage";
 import HomeMentor from "../features/mentor/home/HomeMentor";
 import Mentoria from "../features/mentor/mentoria/Mentoria";
-import RegisterPage from "../pages/register/RegisterPage";
+import StudentRegisterPage from "../pages/register/student/StudentRegisterPage";
+import RepresentanteRegisterPage from "../pages/register/representative/RepresentanteRegisterPage";
 import Post from "../features/student/post/Post";
 import StudentArtigos from "../features/student/artigos/StudentArtigos";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 import EditPost from "../features/student/post/EditPost";
+import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
+import PrivateRoute from "./PrivateRoute";
 
 const AppRouter = () => {
   return (
@@ -25,14 +28,16 @@ const AppRouter = () => {
       <Route path="/" element={<LogoScreen />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register/student" element={<StudentRegisterPage />} />
+      <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
+      <Route path="/register/mentor" element={<MentorRegisterPage />} />
 
       <Route
         path="/mentor"
         element={
-          // <PrivateRoute profile="mentor">
+          <PrivateRoute profile="mentor">
             <MentorPage />
-          // </PrivateRoute>
+          </PrivateRoute>
         }
       >
         <Route
@@ -61,9 +66,9 @@ const AppRouter = () => {
       <Route
         path="/representative"
         element={
-          // <PrivateRoute profile="representative">
+          <PrivateRoute profile="representative">
             <RepresentativePage />
-          // </PrivateRoute>
+          </PrivateRoute>
         }
       >
         {/* <Route path="dashboard" element={<UserDashboard />} /> */}
@@ -72,9 +77,9 @@ const AppRouter = () => {
       <Route
         path="/student"
         element={
-          // <PrivateRoute profile="student">
+          <PrivateRoute profile="ALUNO">
             <StudentPage />
-          // </PrivateRoute>
+          </PrivateRoute>
           
         }
       >        

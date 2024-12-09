@@ -1,6 +1,4 @@
-import React from "react";
-import logoPink from "../../assets/logoLoginPink.png";
-import { useNavigate } from "react-router-dom";
+import logoPink from "@assets/logoLoginPink.png";
 import {
   TextField,
   Button,
@@ -13,7 +11,6 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
-
 import {
   AccountCircle,
   Lock,
@@ -21,68 +18,26 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 import logo from "../../assets/logoInitial.png";
-import { useState } from 'react';
-import { alunoLogin } from "../../services/AlunoLoginService";
+import { useLoginPage } from "./LoginPageHook";
+import { useAuth } from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    senha:""
-  });
+  const [
+    handleChange,
+    handleClickShowPassword,
+    handleSubmit,
+    handleRegister,
+    formData,
+    showPassword,
+    loading,
+  ] = useLoginPage();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const [, isAuthenticated, pathForRole] = useAuth();
+
+  if (isAuthenticated()) {
+    return <Navigate to={pathForRole()} />
   };
-  
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (loading) return;
-
-    // Define o estado do botão como "carregando"
-    setLoading(true);
-    
-    const body = {
-        email: formData.email,
-        senha:formData.senha
-      }
-    
-    try {
-      // Chama a função de requisição importada
-      await alunoLogin(body);
-
-      const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
-
-      if (profile) {
-        navigate(`/${profile}`); // Redireciona para a página do perfil
-      } else {
-        console.error("Perfil não selecionado");
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false); // Habilita o botão novamente após o fim da requisição
-    }
-    
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-
-    const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
-      navigate(`/register`); // Redireciona para a página de registro
-};
 
   return (
     <Grid container style={{ height: "100vh" }}>
@@ -219,7 +174,7 @@ const LoginPage = () => {
             Entrar
           </Button>
           <Typography variant="body2" style={{ textAlign: "center" }}>
-            Novo usuário? <button variant="body2" style={{ textAlign: "center" }} onClick={handleRegister}>Cadastrar-se</button>
+            Novo usuário? <Button variant="body2" style={{ textAlign: "center" }} onClick={handleRegister}>Cadastrar-se</Button>
           </Typography>
         </Box>
       </Grid>
