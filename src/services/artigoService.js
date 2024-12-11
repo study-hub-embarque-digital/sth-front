@@ -1,19 +1,10 @@
+import { httpClient } from "../api/api";
+
 const getAllArtigos = async () => {
   try {
-    const response = await fetch("https://sth-back-dev.onrender.com/api/artigo", {
-      method: "GET",
-      headers: {
-        'Authorization': 'Bearer ola mundo', 
-        'Content-Type': 'application/json', 
-      },
-    });
+    const response = await httpClient.get('/artigo');
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os artigos");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de artigos:", error);
     throw error;

@@ -1,7 +1,8 @@
 import { jwtDecode } from "jwt-decode";
+import { TokenHandler } from "../utils/TokenHandler";
 
 const useAuth = () => {
-  const token = localStorage.getItem('jwt-token');
+  const token = TokenHandler.accessToken;
 
   if (!token) {
     return [[], () => false, () => '/']

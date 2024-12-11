@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../../services/authService";
+import { TokenHandler } from "../../utils/TokenHandler";
 
 const useLoginPage = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const useLoginPage = () => {
     try {
       // Chama a função de requisição importada
       const response = await loginService(body);
-      localStorage.setItem('jwt-token', response);
+      TokenHandler.defineTokens(response.accessToken, response.refreshToken)
 
       const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
 
