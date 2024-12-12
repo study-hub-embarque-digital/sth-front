@@ -1,19 +1,10 @@
+import { httpClient } from "../api/api";
+
 const getAllArtigos = async () => {
   try {
-    const response = await fetch("https://sth-back-dev.onrender.com/api/artigo", {
-      method: "GET",
-      headers: {
-        'Authorization': 'Bearer ola mundo', 
-        'Content-Type': 'application/json', 
-      },
-    });
+    const response = await httpClient.get('/artigo');
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os artigos");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de artigos:", error);
     throw error;
@@ -22,23 +13,9 @@ const getAllArtigos = async () => {
 
 const getArtigoDetalhes = async (artigoId) => {
   try {
-    const response = await fetch(
-      `https://sth-back-dev.onrender.com/api/artigo/${artigoId}`,
-      {
-        method: "GET",
-        headers: {
-          'Authorization': 'Bearer ola mundo', 
-          'Content-Type': 'application/json', 
-        },
-      }
-    );
+    const response = await httpClient.get(`/artigo/${artigoId}`);
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os dados do artigo");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de artigos:", error);
     throw error;
@@ -48,27 +25,16 @@ const getArtigoDetalhes = async (artigoId) => {
 // Busca artigos por título ou id do autor
 const searchArtigos = async (searchTerm, searchBy = 'titulo') => {
   try {
-    let url = `https://sth-back-dev.onrender.com/api/artigo/`;
+    let url = `/artigo/`;
     if (searchBy === 'titulo') {
       url += `titulo?titulo=${encodeURIComponent(searchTerm)}`;
     } else if (searchBy === 'autor') {
       url += `autor/${encodeURIComponent(searchTerm)}}`;  //alterar para autor?nome=${encodeURIComponent(searchTerm)} quando modificar o back
     }
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        'Authorization': 'Bearer ola mundo', 
-        'Content-Type': 'application/json', 
-      },
-    });
+    const response = await httpClient.get(url);
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os artigos");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de artigos:", error);
     throw error;

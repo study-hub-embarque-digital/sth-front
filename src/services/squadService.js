@@ -1,22 +1,10 @@
-// services/squadService.js
-
-const BASE_URL = "https://sth-back-dev.onrender.com";
+import { httpClient } from "../api/api";
 
 const getAllSquads = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/squads`, {
-      method: "GET",
-      headers: {
-        authorization: "Bearer ola mundo",
-      },
-    });
+    const response = await httpClient.get(`/squads`);
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os squads");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de squads:", error);
     throw error;
@@ -25,14 +13,9 @@ const getAllSquads = async () => {
 
 const squadDetail = async (squadId) => {
   try {
-    const response = await fetch(`${BASE_URL}/squads/${squadId}`);
+    const response = await httpClient.get(`/squads/${squadId}`);
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar os dados do squad");
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Erro no serviço de squads:", error);
     throw error;

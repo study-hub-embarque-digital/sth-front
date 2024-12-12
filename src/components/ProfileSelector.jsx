@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import logoLogin from "../assets/logoLogin.png";
 import logo from "../assets/logoInitial.png";
