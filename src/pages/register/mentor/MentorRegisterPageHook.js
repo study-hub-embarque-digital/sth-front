@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getEmpresas } from "../../../services/utilsService";
 import { registerMentor } from "../../../services/authService";
 import { useAuth } from "../../../hooks/useAuth";
+import { TokenHandler } from "../../../utils/TokenHandler";
 
 const useMentorRegisterPageHook = () => {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const useMentorRegisterPageHook = () => {
   }, [])
 
   const handleChange = (e) => {
-    console.log('opa', e);
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -59,9 +59,11 @@ const useMentorRegisterPageHook = () => {
       }
     };
     try {
-      await registerMentor(body);
+      const response = await registerMentor(body);
+      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken)
 
-      navigate(pathForRole());
+      const path = pathForRole();
+      navigate(path);
     } catch (error) {
       console.error(error.message || 'Ocorreu um erro ao tentar cadastrar!');
     } finally {

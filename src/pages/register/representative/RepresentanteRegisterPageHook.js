@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getEmpresas } from "../../../services/utilsService";
 import { useAuth } from "../../../hooks/useAuth";
 import { registerRepresentative } from "../../../services/authService";
+import { TokenHandler } from "../../../utils/TokenHandler";
 
 const useRepresentanteRegisterPageHook = () => {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ const useRepresentanteRegisterPageHook = () => {
       empresaId: formData.instituicaoEnsinoId
     };
     try {
-      await registerRepresentative(body);
+      const response = await registerRepresentative(body);
+      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken)
 
       navigate(pathForRole());
     } catch (error) {

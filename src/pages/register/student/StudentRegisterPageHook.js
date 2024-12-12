@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getInstituicoesEnsino } from "../../../services/utilsService";
 import { registerStudent } from "../../../services/authService";
 import { useAuth } from "../../../hooks/useAuth";
+import { TokenHandler } from "../../../utils/TokenHandler";
 
 const useStudentRegisterPageHook = () => {
   const navigate = useNavigate();
@@ -65,9 +66,10 @@ const useStudentRegisterPageHook = () => {
     };
     try {
       const response = await registerStudent(body);
-      localStorage.setItem('jwt-token', response);
+      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken)
 
-      navigate(pathForRole());
+      const path = pathForRole();
+      navigate(path);
     } catch (error) {
       console.error(error.message || 'Ocorreu um erro ao tentar cadastrar!');
     } finally {

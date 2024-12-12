@@ -40,7 +40,7 @@ const RoomCard = ({ room }) => {
           variant="body2"
           sx={{ textAlign: 'center' }}
         >
-          {room.description || 'Descrição indisponível'}
+          {(room.description?.slice(0, 115) + '...') || 'Descrição indisponível'}
         </Typography>
       </CardContent>
     </Card>
