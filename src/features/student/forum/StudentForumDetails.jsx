@@ -1,9 +1,32 @@
-import { useState } from "react";
-import { Container, Typography, Paper, Avatar, Box, TextField, Button, List, ListItem, ListItemAvatar, ListItemText, Chip } from "@mui/material";
+import { useState, useEffect} from "react";
+import { Container, Typography, Paper, Avatar, Box, TextField, Button, List, ListItem, ListItemAvatar, ListItemText, Chip, CircularProgress  } from "@mui/material";
 import LayoutAluno from "../../../components/LayoutAluno";
+import fetchAnswers from "../../../services/forumDetailsService";
+import { useParams } from 'react-router-dom';
 
 const StudentForumDetails = () => {
-  const [answers, setAnswers] = useState([
+  const { id } = useParams(); // Pegando o ID da URL
+  const [Answerst, setAnswerst] = useState(null);  // Estado para armazenar a pergunta
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+
+  useEffect(() => {
+    const loadForumDetails = async () => {
+      try {
+        const data = await fetchAnswers(id);  // Chama a API passando o ID da pergunta
+        setAnswerst(data); // Armazena as respostas
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        console.log(data)
+      }
+    };
+
+    loadForumDetails();
+  }, [id]);
+  
+
+    const [answers, setAnswers] = useState([
     {
       id: 1,
       author: "Maria Souza",
@@ -43,12 +66,20 @@ const StudentForumDetails = () => {
   };
 
   return (
+    
+
     <LayoutAluno title="Fórum">
       <Container maxWidth="md" sx={{ mt: 4 }}>
-
+      {loading ? (
+      // Exibe um loading spinner enquanto a requisição está sendo feita
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+      ) :
+      <>
         <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h4" gutterBottom>{question.title}</Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 2 }}>Publicado em {question.date}</Typography>
+          <Typography variant="h4" gutterBottom>{Answerst.titulo}</Typography>
+          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 2 }}>Publicado em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(new Date(Answerst.criadoEm))}</Typography>
           
           <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
             {question.tags.map((tag, index) => (
@@ -58,9 +89,9 @@ const StudentForumDetails = () => {
 
           <Box display="flex" alignItems="center" gap={2}>
             <Avatar>{question.author[0]}</Avatar>
-            <Typography variant="body1">Por {question.author}</Typography>
+            <Typography variant="body1">Por {Answerst.usuario}</Typography>
           </Box>
-          <Typography variant="body1" sx={{ mt: 2 }}>{question.description}</Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>{Answerst.descricao}</Typography>
         </Paper>
 
         {/* Campo para adicionar nova resposta */}
@@ -86,30 +117,32 @@ const StudentForumDetails = () => {
 
         <Typography variant="h5" sx={{ mt: 4 }}>Respostas</Typography>
         <List>
-          {answers.map((answer) => (
-            <Paper key={answer.id} elevation={2} sx={{ p: 2, mt: 2 }}>
+          {Answerst?.respostas?.map((answer) => (
+            <Paper key={answer.respostaId} elevation={2} sx={{ p: 2, mt: 2 }}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar>{answer.author[0]}</Avatar>
+                  <Avatar>A</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={<Typography variant="subtitle1">{answer.author}</Typography>}
+                  primary={<Typography variant="subtitle1">{answer.usuario}</Typography>}
                   secondary={
                     <>
                       <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
-                        Publicado em {answer.date}
+                        Publicado em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(new Date(answer.criadoEm))}
                       </Typography>
-                      <Typography variant="body2">{answer.content}</Typography>
+                      <Typography variant="body2">{answer.conteudo}</Typography>
                     </>
                   }
                 />
               </ListItem>
             </Paper>
-          ))}
+          ))} 
         </List>
+        </>} 
       </Container>
     </LayoutAluno>
   );
 };
+
 
 export default StudentForumDetails;
