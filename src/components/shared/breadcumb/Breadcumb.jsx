@@ -2,17 +2,19 @@ import React from "react";
 import { Breadcrumbs, Link, Typography, IconButton, Box } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const Breadcrumb = ({ homePath }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const fullPathnames = location.pathname.split("/").filter(Boolean);
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const formatLabel = (slug) => {
     return slug
-      .replace(/-/g, " ") 
-      .replace(/\b\w/g, (char) => char.toUpperCase()); 
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
   return (
@@ -21,35 +23,40 @@ export const Breadcrumb = ({ homePath }) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          padding: "15px 40px",
+          padding: isMobile ? "10px 20px" : "15px 40px", 
         }}
       >
         <IconButton
           onClick={() => navigate(-1)}
           sx={{
-            marginRight: 2,
+            marginRight: isMobile ? 1 : 2, 
             backgroundColor: "#351C75",
-            color: "white", 
+            padding: isMobile ? "0px" : "8px",
+            color: "white",
             "&:hover": {
-              backgroundColor: "#6947DB", 
+              backgroundColor: "#6947DB",
             },
+            fontSize: isMobile ? "20px" : "30px",
           }}
         >
           <ChevronLeft />
         </IconButton>
 
-        <Breadcrumbs aria-label="breadcrumb" sx={{ my: 2 }}>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }} 
+        >
           <Link
             underline="hover"
             color="inherit"
             onClick={() => navigate(homePath)}
             sx={{
               cursor: "pointer",
-              fontSize: "32px",
+              fontSize: isMobile ? "14px" : "32px", 
               fontWeight: "700",
               color: "#000000",
               "&:hover": {
-                color: "#6947DB", 
+                color: "#6947DB",
                 textDecoration: "none",
               },
             }}
@@ -58,15 +65,14 @@ export const Breadcrumb = ({ homePath }) => {
           </Link>
 
           {fullPathnames.slice(1).map((value, index) => {
-            // Começa a iteração do segundo item
-            const to = "/" + fullPathnames.slice(0, index + 2).join("/"); // Inclui a primeira rota ignorada no link
-            const isLast = index === fullPathnames.length - 2; 
+            const to = "/" + fullPathnames.slice(0, index + 2).join("/");
+            const isLast = index === fullPathnames.length - 2;
             const label = formatLabel(value);
 
             return isLast ? (
               <Typography
                 sx={{
-                  fontSize: "32px",
+                  fontSize: isMobile ? "14px" : "32px",
                   fontWeight: "700",
                   color: "#000000",
                 }}
@@ -81,11 +87,11 @@ export const Breadcrumb = ({ homePath }) => {
                 color="inherit"
                 sx={{
                   cursor: "pointer",
-                  fontSize: "32px",
+                  fontSize: isMobile ? "14px" : "32px",
                   fontWeight: "700",
                   color: "#000000",
                   "&:hover": {
-                    color: "#6947DB", 
+                    color: "#6947DB",
                     textDecoration: "none",
                   },
                 }}
