@@ -1,4 +1,4 @@
-import BaseLayout from "../../components/BaseLayout";
+import BaseLayout from "../../components/shared/layout/BaseLayout";
 import { Outlet } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";

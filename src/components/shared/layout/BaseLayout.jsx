@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import HeaderComponent from "./shared/header/Header";
-import { SideMenu } from "./shared/side-menu/SideMenu";
-import { Breadcrumb } from "./shared/breadcumb/Breadcumb";
+import HeaderComponent from "../header/Header";
+import { SideMenu } from "../side-menu/SideMenu";
+import { Breadcrumb } from "../breadcumb/Breadcumb";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function BaseLayout({ children, homePath, menuItems }) {

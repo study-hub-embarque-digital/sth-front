@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { ResponsiveTable } from "../../components/shared/ResponsiveTable";
+import { ResponsiveTable } from "../../components/shared/table/ResponsiveTable";
 import SearchIcon from "@mui/icons-material/Search";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
