@@ -1,42 +1,27 @@
 // Função principal para fazer requisição API
-const apiRequest = async (url, method = 'GET', body = null) => {
+import { httpClient } from "../api/api";
+
+const fetchAnswers = async (id) => {
   try {
-    const headers = {
-      "Authorization": `Bearer ola mundo`,  // Adiciona o token JWT no cabeçalho
-      "Content-Type": "application/json",
-    };
+    const response = await httpClient.get(`/duvidas/solucao/${id}`);
 
-    const options = {
-      method,
-      headers,
-    };
-
-    if (body) {
-      options.body = JSON.stringify(body); // Se for POST, passamos o corpo da requisição
-    }
-
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      throw new Error(`Erro ao fazer requisição ${method} para ${url}`);
-    }
-
-    return await response.json();  // Retorna a resposta JSON da API
+    return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    console.error("Erro no serviço de duvida:", error);
+    throw error;
   }
 };
 
-// Função secundária para GET
-const fetchAnswers = async (id) => {
-  const url = `http://localhost:8080/api/duvidas/solucao/${id}`;
-  return await apiRequest(url, 'GET');
-};
-
-// Função secundária para POST
 const postAnswer = async (answerData) => {
-  const url = `http://localhost:8080/api/solucao`;
-  return await apiRequest(url, 'POST', answerData);
+  try {
+    const response = await httpClient.post(`/solucao`,answerData);
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro no serviço de solucao:", error);
+    throw error;
+  }
+
 };
 
 // Exporte as funções para uso em outras partes do código

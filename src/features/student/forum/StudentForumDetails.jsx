@@ -3,19 +3,25 @@ import { Container, Typography, Paper, Avatar, Box, TextField, Button, List, Lis
 import LayoutAluno from "../../../components/LayoutAluno";
 import {fetchAnswers, postAnswer} from "../../../services/forumDetailsService";
 import { useParams } from 'react-router-dom';
+import { TokenHandler } from "../../../utils/TokenHandler";
+import { jwtDecode } from "jwt-decode";
 
 const StudentForumDetails = () => {
   const { id } = useParams(); // Pegando o ID da URL
+  const token = TokenHandler;
+  const decoded = jwtDecode(token.accessToken);
+  const usuarioId = decoded.usuarioId.toString();
   const [Answerst, setAnswerst] = useState(null); // Estado para armazenar a pergunta
   const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const [error, setError] = useState(null); // Estado para armazenar erros
   const [newAnswer, setNewAnswer] = useState(""); // Estado para nova resposta
+  
 
   // Função para enviar a resposta via POST
   const answerData = {
       descricao: newAnswer,  // Valor da nova resposta
       duvida: id,            // ID da dúvida associada
-      usuario: "68bb5b2d-62b4-4156-a7b4-8bb06a300251",    // ID do usuário (certifique-se de ter este ID de alguma forma)
+      usuario: usuarioId,
     };
 
   const formatarData = (data) => {
@@ -28,31 +34,26 @@ const StudentForumDetails = () => {
 
   const loadForumDetails = async () => {
     try {
-      console.log("Carregando respostas...");
       const data = await fetchAnswers(id); // Chama a API
       setAnswerst(data);
-      console.log("Dados carregados:", data);
     } catch (error) {
       console.error("Erro ao carregar respostas:", error);
       setError(error.message);
     } finally {
-      console.log("Finalizando requisição...");
       setLoading(false);
     }
   }
   
   useEffect(() => {
     loadForumDetails();
-  }, [id]); 
+  }, [id]);   
 
-  // Função para adicionar nova resposta (ajustar com API depois)
+  // Função para adicionar nova resposta
   const handleAddAnswer = async () => { 
     setLoading(true); 
-    console.log(answerData);
 
     try {
       const response = await postAnswer(answerData);  
-      console.log("Resposta enviada com sucesso:", response);
       setNewAnswer(""); // Limpa o campo de texto após o envio
       setError(null);    // Reseta qualquer erro
       loadForumDetails();
@@ -94,7 +95,7 @@ const StudentForumDetails = () => {
                 <Typography variant="body1">Por {Answerst?.duvida.nomeUsuario}</Typography>
               </Box>
 
-              <Typography variant="body1" sx={{ mt: 2 }}>{Answerst?.duvida?.descricao}</Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-line", mt: 2 }}>{Answerst?.duvida?.descricao}</Typography>
             </Paper>
 
             {/* Campo para adicionar nova resposta */}
@@ -134,7 +135,7 @@ const StudentForumDetails = () => {
                           <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
                           Publicado em {formatarData(answer?.criadoEm)}                           
                           </Typography>
-                          <Typography variant="body2">{answer.descricao}</Typography>
+                          <Typography sx={{ whiteSpace: "pre-line" }} variant="body2">{answer.descricao}</Typography>
                         </>
                       }
                     />
