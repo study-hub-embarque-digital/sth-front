@@ -28,31 +28,50 @@ export default function BaseLayout({ children, homePath, menuItems }) {
           flexGrow: 1,
           padding: 3,
           marginLeft: open && !isMobile ? `${drawerWidth}px` : 0,
-          transition: "margin 0.3s",
+          transition: "margin 0.3s ease-out",
           marginTop: `${headerHeight}px`,
           display: "flex",
-          justifyContent: isMobile ? "normal" : "center",
-          alignItems: "flex-start",
           flexDirection: "column",
-          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "calc(100% - 120px)", // Garante que o conteúdo não se expanda demais
+          minWidth: "320px", // Evita que fique menor que um celular pequeno
+          overflowX: "hidden", // Evita que o conteúdo force rolagem horizontal
         }}
       >
-        <Breadcrumb homePath={homePath} />
+        {/* Box para o Breadcrumb - sempre alinhado à esquerda */}
+        <Box
+          sx={{ width: "100%", display: "flex", justifyContent: "flex-start" }}
+        >
+          <Breadcrumb homePath={homePath} />
+        </Box>
+
+        {/* Box para centralizar o conteúdo */}
         <Box
           sx={{
-            width: "100%",
-            maxWidth: "1200px",
-            padding: 2,
-            boxSizing: "border-box",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
             width: "100%",
+            flexGrow: 1, // Ocupa o espaço disponível
           }}
-          I
         >
-          {children}
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              maxWidth: "1200px",
+              padding: 1,
+              boxSizing: "border-box",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            {children}
+          </Box>
         </Box>
       </Box>
     </Box>
