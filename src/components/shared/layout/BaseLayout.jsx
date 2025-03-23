@@ -34,19 +34,17 @@ export default function BaseLayout({ children, homePath, menuItems }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          width: "calc(100% - 120px)", // Garante que o conteúdo não se expanda demais
-          minWidth: "320px", // Evita que fique menor que um celular pequeno
-          overflowX: "hidden", // Evita que o conteúdo force rolagem horizontal
+          width: "calc(100% - 120px)", 
+          minWidth: "320px", 
+          overflowX: "hidden", 
         }}
       >
-        {/* Box para o Breadcrumb - sempre alinhado à esquerda */}
         <Box
           sx={{ width: "100%", display: "flex", justifyContent: "flex-start" }}
         >
           <Breadcrumb homePath={homePath} />
         </Box>
 
-        {/* Box para centralizar o conteúdo */}
         <Box
           sx={{
             display: "flex",
@@ -54,7 +52,7 @@ export default function BaseLayout({ children, homePath, menuItems }) {
             alignItems: "center",
             flexDirection: "column",
             width: "100%",
-            flexGrow: 1, // Ocupa o espaço disponível
+            flexGrow: 1, 
           }}
         >
           <Box

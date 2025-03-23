@@ -3,7 +3,6 @@ import { useTheme, useMediaQuery, Box } from "@mui/material";
 export const Logo = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log("isSmallScreen:", isSmallScreen);
 
   return (
     <Box sx={{ width: isSmallScreen ? "80px" : "140px" }}>
