@@ -3,33 +3,13 @@ import { Box } from "@mui/material";
 import HeaderComponent from "./shared/header/Header";
 import { SideMenu } from "./shared/side-menu/SideMenu";
 import { Breadcrumb } from "./shared/breadcumb/Breadcumb";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import MapsHomeWorkRoundedIcon from "@mui/icons-material/MapsHomeWorkRounded";
-import BusinessCenterRoundedIcon from "@mui/icons-material/BusinessCenterRounded";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function BaseLayout({ children, homePath }) {
+export default function BaseLayout({ children, homePath, menuItems }) {
   const [open, setOpen] = useState(true);
   const drawerWidth = 120;
   const [headerHeight, setHeaderHeight] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
-
-  const menuItems = [
-    { text: "Home", icon: HomeRoundedIcon, route: "/admin" },
-    { text: "Squads", icon: GroupsRoundedIcon, route: "/admin/alunos" },
-    { text: "Alunos", icon: SchoolRoundedIcon, route: "/admin/alunos" },
-    { text: "Empresas", icon: MapsHomeWorkRoundedIcon, route: "/admin/alunos" },
-    { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "/admin/alunos" },
-    {
-      text: "Representantes",
-      icon: BusinessCenterRoundedIcon,
-      route: "/admin/alunos",
-    },
-    { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "/admin/alunos" },
-  ];
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -51,8 +31,8 @@ export default function BaseLayout({ children, homePath }) {
           transition: "margin 0.3s",
           marginTop: `${headerHeight}px`,
           display: "flex",
-          justifyContent: isMobile? "normal" : "center",
-          alignItems: 'flex-start',
+          justifyContent: isMobile ? "normal" : "center",
+          alignItems: "flex-start",
           flexDirection: "column",
           width: "100%",
         }}
@@ -69,7 +49,8 @@ export default function BaseLayout({ children, homePath }) {
             alignItems: "center",
             flexDirection: "column",
             width: "100%",
-          }}I
+          }}
+          I
         >
           {children}
         </Box>
