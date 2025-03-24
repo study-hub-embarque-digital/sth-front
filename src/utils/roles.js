@@ -1,0 +1,6 @@
+export const roles = {
+  MENTOR_ROLE: "MENTOR",
+  ADMIN_ROLE: "ADMIN",
+  ALUNO_ROLE: "ALUNO",
+  REPRESENTANTE_ROLE: "REPRESENTANTE"
+};
