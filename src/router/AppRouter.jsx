@@ -1,4 +1,3 @@
-// import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
 import Artigos from "../features/mentor/artigos/Artigos";
@@ -20,11 +19,11 @@ import StudentArtigos from "../features/student/artigos/StudentArtigos";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 import EditPost from "../features/student/post/EditPost";
 import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
-import PrivateRoute from "./PrivateRoute";
 import { RoomsPage } from "../features/student/rooms/Rooms";
 import { permissions } from "../utils/permissions";
 import { RoomDetail } from "../pages/room/detail/RoomDetail";
 import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
+import { PrivateRoute } from "./PrivateRoute";
 
 const AppRouter = () => {
   return (
@@ -36,14 +35,10 @@ const AppRouter = () => {
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
       <Route path="/rooms-page" element={<RoomsPage />} />
-
-
-
-
       <Route
         path="/mentor"
         element={
-          <PrivateRoute profile="mentor">
+          <PrivateRoute role="mentor">
             <MentorPage />
           </PrivateRoute>
         }
@@ -68,7 +63,7 @@ const AppRouter = () => {
       <Route
         path="/representative"
         element={
-          <PrivateRoute profile="representative">
+          <PrivateRoute role="representative">
             <RepresentativePage />
           </PrivateRoute>
         }
@@ -79,7 +74,7 @@ const AppRouter = () => {
       <Route
         path="/student"
         element={
-          <PrivateRoute profile="ALUNO">
+          <PrivateRoute role="ALUNO">
             <StudentPage />
           </PrivateRoute>
 
