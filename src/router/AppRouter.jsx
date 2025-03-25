@@ -1,8 +1,7 @@
-// import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
 import Artigos from "../features/mentor/artigos/Artigos";
-import Rooms from "../features/mentor/rooms/Rooms";
+import Rooms from "../pages/room/Rooms";
 import Alunos from "../features/mentor/alunos/Alunos";
 import Comunidade from "../features/mentor/comunidade/Comunidade";
 import MentorPage from "../features/mentor";
@@ -20,7 +19,11 @@ import StudentArtigos from "../features/student/artigos/StudentArtigos";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 import EditPost from "../features/student/post/EditPost";
 import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
-import PrivateRoute from "./PrivateRoute";
+import { RoomsPage } from "../features/student/rooms/Rooms";
+import { permissions } from "../utils/permissions";
+import { RoomDetail } from "../pages/room/detail/RoomDetail";
+import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
+import { PrivateRoute } from "./PrivateRoute";
 
 const AppRouter = () => {
   return (
@@ -31,11 +34,11 @@ const AppRouter = () => {
       <Route path="/register/student" element={<StudentRegisterPage />} />
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
-
+      <Route path="/rooms-page" element={<RoomsPage />} />
       <Route
         path="/mentor"
         element={
-          <PrivateRoute profile="mentor">
+          <PrivateRoute role="mentor">
             <MentorPage />
           </PrivateRoute>
         }
@@ -49,24 +52,18 @@ const AppRouter = () => {
           }
         />
         <Route path="squad" element={<Squad />} />
-
         <Route path="mentoria/:id" element={<Mentoria />} />
-
         <Route path="artigos" element={<Artigos />} />
-
-        <Route path="rooms" element={<Rooms />} />
-
         <Route path="alunos" element={<Alunos />} />
-
         <Route path="comunidade" element={<Comunidade />} />
 
-        
+
       </Route>
 
       <Route
         path="/representative"
         element={
-          <PrivateRoute profile="representative">
+          <PrivateRoute role="representative">
             <RepresentativePage />
           </PrivateRoute>
         }
@@ -77,19 +74,35 @@ const AppRouter = () => {
       <Route
         path="/student"
         element={
-          <PrivateRoute profile="ALUNO">
+          <PrivateRoute role="ALUNO">
             <StudentPage />
           </PrivateRoute>
-          
+
         }
-      >        
-        {/* <Route path="info" element={<GuestInfo />} /> */}
+      >
       </Route>
 
-      <Route path="student/comunidade-aluno" element={<Post/>} />
+      <Route path="student/comunidade-aluno" element={<Post />} />
       <Route path="/editar-post" element={<EditPost />} />
       <Route path="student/artigos" element={<StudentArtigos />} />
       <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
+      <Route path="rooms" element={
+        <PrivateRoute permission={permissions.READ_ROOMS}>
+          <Rooms />
+        </PrivateRoute>
+      } />
+
+      <Route path="rooms/:roomId" element={
+        <PrivateRoute permission={permissions.READ_ROOMS}>
+          <RoomDetail />
+        </PrivateRoute>
+      } />
+
+<Route path="rooms/:roomId/:salaTematicaId" element={
+        <PrivateRoute permission={permissions.READ_ROOMS}>
+          <RoomMeeting />
+        </PrivateRoute>
+      } />
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}

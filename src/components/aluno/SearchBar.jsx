@@ -2,29 +2,29 @@ import React from 'react';
 import { TextField, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = () => {
+const SearchBar = ({ placeholder }) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-        <TextField
+      <TextField
         variant="outlined"
-        placeholder="Buscar posts"
+        placeholder={placeholder ?? "Buscar posts"}
         sx={{
-            backgroundColor: 'white',
+          backgroundColor: 'white',
+          borderRadius: 4,
+          width: '60%',
+          maxWidth: 700,
+          '& .MuiOutlinedInput-root': {
             borderRadius: 4,
-            width: '60%',
-            maxWidth: 700,
-            '& .MuiOutlinedInput-root': {
-            borderRadius: 4,
-            },
+          },
         }}
         InputProps={{
-            startAdornment: (
+          startAdornment: (
             <InputAdornment position="start">
-                <SearchIcon />
+              <SearchIcon />
             </InputAdornment>
-            ),
+          ),
         }}
-        />
+      />
     </Box>
   );
 };
