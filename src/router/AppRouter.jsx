@@ -24,17 +24,24 @@ import { permissions } from "../utils/permissions";
 import { RoomDetail } from "../pages/room/detail/RoomDetail";
 import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
 import { PrivateRoute } from "./PrivateRoute";
+import AdminPage from "../features/admin/AdminPage";
+import ListagemAlunos from "../features/admin/ListagemAlunos";
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<LogoScreen />} />
+      {/* <Route path="/" element={<LogoScreen />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} /> */}
       <Route path="/register/student" element={<StudentRegisterPage />} />
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
       <Route path="/rooms-page" element={<RoomsPage />} />
+      <Route path="/admin" element={<AdminPage />} > 
+        <Route path="alunos" element={<ListagemAlunos />} />
+
+      </Route>
+
       <Route
         path="/mentor"
         element={

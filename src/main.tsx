@@ -2,15 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./router/AppRouter";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme";
 import "./theme.scss"
 import { AuthProvider } from "./contexts/AuthContext";
 import { SocketProvider } from "./contexts/SocketContext";
+import { MyThemeProvider } from './contexts/ThemeContext'
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <MyThemeProvider>
       <BrowserRouter>
         <AuthProvider>
           <SocketProvider>
@@ -18,6 +17,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           </SocketProvider>
         </AuthProvider>
       </BrowserRouter>
-    </ThemeProvider>
+    </MyThemeProvider>
   </React.StrictMode>
 );

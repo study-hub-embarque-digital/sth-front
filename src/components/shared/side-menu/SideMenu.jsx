@@ -41,8 +41,8 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
-          top: paddingHeader,
           transition: "width 0.3s ease",
+          marginTop: '30px',
           height: `calc(100vh - ${headerHeight}px)`,
         },
       }}
