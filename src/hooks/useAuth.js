@@ -10,6 +10,8 @@ const useAuth = () => {
 
   const decodedToken = jwtDecode(token);
   const roles = decodedToken.roles;
+  const sub = decodedToken.sub;
+  const permissions = decodedToken.permissions;
 
   const isAuthenticated = () => {
     return token !== null || token !== undefined;
@@ -21,7 +23,7 @@ const useAuth = () => {
     if (roles.includes('REPRESENTANTE')) return '/representative';
   }
 
-  return [roles, isAuthenticated, pathForRole];
+  return [roles, isAuthenticated, pathForRole, sub, permissions];
 };
 
 export {

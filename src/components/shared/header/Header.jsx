@@ -19,7 +19,7 @@ export default function HeaderComponent({ onToggleMenu, onHeightChange }) {
       ref={headerRef}
       position="fixed"
       sx={{
-        backgroundColor: "white",
+        // backgroundColor: "white",
         zIndex: (theme) => theme.zIndex.drawer + 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         padding: {

@@ -19,7 +19,7 @@ const Sidebar = ({ isSmallScreen, sidebarOpen, toggleSidebar }) => {
     { text: 'Comunidade', icon: <PeopleIcon />, path: "student/comunidade-aluno"},
     { text: 'Artigos', icon: <ArticleIcon />, path: "student/artigos"},
     { text: 'Entregas', icon: <AssignmentIcon />},
-    { text: 'Rooms', icon: <SchoolIcon />},
+    { text: 'Rooms', icon: <SchoolIcon />, path: "rooms"},
     { text: 'Squad', icon: <RocketLaunchIcon />},
     { text: 'Fórum', icon: <ForumIcon />},
   ];

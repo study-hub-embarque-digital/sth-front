@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import HeaderComponent from "../header/Header";
 import { SideMenu } from "../side-menu/SideMenu";
 import { Breadcrumb } from "../breadcumb/Breadcumb";
@@ -12,64 +12,82 @@ export default function BaseLayout({ children, homePath, menuItems }) {
   const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <HeaderComponent
-        onToggleMenu={() => setOpen(!open)}
-        onHeightChange={(height) => setHeaderHeight(height)}
-      />
-
-      {open && (
-        <SideMenu open={open} drawerWidth={drawerWidth} menuItems={menuItems} />
-      )}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "background.default",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <Container
+        fixed
+        sx={{ position: "fixed", top: 0, zIndex: 1100, width: "100%" }}
+      >
+        <HeaderComponent
+          onToggleMenu={() => setOpen(!open)}
+          onHeightChange={(height) => setHeaderHeight(height)}
+        />
+      </Container>
 
       <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          padding: 3,
-          marginLeft: open && !isMobile ? `${drawerWidth}px` : 0,
-          transition: "margin 0.3s ease-out",
-          marginTop: `${headerHeight}px`,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "calc(100% - 120px)", 
-          minWidth: "320px", 
-          overflowX: "hidden", 
-        }}
+        sx={{ display: "flex", flexGrow: 1, marginTop: "64px", zIndex: "0" }}
       >
-        <Box
-          sx={{ width: "100%", display: "flex", justifyContent: "flex-start" }}
-        >
-          <Breadcrumb homePath={homePath} />
-        </Box>
+        {open && !isMobile && (
+          <Box sx={{ width: drawerWidth, flexShrink: 0 }}>
+            <SideMenu
+              open={open}
+              drawerWidth={drawerWidth}
+              menuItems={menuItems}
+            />
+          </Box>
+        )}
 
         <Box
+          component="main"
           sx={{
+            flexGrow: 1,
+            marginLeft: open && !isMobile ? `${drawerWidth}px` : 0,
+            transition: "margin 0.3s ease-out",
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
             flexDirection: "column",
+            alignItems: "center",
+            minWidth: "320px",
             width: "100%",
-            flexGrow: 1, 
+            paddingTop: `${headerHeight}px`,
           }}
         >
-          <Box
+          <Container maxWidth="xl">
+            <Breadcrumb homePath={homePath} />
+          </Container>
+
+          <Container
+            maxWidth="lg"
             sx={{
-              width: "100%",
-              height: "100%",
-              maxWidth: "1200px",
-              padding: 1,
-              boxSizing: "border-box",
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingY: 3,
             }}
           >
-            {children}
-          </Box>
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: "1200px",
+                padding: 2,
+                boxSizing: "border-box",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              {children}
+            </Box>
+          </Container>
         </Box>
       </Box>
     </Box>
