@@ -1,10 +1,12 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import { Card, CardContent, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const RoomCard = ({ room }) => {
+    const navigate = useNavigate();
+
   return (
-    <Card sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
-      
+    <Card onClick={() => navigate(`/rooms/${room.roomId}`)} sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
       {room.image ? (
         <img
           src={room.image}
@@ -33,7 +35,7 @@ const RoomCard = ({ room }) => {
           variant="body1"
           sx={{ fontWeight: 'bold', textAlign: 'center' }}
         >
-          {room.roomId || 'Room'}
+          {room.title || 'Room'}
         </Typography>
         
         <Typography

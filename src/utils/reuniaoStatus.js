@@ -1,0 +1,8 @@
+export const reuniaoStatus = {
+  EM_ESPERA: 0,
+  AGUARDANDO_PARTICIPANTES: 1,
+  ATIVA: 2,
+  CANCELADA: 3,
+  ENCERRADA: 4,
+  AGENDADA: 5
+}
