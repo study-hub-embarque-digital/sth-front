@@ -7,34 +7,32 @@ import { TokenHandler } from "../../../utils/TokenHandler";
 import { jwtDecode } from "jwt-decode";
 
 const StudentForumDetails = () => {
-  const { id } = useParams(); // Pegando o ID da URL
+  const { id } = useParams();
   const token = TokenHandler;
   const decoded = jwtDecode(token.accessToken);
   const usuarioId = decoded.usuarioId.toString();
-  const [Answerst, setAnswerst] = useState(null); // Estado para armazenar a pergunta
-  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
-  const [error, setError] = useState(null); // Estado para armazenar erros
-  const [newAnswer, setNewAnswer] = useState(""); // Estado para nova resposta
+  const [Answerst, setAnswerst] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [newAnswer, setNewAnswer] = useState(""); 
   
-
-  // Função para enviar a resposta via POST
   const answerData = {
-      descricao: newAnswer,  // Valor da nova resposta
-      duvida: id,            // ID da dúvida associada
+      descricao: newAnswer,  
+      duvida: id,          
       usuario: usuarioId,
     };
 
   const formatarData = (data) => {
-    if (!data) return "Data desconhecida"; // Caso seja null ou undefined
+    if (!data) return "Data desconhecida"; 
   
-    const dateObj = new Date(data);  // Pode ser usado diretamente, pois é um formato ISO válido
+    const dateObj = new Date(data); 
     return isNaN(dateObj.getTime()) ? "Data inválida" : 
       new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }).format(dateObj);
   };
 
   const loadForumDetails = async () => {
     try {
-      const data = await fetchAnswers(id); // Chama a API
+      const data = await fetchAnswers(id);
       setAnswerst(data);
     } catch (error) {
       console.error("Erro ao carregar respostas:", error);
@@ -54,14 +52,14 @@ const StudentForumDetails = () => {
 
     try {
       const response = await postAnswer(answerData);  
-      setNewAnswer(""); // Limpa o campo de texto após o envio
-      setError(null);    // Reseta qualquer erro
+      setNewAnswer(""); 
+      setError(null); 
       loadForumDetails();
     } catch (error) {
-      setError("Erro ao enviar a resposta. Tente novamente.");  // Exibe erro se falhar
+      setError("Erro ao enviar a resposta. Tente novamente."); 
       console.error("Erro ao enviar a resposta:", error);
     } finally {
-      setLoading(false); // Finaliza o estado de carregamento
+      setLoading(false);
     }
   };
 
