@@ -66,8 +66,7 @@ const StudentForumDetails = () => {
   };
 
   return (
-    <LayoutAluno title="Fórum > Detalhes">
-      <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Container fullWidth  sx={{ mt: 4}}>
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
             <CircularProgress />
@@ -146,7 +145,6 @@ const StudentForumDetails = () => {
           </>
         )}
       </Container>
-    </LayoutAluno>
   );
 };
 

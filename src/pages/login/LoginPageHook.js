@@ -47,6 +47,7 @@ const useLoginPage = () => {
 
       if (profile) {
         navigate(`/${profile}`); // Redireciona para a página do perfil
+        window.location.reload();
       } else {
         console.error("Perfil não selecionado");
       }
