@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import { Container, Typography, Paper, Avatar, Box, TextField, Button, List, ListItem, ListItemAvatar, ListItemText, Chip, CircularProgress  } from "@mui/material";
-import LayoutAluno from "../../../components/LayoutAluno";
+//import LayoutAluno from "../../../components/LayoutAluno";
 import {fetchAnswers, postAnswer} from "../../../services/forumDetailsService";
 import { useParams } from 'react-router-dom';
 import { TokenHandler } from "../../../utils/TokenHandler";
