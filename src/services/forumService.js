@@ -12,5 +12,30 @@ const getDuvidas = async () => {
     throw error;
   }
 };
-o
-export { getDuvidas };
+
+const postDuvida = async (answerData) => {
+  try {
+    const response = await httpClient.post(`/duvidas`,answerData);
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro no serviço de duvidas:", error);
+    throw error;
+  }
+
+};
+
+
+const getTags = async () => {
+  try {
+    const response = await httpClient.get("/tags");
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro no serviço de duvida:", error);
+    throw error;
+  }
+};
+
+
+export { getDuvidas, getTags, postDuvida};
