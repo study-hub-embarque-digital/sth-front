@@ -10,7 +10,7 @@ const StudentForumDetails = () => {
   const { id } = useParams();
   const token = TokenHandler;
   const decoded = jwtDecode(token.accessToken);
-  const usuarioId = decoded.decoded.sub;
+  const usuarioId = decoded.sub;
   const [Answerst, setAnswerst] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
