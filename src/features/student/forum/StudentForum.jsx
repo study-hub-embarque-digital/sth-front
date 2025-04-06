@@ -19,7 +19,7 @@ export default function ForumPage() {
   //new duvida
   const token = TokenHandler;
   const decoded = jwtDecode(token.accessToken);
-  const usuarioId = decoded.usuarioId.toString();
+  const usuarioId = decoded.sub;
   const [openForm, setOpenForm] = useState(false);
   const handleOpenForm = () => setOpenForm(true);
   const handleCloseForm = () => setOpenForm(false);
