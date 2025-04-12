@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { getDuvidas, getTags, postDuvida } from "../../../services/forumService"
 import { 
   Paper, Typography, Chip, Container, CircularProgress, Stack, Box,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,Checkbox,FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Autocomplete
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,  Autocomplete
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { Add as AddIcon } from '@mui/icons-material';
@@ -50,10 +46,12 @@ export default function ForumPage() {
   const decoded = jwtDecode(token.accessToken);
   const usuarioId = decoded.sub;
   const [allTags, setAllTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const handleOpenForm = () => setOpenForm(true);
-  const handleCloseForm = () => setOpenForm(false);
+  const handleCloseForm = () => {
+    setOpenForm(false);
+    setNovaDuvida({ titulo: '', descricao: '', tags: [] });
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNovaDuvida(prev => ({ ...prev, [name]: value }));
@@ -67,23 +65,20 @@ export default function ForumPage() {
   });
   const handleSubmit = async () => {
     try {
-      const createdDuvida = await postDuvida(novaDuvida);
+      const payload = {
+        ...novaDuvida,
+        ...(novaDuvida.tags?.length === 0 && { tags: undefined }) // Remove se vazio
+      };
+      
+      const createdDuvida = await postDuvida(payload);
       handleCloseForm();
       await loadDuvidas();
       setNovaDuvida({ titulo: '', descricao: '', tags: [] });
     } catch (err) {
       setError("Erro ao criar dúvida");
+      setLoading(false);
     }
   };
-
-  const handleTagToggle = (tag) => {
-    setSelectedTags(prev =>
-      prev.some(selected => selected.id === tag.id)
-        ? prev.filter(selected => selected.id !== tag.id)
-        : [...prev, tag] 
-    );
-  };
-
 
   useEffect(() => {
     setLoading(true);;
@@ -215,83 +210,48 @@ export default function ForumPage() {
               rows={4}
             />
 
-            {/* Tags selecionadas (visualização) */}
-            {novaDuvida.tags.length > 0 && (
-              <Box sx={{ mb: 2 }}>
-                <FormLabel>Selecionadas:</FormLabel>
-                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-                  {novaDuvida.tags.map(tag => (
-                    <Chip
-                      key={tag.id}
-                      label={tag.nome}
-                      onDelete={() => {
-                        setNovaDuvida(prev => ({
-                          ...prev,
-                          tags: prev.tags.filter(t => t.id !== tag.id)
-                        }));
-                      }}
-                    />
-                  ))}
-                </Stack>
-              </Box>
-            )}
-
-            {/* Lista de tags */}
-            <FormControl component="fieldset" fullWidth>
-              {loading ? (
-                <Box display="flex" justifyContent="center" p={4}>
-                  <CircularProgress />
-                </Box>
-              ) : error ? (
-                <Box sx={{ color: 'error.main', p: 2 }}>
-                  {error}
-                </Box>
-              ) : (
-                <FormGroup>
-                  <FormLabel component="legend">Tags disponíveis</FormLabel>
-                  {allTags.map(tag => (
-                    <FormControlLabel
-                      key={tag.id}
-                      control={
-                        <Checkbox
-                          checked={novaDuvida.tags.some(selected => selected.id === tag.id)}
-                          onChange={() => {
-                            setNovaDuvida(prev => {
-                              const alreadySelected = prev.tags.some(t => t.id === tag.id);
-                              return {
-                                ...prev,
-                                tags: alreadySelected
-                                  ? prev.tags.filter(t => t.id !== tag.id)
-                                  : [...prev.tags, tag]
-                              };
-                            });
-                          }}
-                        />
-                      }
-                      label={tag.nome}
-                    />
-                  ))}
-                </FormGroup>
-              )}
-            </FormControl>
-
-            {/*
             <Autocomplete
               multiple
-              freeSolo
-              //options={allTags}
-              //value={novaDuvida.tags}
-              //onChange={handleTagsChange}
+              options={allTags}
+              getOptionLabel={(option) => option.nome}
+              value={novaDuvida.tags}
+              onChange={(_, newValue) => {
+                setNovaDuvida(prev => ({
+                  ...prev,
+                  tags: newValue
+                }));
+              }}
+              loading={loading}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  margin="normal"
-                  label="Tags"
-                  placeholder="Adicione tags"
+                  label="Selecione as tags"
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error}
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </>
+                    )
+                  }}
                 />
               )}
+              renderTags={(value, getTagProps) =>
+                value.map((tag, index) => (
+                  <Chip
+                    {...getTagProps({ index })}
+                    key={tag.id}
+                    label={tag.nome}
+                  />
+                ))
+              }
+              fullWidth
               sx={{ mt: 2 }}
-            /> */}
+            />
 
           </Box>
         </DialogContent>
