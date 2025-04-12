@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { getDuvidas, postDuvida } from "../../../services/forumService"
+import { getDuvidas, getTags, postDuvida } from "../../../services/forumService"
 import { 
   Paper, Typography, Chip, Container, CircularProgress, Stack, Box,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,Checkbox,FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
   Autocomplete
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +13,33 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { TokenHandler } from "../../../utils/TokenHandler";
 import { jwtDecode } from "jwt-decode";
 
+
 export default function ForumPage() {
+
+  const loadDuvidas = async () => {
+    try {
+      const data = await getDuvidas();
+      setDuvidas(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setError("Erro ao carregar dúvidas");
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+  
+  const loadAllTags = async () => {
+    try {
+      const tags = await getTags();
+      setAllTags(Array.isArray(tags) ? tags : []);
+    } catch (err) {
+      setError("Erro ao carregar Tags");
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+  
   const [duvidas, setDuvidas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,6 +49,8 @@ export default function ForumPage() {
   const token = TokenHandler;
   const decoded = jwtDecode(token.accessToken);
   const usuarioId = decoded.sub;
+  const [allTags, setAllTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const handleOpenForm = () => setOpenForm(true);
   const handleCloseForm = () => setOpenForm(false);
@@ -37,29 +68,28 @@ export default function ForumPage() {
   const handleSubmit = async () => {
     try {
       const createdDuvida = await postDuvida(novaDuvida);
-      setDuvidas(prev => [createdDuvida, ...prev]);
       handleCloseForm();
+      await loadDuvidas();
       setNovaDuvida({ titulo: '', descricao: '', tags: [] });
     } catch (err) {
       setError("Erro ao criar dúvida");
     }
   };
 
+  const handleTagToggle = (tag) => {
+    setSelectedTags(prev =>
+      prev.some(selected => selected.id === tag.id)
+        ? prev.filter(selected => selected.id !== tag.id)
+        : [...prev, tag] 
+    );
+  };
 
 
   useEffect(() => {
-    async function loadDuvidas() {
-      try {
-        const data = await getDuvidas();
-        setDuvidas(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError("Erro ao carregar dúvidas");
-      } finally {
-        setLoading(false);
-      }
-    }
+    setLoading(true);;
     loadDuvidas();
-  }, []);
+    loadAllTags();
+    }, []);
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -184,6 +214,67 @@ export default function ForumPage() {
               multiline
               rows={4}
             />
+
+            {/* Tags selecionadas (visualização) */}
+            {novaDuvida.tags.length > 0 && (
+              <Box sx={{ mb: 2 }}>
+                <FormLabel>Selecionadas:</FormLabel>
+                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+                  {novaDuvida.tags.map(tag => (
+                    <Chip
+                      key={tag.id}
+                      label={tag.nome}
+                      onDelete={() => {
+                        setNovaDuvida(prev => ({
+                          ...prev,
+                          tags: prev.tags.filter(t => t.id !== tag.id)
+                        }));
+                      }}
+                    />
+                  ))}
+                </Stack>
+              </Box>
+            )}
+
+            {/* Lista de tags */}
+            <FormControl component="fieldset" fullWidth>
+              {loading ? (
+                <Box display="flex" justifyContent="center" p={4}>
+                  <CircularProgress />
+                </Box>
+              ) : error ? (
+                <Box sx={{ color: 'error.main', p: 2 }}>
+                  {error}
+                </Box>
+              ) : (
+                <FormGroup>
+                  <FormLabel component="legend">Tags disponíveis</FormLabel>
+                  {allTags.map(tag => (
+                    <FormControlLabel
+                      key={tag.id}
+                      control={
+                        <Checkbox
+                          checked={novaDuvida.tags.some(selected => selected.id === tag.id)}
+                          onChange={() => {
+                            setNovaDuvida(prev => {
+                              const alreadySelected = prev.tags.some(t => t.id === tag.id);
+                              return {
+                                ...prev,
+                                tags: alreadySelected
+                                  ? prev.tags.filter(t => t.id !== tag.id)
+                                  : [...prev.tags, tag]
+                              };
+                            });
+                          }}
+                        />
+                      }
+                      label={tag.nome}
+                    />
+                  ))}
+                </FormGroup>
+              )}
+            </FormControl>
+
             {/*
             <Autocomplete
               multiple
@@ -201,6 +292,7 @@ export default function ForumPage() {
               )}
               sx={{ mt: 2 }}
             /> */}
+
           </Box>
         </DialogContent>
         <DialogActions>
