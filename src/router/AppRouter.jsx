@@ -26,6 +26,8 @@ import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
 import { PrivateRoute } from "./PrivateRoute";
 import AdminPage from "../features/admin/AdminPage";
 import ListagemAlunos from "../features/admin/ListagemAlunos";
+import StudentForumDetailsPage from '../features/student/forum/StudentForumDetailsPage';
+import StudentForumPage from '../features/student/forum/StudentForumPage';
 
 const AppRouter = () => {
   return (
@@ -37,8 +39,8 @@ const AppRouter = () => {
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
       <Route path="/rooms-page" element={<RoomsPage />} />
-      <Route path="/admin" element={<AdminPage />} >
-        <Route path="alunos" element={<ListagemAlunos />} />
+      <Route path="/admin" element={<AdminPage />} > 
+      <Route path="alunos" element={<ListagemAlunos />} />
 
       </Route>
 
@@ -87,12 +89,16 @@ const AppRouter = () => {
 
         }
       >
+      
       </Route>
 
       <Route path="student/comunidade-aluno" element={<Post />} />
       <Route path="/editar-post" element={<EditPost />} />
       <Route path="student/artigos" element={<StudentArtigos />} />
       <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
+      <Route path="student/forum" element={<StudentForumPage/>} />
+      <Route path="student/forum/duvida/:id" element={<StudentForumDetailsPage />} />
+      
       <Route path="rooms" element={
         <PrivateRoute permission={permissions.READ_ROOMS}>
           <Rooms />
