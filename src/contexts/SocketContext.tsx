@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useMemo } from "
 import { useAuth } from "./AuthContext";
 import { stompClient } from "../api/socket";
 import { ActivationState } from "@stomp/stompjs";
+import { IBaseWsMessage } from "../pages/room/detail/meeting/useRoomMeeting";
 
 interface ISocketProvider {
   children?: React.ReactNode;
@@ -15,7 +16,7 @@ interface ISocketClient {
 
 interface ISocketContext {
   socketClient: ISocketClient;
-  privateReceivedMessage: any;
+  privateReceivedMessage: IBaseWsMessage;
   isClientConnected: boolean;
 }
 

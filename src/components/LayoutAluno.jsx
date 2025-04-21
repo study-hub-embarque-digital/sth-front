@@ -15,7 +15,7 @@ function LayoutAluno({ children, title = 'Home' }) {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#121212' }}>
       <Sidebar isSmallScreen={isSmallScreen} sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      
+
       {isSmallScreen && (
         <IconButton
           onClick={toggleSidebar}
@@ -26,7 +26,7 @@ function LayoutAluno({ children, title = 'Home' }) {
       )}
 
       <Box sx={{ flexGrow: 1, p: 3, color: 'white', overflowY: 'auto' }}>
-        
+
         <Box mb={4} sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h6" sx={{ color: 'white', mr: 1 }}>{title}</Typography>
           <KeyboardArrowRightIcon fontSize='small' />

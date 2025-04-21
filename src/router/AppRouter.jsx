@@ -30,14 +30,14 @@ import ListagemAlunos from "../features/admin/ListagemAlunos";
 const AppRouter = () => {
   return (
     <Routes>
-      {/* <Route path="/" element={<LogoScreen />} />
+      <Route path="/" element={<LogoScreen />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/login" element={<LoginPage />} /> */}
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/register/student" element={<StudentRegisterPage />} />
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
       <Route path="/rooms-page" element={<RoomsPage />} />
-      <Route path="/admin" element={<AdminPage />} > 
+      <Route path="/admin" element={<AdminPage />} >
         <Route path="alunos" element={<ListagemAlunos />} />
 
       </Route>
@@ -105,7 +105,7 @@ const AppRouter = () => {
         </PrivateRoute>
       } />
 
-<Route path="rooms/:roomId/:salaTematicaId" element={
+      <Route path="rooms/:roomId/:salaTematicaId" element={
         <PrivateRoute permission={permissions.READ_ROOMS}>
           <RoomMeeting />
         </PrivateRoute>
@@ -113,7 +113,7 @@ const AppRouter = () => {
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
-      <Route path="*" element={<Navigate to="/profile" />} />
+      <Route path="*" element={<Navigate to="/student" />} />
     </Routes>
   );
 };
