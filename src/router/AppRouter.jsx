@@ -111,7 +111,7 @@ const AppRouter = () => {
         </PrivateRoute>
       } />
 
-<Route path="rooms/:roomId/:salaTematicaId" element={
+      <Route path="rooms/:roomId/:salaTematicaId" element={
         <PrivateRoute permission={permissions.READ_ROOMS}>
           <RoomMeeting />
         </PrivateRoute>
@@ -119,7 +119,7 @@ const AppRouter = () => {
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
-      <Route path="*" element={<Navigate to="/profile" />} />
+      <Route path="*" element={<Navigate to="/student" />} />
     </Routes>
   );
 };
