@@ -1,4 +1,3 @@
-import React from 'react';
 import { TextField, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -7,12 +6,12 @@ const SearchBar = ({ placeholder }) => {
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
       <TextField
         variant="outlined"
-        placeholder={placeholder ?? "Buscar posts"}
+        placeholder={placeholder ?? "Buscar..."}
         sx={{
           backgroundColor: 'white',
           borderRadius: 4,
-          width: '60%',
-          maxWidth: 700,
+          width: '100%',
+          // maxWidth: 700,
           '& .MuiOutlinedInput-root': {
             borderRadius: 4,
           },

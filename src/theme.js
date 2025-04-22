@@ -15,6 +15,10 @@ export const LightTheme = createTheme({
     },
     breadcrumb: "#351C75",
     button: "#351C75",
+    tabs: {
+      activeTab: '#6947DB',
+      border: '#000',
+    },
   },
 });
 
@@ -34,6 +38,10 @@ export const DarkTheme = createTheme({
     },
     breadcrumb: "#FFFFFF",
     button: "#6947DB",
+    tabs: {
+      activeTab: '#6947DB',
+      border: '#FFF',
+    },
   },
   typography: {
     allVariants: {

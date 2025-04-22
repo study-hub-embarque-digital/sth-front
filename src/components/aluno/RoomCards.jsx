@@ -6,7 +6,7 @@ const RoomCard = ({ room }) => {
     const navigate = useNavigate();
 
   return (
-    <Card onClick={() => navigate(`/rooms/${room.roomId}`)} sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
+    <Card onClick={() => navigate(`${room.roomId}`)} sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
       {room.image ? (
         <img
           src={room.image}
