@@ -7,13 +7,17 @@ interface IThemeContextData {
     toggleTheme: () => void
 }
 
+interface IMyThemeProvider {
+    children: React.ReactNode
+}
+
 const ThemeContext = createContext({} as IThemeContextData);
 
 export const useThemeContext = () => {
     return useContext(ThemeContext)
 }
 
-export const MyThemeProvider: React.FC = ({ children }) => {
+export const MyThemeProvider: React.FC<IMyThemeProvider> = ({ children }: IMyThemeProvider) => {
     const [themeName, setThemeName] = useState<'light' | 'dark'>('light')
 
     const toggleTheme = useCallback(() => {
@@ -29,7 +33,6 @@ export const MyThemeProvider: React.FC = ({ children }) => {
         <ThemeContext.Provider value={{ themeName, toggleTheme }}>
             <ThemeProvider theme={theme}>
                 <Box width='100vw' height='100vh' bgcolor={theme.palette.background.default}>
-
                     {children}
                 </Box>
             </ThemeProvider>
