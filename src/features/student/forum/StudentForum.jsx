@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { getDuvidas, getTags, postDuvida } from "../../../services/forumService"
 import { 
   Paper, Typography, Chip, Container, CircularProgress, Stack, Box,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,  Autocomplete
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,  Autocomplete, InputAdornment
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import { Add as AddIcon } from '@mui/icons-material';
+import {  Search as SearchIcon, Add as AddIcon } from '@mui/icons-material';
 import { TokenHandler } from "../../../utils/TokenHandler";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,6 +16,7 @@ export default function ForumPage() {
     try {
       const data = await getDuvidas();
       setDuvidas(Array.isArray(data) ? data : []);
+      setFilteredDuvidas(data); 
     } catch (err) {
       setError("Erro ao carregar dúvidas");
     }
@@ -37,9 +38,35 @@ export default function ForumPage() {
   };
   
   const [duvidas, setDuvidas] = useState([]);
+  const [filteredDuvidas, setFilteredDuvidas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const filterDuvidas = (term) => {
+    if (!term) {
+      setFilteredDuvidas(duvidas);
+      return;
+    }
+  
+    const lowerCaseTerm = term.toLowerCase();
+    const filtered = duvidas.filter(duvida => {
+      return (
+        duvida.titulo.toLowerCase().includes(lowerCaseTerm) ||
+        duvida.descricao.toLowerCase().includes(lowerCaseTerm) ||
+        (duvida.tags && duvida.tags.some(tag => tag.toLowerCase().includes(lowerCaseTerm)))
+      ); 
+    }); 
+  
+    setFilteredDuvidas(filtered);
+  };
+
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    filterDuvidas(term);
+  };
 
   //new duvida
   const token = TokenHandler;
@@ -91,8 +118,30 @@ export default function ForumPage() {
 
   return (
 <Container sx={{ padding: 0, margin: 0, display: 'flex', flexDirection: 'column',minHeight: '100vh', position: 'relative', pb: 8}}>
+  
+<TextField
+  fullWidth
+  variant="outlined"
+  placeholder="Buscar por título, descrição ou tags..."
+  value={searchTerm}
+  onChange={handleSearchChange}
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <SearchIcon />
+      </InputAdornment>
+    ),
+  }}
+  sx={{
+    mb: 3,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 2,
+    }
+  }}
+/>
+  
   <Stack spacing={2}>
-    {duvidas.map((duvida) => {
+    {filteredDuvidas.map((duvida) => {
       return (
         <Paper 
   elevation={0}
