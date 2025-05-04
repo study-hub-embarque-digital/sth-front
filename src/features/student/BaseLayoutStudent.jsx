@@ -10,10 +10,10 @@ import ForumIcon from '@mui/icons-material/Forum';
 export default function BaseLayoutStudent({ Component, removeLast=false }) {
   const menuItems = [
     { text: "Home", icon: HomeRoundedIcon, route: "/student" },
-    { text: 'Comunidade', icon: PeopleIcon, route: "comunidade-aluno"},
-    { text: 'Artigos', icon: ArticleIcon , route: "artigos"},
+    { text: 'Comunidade', icon: PeopleIcon, route: "/student/comunidade-aluno"},
+    { text: 'Artigos', icon: ArticleIcon , route: "/student/artigos"},
     { text: 'Entregas', icon: AssignmentIcon },
-    { text: 'Rooms', icon: SchoolIcon , route: "rooms"},
+    { text: 'Rooms', icon: SchoolIcon , route: "/student/rooms"},
     { text: 'Squad', icon: RocketLaunchIcon},
     { text: 'Fórum', icon: ForumIcon , route: "/student/forum"},
   ];
