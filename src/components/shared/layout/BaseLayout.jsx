@@ -5,7 +5,7 @@ import { SideMenu } from "../side-menu/SideMenu";
 import { Breadcrumb } from "../breadcumb/Breadcumb";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function BaseLayout({ children, homePath, menuItems }) {
+export default function BaseLayout({ children, homePath, menuItems, removeLast=false }) {
   const [open, setOpen] = useState(true);
   const drawerWidth = 120;
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -59,7 +59,7 @@ export default function BaseLayout({ children, homePath, menuItems }) {
           }}
         >
           <Container maxWidth="xl">
-            <Breadcrumb homePath={homePath} />
+            <Breadcrumb homePath={homePath} removeLast={removeLast}/>
           </Container>
 
           <Container

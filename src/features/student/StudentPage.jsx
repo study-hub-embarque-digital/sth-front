@@ -5,36 +5,14 @@ import RoomCard from '../../components/aluno/RoomCards';
 import ActivityCard from '../../components/aluno/ActivityCard';
 import ArtigoCard from '../../components/aluno/ArtigoCard'; // Importe o ArtigoCard
 import artigoService from '../../services/artigoService'; // Importe o serviço de artigos
+import BaseLayoutStudent from './BaseLayoutStudent';
 import { getRooms } from '../../services/roomService';
-import BaseLayout from "../../components/shared/layout/BaseLayout";
-import PeopleIcon from '@mui/icons-material/People'; 
-import AssignmentIcon from '@mui/icons-material/Assignment'; 
-import SchoolIcon from '@mui/icons-material/School'; 
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'; 
-import ArticleIcon from '@mui/icons-material/Article';
-import ForumIcon from '@mui/icons-material/Forum'; 
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-
-
   
-function StudentPage() {
-  const menuItems = [
-    { text: "Home", icon: HomeRoundedIcon, route: "/student" },
-    { text: 'Comunidade', icon: PeopleIcon, path: "student/comunidade-aluno"},
-    { text: 'Artigos', icon: ArticleIcon , path: "student/artigos"},
-    { text: 'Entregas', icon: AssignmentIcon },
-    { text: 'Rooms', icon: SchoolIcon , path: "rooms"},
-    { text: 'Squad', icon: RocketLaunchIcon},
-    { text: 'Fórum', icon: ForumIcon , route: "/student/forum"},
-  ];
+function StudentHome() {
   const theme = useTheme();
-  
   const [artigos, setArtigos] = useState([]);
   const [loading, setLoading] = useState(true);
-  
   const [rooms, setRooms] = useState([]);
-
-
   const activities = ['Atividade 1', 'Atividade 2'];
 
   const fetchRooms = async () => {
@@ -65,7 +43,6 @@ function StudentPage() {
 
 
   return (
-    <BaseLayout homePath="/student" menuItems={menuItems}>
       <Container sx={{ 
       background: theme.palette.background.default,
       minHeight: '100vh',
@@ -201,8 +178,11 @@ function StudentPage() {
         </Box>
       </Stack>
     </Container>
-    </BaseLayout>  
     );
 }
 
-export default StudentPage;
+export default function StudentPage(){
+  return(
+    <BaseLayoutStudent Component={StudentHome} > </BaseLayoutStudent>
+  )
+}

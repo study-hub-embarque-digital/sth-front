@@ -15,7 +15,7 @@ import Mentoria from "../features/mentor/mentoria/Mentoria";
 import StudentRegisterPage from "../pages/register/student/StudentRegisterPage";
 import RepresentanteRegisterPage from "../pages/register/representative/RepresentanteRegisterPage";
 import Post from "../features/student/post/Post";
-import StudentArtigos from "../features/student/artigos/StudentArtigos";
+import StudentArtigosPage from "../features/student/artigos/StudentArtigosPage";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 import EditPost from "../features/student/post/EditPost";
 import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
@@ -94,7 +94,7 @@ const AppRouter = () => {
 
       <Route path="student/comunidade-aluno" element={<Post />} />
       <Route path="/editar-post" element={<EditPost />} />
-      <Route path="student/artigos" element={<StudentArtigos />} />
+      <Route path="student/artigos" element={<StudentArtigosPage />} />
       <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
       <Route path="student/forum" element={<StudentForumPage/>} />
       <Route path="student/forum/duvida/:id" element={<StudentForumDetailsPage />} />
