@@ -11,7 +11,7 @@ const RoomMeeting = () => {
   const { reuniao, topicos, apresentacoes, apresentacaoAtual, discussion } = useRoomMeeting();
 
   return (
-    <LayoutAluno title="rooms">
+    <>
       {reuniao?.status === 'EM_ESPERA' && <LookingForMeeting />}
       {reuniao?.status === 'CANCELADA' && <MeetingCanceled />}
       {["EM_ESTUDO", "AGUARDANDO_PARTICIPANTES", "EM_APRESENTACAO"].includes(reuniao?.status) &&
@@ -23,7 +23,7 @@ const RoomMeeting = () => {
           discussion={discussion}
         />
       }
-    </LayoutAluno>
+    </>
   );
 };
 

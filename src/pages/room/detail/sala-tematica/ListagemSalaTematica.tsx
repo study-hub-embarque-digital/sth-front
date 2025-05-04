@@ -21,7 +21,7 @@ const ListagemSalaTematica = ({ salasTematica, roomId }: IListagemSalaTematica) 
   return (
     <Box>
       {salasTematica.map((sala) => (
-        <Button key={sala?.salaTematicaId} onClick={() => navigate(`/rooms/${roomId}/${sala?.salaTematicaId}`)}>
+        <Button key={sala?.salaTematicaId} onClick={() => navigate(`/student/rooms/${roomId}/${sala?.salaTematicaId}`)}>
           <SalaTematicaCard salaTematica={sala} />
         </Button>
       ))}
