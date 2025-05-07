@@ -22,7 +22,8 @@ interface TopicoSeparadoMensagem extends IBaseWsMessage {
 }
 
 interface ReuniaoEncontradaMensagem extends IBaseWsMessage {
-  reuniaoId: string
+  reuniaoId: string,
+  token: string
 }
 
 interface IReuniaoCanceladaMensagem extends IBaseWsMessage {
@@ -92,6 +93,7 @@ const useRoomMeeting = () => {
   const [apresentacoes, setApresentacoes] = useState<IApresentacao[]>([]);
   const [apresentacaoAtual, setApresentacaoAtual] = useState<number | null>(null);
   const [discussion, setDiscussion] = useState<IDiscussion>({ inDiscussion: false, topicos: [] });
+  const [jitsiToken, setJitsiToken] = useState<string>("");
   const navigate = useNavigate();
 
   const sendMessage = useCallback(() => {
@@ -103,6 +105,7 @@ const useRoomMeeting = () => {
   const handleReuniaoEncontrada = (message: ReuniaoEncontradaMensagem) => {
     socketClient.subscribe(`/topic/reunioes/${message.reuniaoId}`, handleMessages);
     setReuniao((prev: IBaseWsMessage) => message);
+    setJitsiToken(message.token);
     console.log("REUNIAO ENCONTRADA", { message });
   }
 
@@ -225,7 +228,7 @@ const useRoomMeeting = () => {
     }
   }, [privateReceivedMessage, handleMessages]);
 
-  return { sendMessage, reuniao, topicos, apresentacoes, apresentacaoAtual, discussion }
+  return { sendMessage, reuniao, topicos, apresentacoes, apresentacaoAtual, discussion, jitsiToken }
 }
 
 export { useRoomMeeting }

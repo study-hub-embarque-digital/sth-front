@@ -8,7 +8,7 @@ import { Meeting } from "./components/Meeting";
 
 
 const RoomMeeting = () => {
-  const { reuniao, topicos, apresentacoes, apresentacaoAtual, discussion } = useRoomMeeting();
+  const { reuniao, topicos, apresentacoes, apresentacaoAtual, discussion, jitsiToken } = useRoomMeeting();
 
   return (
     <>
@@ -21,6 +21,7 @@ const RoomMeeting = () => {
           apresentacoes={apresentacoes}
           apresentacaoAtual={apresentacaoAtual}
           discussion={discussion}
+          token={jitsiToken}
         />
       }
     </>
