@@ -38,6 +38,7 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
+        zIndex: 1200,
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
@@ -69,10 +70,10 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
                     margin: "5px",
                     backgroundColor:
                       location.pathname === item.route
-                        ? "#f0f0f0"
+                        ? (theme) => theme.palette.active
                         : "transparent",
                     "&:hover": {
-                      backgroundColor: "#e0e0e0",
+                      backgroundColor: (theme) => theme.palette.hover,
                     },
                   }}
                 >

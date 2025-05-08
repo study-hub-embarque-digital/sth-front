@@ -1,22 +1,38 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import InputLabel from "@mui/material/InputLabel";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  IconButton,
+  Button,
+} from "@mui/material";
+import SubdirectoryArrowRightRoundedIcon from "@mui/icons-material/SubdirectoryArrowRightRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useAuth } from "../../../contexts/AuthContext";
 
-export const ResponsiveTable = ({ columns, data }) => {
+export const ResponsiveTable = ({
+  columns,
+  data,
+  idProperty,
+  onClickDetails,
+  textButton,
+  onClickAdd,
+  hasPermission
+}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -35,79 +51,94 @@ export const ResponsiveTable = ({ columns, data }) => {
     setAge(event.target.value);
   };
 
+
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", margin: "auto" }}>
-      <TableContainer
-        sx={{ width: "100%", overflowX: "auto", maxWidth: "1200px" }}
+    <Paper
+      sx={{
+        maxWidth: "100%",
+        overflow: "hidden",
+        margin: !isMobile ? "auto" : "10px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      {hasPermission && (
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            size="medium"
+            color="secondary"
+            endIcon={<AddRoundedIcon />}
+            onClick={onClickAdd}
+          >
+            {textButton}
+          </Button>
+        </Box>
+      )}
+
+      {/* Filtros e pesquisa */}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <Table
-          stickyHeader
-          aria-label="tabela responsiva"
-          sx={{ minWidth: "max-content", width: "100%" }}
-        >
+        {/* Campo de pesquisa */}
+        <FormControl sx={{ flex: 2 }} variant="outlined">
+          <InputLabel htmlFor="search-input">Pesquisar</InputLabel>
+          <OutlinedInput
+            id="search-input"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Pesquisar"
+          />
+        </FormControl>
+
+        {/* Filtro por idade */}
+        <FormControl sx={{ flex: 1, minWidth: 120 }}>
+          <InputLabel id="select-age-label">Idade</InputLabel>
+          <Select
+            labelId="select-age-label"
+            value={age}
+            onChange={handleChange}
+            label="Idade"
+          >
+            <MenuItem value={20}>Vinte</MenuItem>
+            <MenuItem value={21}>Vinte e um</MenuItem>
+            <MenuItem value={22}>Vinte e dois</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* Filtro por status */}
+        <FormControl sx={{ flex: 1, minWidth: 120 }}>
+          <InputLabel id="select-status-label">Status</InputLabel>
+          <Select
+            labelId="select-status-label"
+            value={status}
+            onChange={handleChange}
+            label="Status"
+          >
+            <MenuItem value={1}>Ativo</MenuItem>
+            <MenuItem value={0}>Inativo</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
+      <TableContainer sx={{ width: "100%", overflowX: "auto" }}>
+        <Table aria-label="tabela responsiva" sx={{ width: "100%" }}>
           <TableHead>
-            <TableRow sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
-              {/* Linha de Filtros (Pesquisa + Selects) */}
-              <TableCell
-                colSpan={columns.length}
-                sx={{ display: "flex", alignItems: "center", padding: 1 }}
-              >
-                {/* Campo de Pesquisa */}
-                <Paper
-                  component="form"
-                  sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "auto",
-                    marginRight: 2, // Espaço entre o campo de pesquisa e os selects
-                  }}
-                >
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Pesquisar"
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                  <IconButton
-                    type="button"
-                    sx={{ p: "10px" }}
-                    aria-label="search"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-
-                {/* Primeiro Select */}
-                <FormControl sx={{ m: 1, minWidth: 300 }}>
-                  <InputLabel id="select-age-label">Idade</InputLabel>
-                  <Select
-                    labelId="select-age-label"
-                    value={age}
-                    onChange={handleChange}
-                    label="Idade"
-                  >
-                    <MenuItem value={20}>Vinte</MenuItem>
-                    <MenuItem value={21}>Vinte e um</MenuItem>
-                    <MenuItem value={22}>Vinte e dois</MenuItem>
-                  </Select>
-                </FormControl>
-
-                {/* Segundo Select */}
-                <FormControl sx={{ m: 1, minWidth: 300 }}>
-                  <InputLabel id="select-status-label">Status</InputLabel>
-                  <Select
-                    labelId="select-status-label"
-                    value={status}
-                    onChange={handleChange}
-                    label="Status"
-                  >
-                    <MenuItem value={1}>Ativo</MenuItem>
-                    <MenuItem value={0}>Inativo</MenuItem>
-                  </Select>
-                </FormControl>
-              </TableCell>
-            </TableRow>
-
             {/* Cabeçalho das colunas */}
             <TableRow>
               {columns.map((coluna) => (
@@ -119,6 +150,7 @@ export const ResponsiveTable = ({ columns, data }) => {
                   {coluna.label}
                 </TableCell>
               ))}
+              <TableCell align="center">Detalhes</TableCell>
             </TableRow>
           </TableHead>
 
@@ -130,14 +162,7 @@ export const ResponsiveTable = ({ columns, data }) => {
                   {columns.map((coluna) => {
                     const value = item[coluna.id];
                     return (
-                      <TableCell
-                        key={coluna.id}
-                        align={coluna.align}
-                        style={{
-                          minWidth: coluna.minWidth,
-                          whiteSpace: "nowrap",
-                        }}
-                      >
+                      <TableCell key={coluna.id} align={coluna.align}>
                         {" "}
                         {coluna.format && typeof value === "number"
                           ? coluna.format(value)
@@ -145,6 +170,26 @@ export const ResponsiveTable = ({ columns, data }) => {
                       </TableCell>
                     );
                   })}
+                  <TableCell align="center">
+                    <IconButton
+                      color="secondary"
+                      sx={{
+                        borderRadius: "5px",
+                        padding: "10px 20px",
+                        backgroundColor: (theme) =>
+                          theme.palette.secondary.main,
+                        "&:hover": {
+                          backgroundColor: (theme) =>
+                            theme.palette.secondary.dark,
+                        },
+                      }}
+                      onClick={() => onClickDetails(item[idProperty])}
+                    >
+                      <SubdirectoryArrowRightRoundedIcon
+                        sx={{ color: "#fff" }}
+                      />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
