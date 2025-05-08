@@ -4,6 +4,7 @@ import RoomCard from '../../components/aluno/RoomCards';
 import ActivityCard from '../../components/aluno/ActivityCard';
 import ArtigoCard from '../../components/aluno/ArtigoCard'; // Importe o ArtigoCard
 import artigoService from '../../services/artigoService'; // Importe o serviço de artigos
+import BaseLayoutStudent from './BaseLayoutStudent';
 import { getRooms } from '../../services/roomService';
 import BaseLayout from "../../components/shared/layout/BaseLayout";
 import PeopleIcon from '@mui/icons-material/People';
@@ -33,8 +34,6 @@ function StudentPage() {
   const [loading, setLoading] = useState(true);
 
   const [rooms, setRooms] = useState([]);
-
-
   const activities = ['Atividade 1', 'Atividade 2'];
 
   const fetchRooms = async () => {
