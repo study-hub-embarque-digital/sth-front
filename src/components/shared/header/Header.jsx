@@ -4,22 +4,12 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { Logo } from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 
-export default function HeaderComponent({ onToggleMenu, onHeightChange }) {
-  const headerRef = useRef();
-
-  useEffect(() => {
-    if (headerRef.current && onHeightChange) {
-      const height = headerRef.current.offsetHeight;
-      onHeightChange(height);
-    }
-  }, []);
-
+export default function HeaderComponent({ onToggleMenu }) {
   return (
     <AppBar
-      ref={headerRef}
       position="fixed"
       sx={{
-        // backgroundColor: "white",
+        backgroundColor: (theme) => theme.palette.primary.main,
         zIndex: (theme) => theme.zIndex.drawer + 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         padding: {
@@ -47,7 +37,7 @@ export default function HeaderComponent({ onToggleMenu, onHeightChange }) {
                 sm: 34,
                 md: 40,
               },
-              color:"#351C75"
+              color: (theme) => theme.palette.secondary.main,
             }}
           />
         </IconButton>

@@ -46,7 +46,7 @@ export const Breadcrumb = ({ homePath }) => {
           aria-label="breadcrumb"
           sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }} 
         >
-          <Link
+          {/* <Link
             underline="hover"
             color="inherit"
             onClick={() => navigate(homePath)}
@@ -62,9 +62,9 @@ export const Breadcrumb = ({ homePath }) => {
             }}
           >
             Home
-          </Link>
+          </Link> */}
 
-          {fullPathnames.slice(1).map((value, index) => {
+          {fullPathnames.map((value, index) => {
             const to = "/" + fullPathnames.slice(0, index + 2).join("/");
             const isLast = index === fullPathnames.length - 2;
             const label = formatLabel(value);
@@ -74,7 +74,7 @@ export const Breadcrumb = ({ homePath }) => {
                 sx={{
                   fontSize: isMobile ? "14px" : "32px",
                   fontWeight: "700",
-                  color: "#000000",
+                  color: (theme) => theme.palette.breadcrumb,
                 }}
                 color="text.primary"
                 key={to}
@@ -89,7 +89,7 @@ export const Breadcrumb = ({ homePath }) => {
                   cursor: "pointer",
                   fontSize: isMobile ? "14px" : "32px",
                   fontWeight: "700",
-                  color: "#000000",
+                  color: (theme) => theme.palette.breadcrumb,
                   "&:hover": {
                     color: "#6947DB",
                     textDecoration: "none",
