@@ -20,7 +20,8 @@ import {
 import logo from "../../assets/logoInitial.png";
 import { useLoginPage } from "./LoginPageHook";
 import { useAuth } from "../../hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [
@@ -35,9 +36,13 @@ const LoginPage = () => {
 
   const [, isAuthenticated, pathForRole] = useAuth();
 
-  if (isAuthenticated()) {
-    return <Navigate to={pathForRole()} />
-  };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate(pathForRole());
+    }
+  }, [isAuthenticated, pathForRole, navigate]);
 
   return (
     <Grid container style={{ height: "100vh" }}>
@@ -174,7 +179,14 @@ const LoginPage = () => {
             Entrar
           </Button>
           <Typography variant="body2" style={{ textAlign: "center" }}>
-            Novo usuário? <Button variant="body2" style={{ textAlign: "center" }} onClick={handleRegister}>Cadastrar-se</Button>
+            Novo usuário?{" "}
+            <Button
+              variant="body2"
+              style={{ textAlign: "center" }}
+              onClick={handleRegister}
+            >
+              Cadastrar-se
+            </Button>
           </Typography>
         </Box>
       </Grid>

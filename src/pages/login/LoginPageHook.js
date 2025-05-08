@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../../services/authService";
 import { TokenHandler } from "../../utils/TokenHandler";
+import { jwtDecode } from "jwt-decode";
 
 const useLoginPage = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const useLoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    senha: ""
+    senha: "",
   });
 
   const handleChange = (e) => {
@@ -19,7 +20,6 @@ const useLoginPage = () => {
       [name]: value,
     }));
   };
-
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -35,33 +35,40 @@ const useLoginPage = () => {
 
     const body = {
       email: formData.email,
-      senha: formData.senha
-    }
+      senha: formData.senha,
+    };
 
     try {
-      // Chama a função de requisição importada
       const response = await loginService(body);
-      TokenHandler.defineTokens(response.accessToken, response.refreshToken)
+      TokenHandler.defineTokens(response.accessToken, response.refreshToken);
 
-      const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
+      const token = TokenHandler.accessToken;
+
+      const decodedToken = jwtDecode(token);
+
+      const roles = decodedToken.roles;
+
+      const profile = roles.map((role) => role.toLowerCase());
+      
+      localStorage.setItem("profile", profile);
 
       if (profile) {
-        navigate(`/${profile}`); // Redireciona para a página do perfil
+        navigate(`/${profile}`);
       } else {
         console.error("Perfil não selecionado");
       }
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // Habilita o botão novamente após o fim da requisição
+      setLoading(false); 
     }
-
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
 
     const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
+    console.log("PROFILE", profile);
     navigate(`/register/${profile}`); // Redireciona para a página de registro
   };
 
@@ -72,7 +79,7 @@ const useLoginPage = () => {
     handleRegister,
     formData,
     showPassword,
-    loading
+    loading,
   ];
 };
 
