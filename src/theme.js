@@ -19,7 +19,11 @@ export const LightTheme = createTheme({
     breadcrumb: "#1E1E1E",
     button: "#351C75",
     hover: "#e0e0e0",
-    active: "#e0e0e0"
+    active: "#e0e0e0",
+    tabs: {
+      activeTab: '#6947DB',
+      border: '#000',
+    },
   },
 });
 
@@ -43,8 +47,11 @@ export const DarkTheme = createTheme({
     breadcrumb: "#FFFFFF",
     button: "#6947DB",
     hover: "#444444",
-    active: "#878787"
-
+    active: "#878787",
+    tabs: {
+      activeTab: '#6947DB',
+      border: '#FFF',
+    },
   },
   typography: {
     allVariants: {

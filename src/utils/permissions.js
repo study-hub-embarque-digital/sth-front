@@ -1,4 +1,6 @@
 export const permissions = {
+  READ_ROOMS: "read:rooms"
+}export const permissions = {
   READ_ADMINS: "read:admins",
   WRITE_ADMINS: "write:admins",
   DELETE_ADMINS: "delete:admins",
@@ -39,10 +41,6 @@ export const permissions = {
   WRITE_REPRESENTANTES: "write:representantes",
   DELETE_REPRESENTANTES: "delete:representantes",
 
-  READ_MENTORES: "read:mentores",
-  WRITE_MENTORES: "write:mentores",
-  DELETE_MENTORES: "delete:mentores",
-
   READ_REUNIOES: "read:reunioes",
   WRITE_REUNIOES: "write:reunioes",
   DELETE_REUNIOES: "delete:reunioes",
@@ -70,4 +68,8 @@ export const permissions = {
   READ_USUARIOS: "read:usuarios",
   WRITE_USUARIOS: "write:usuarios",
   DELETE_USUARIOS: "delete:usuarios",
+
+  READ_MENTORES: "read:mentores",
+  WRITE_MENTORES: "write:mentores",
+  DELETE_MENTORES: "delete:mentores",
 };

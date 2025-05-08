@@ -4,11 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export const Breadcrumb = ({ homePath }) => {
+export const Breadcrumb = ({ homePath, removeLast = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const fullPathnames = location.pathname.split("/").filter(Boolean);
+  let fullPathnames = location.pathname.split("/").filter(Boolean);
+
+  if (removeLast) {
+    fullPathnames = fullPathnames.slice(0, -1);
+  }
+
   const isMobile = useMediaQuery("(max-width:600px)");
 
   const formatLabel = (slug) => {
@@ -23,13 +28,13 @@ export const Breadcrumb = ({ homePath }) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          padding: isMobile ? "10px 20px" : "15px 40px", 
+          padding: isMobile ? "10px 20px" : "15px 40px",
         }}
       >
         <IconButton
           onClick={() => navigate(-1)}
           sx={{
-            marginRight: isMobile ? 1 : 2, 
+            marginRight: isMobile ? 1 : 2,
             backgroundColor: "#351C75",
             padding: isMobile ? "0px" : "8px",
             color: "white",
@@ -44,29 +49,11 @@ export const Breadcrumb = ({ homePath }) => {
 
         <Breadcrumbs
           aria-label="breadcrumb"
-          sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }} 
+          sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }}
         >
-          {/* <Link
-            underline="hover"
-            color="inherit"
-            onClick={() => navigate(homePath)}
-            sx={{
-              cursor: "pointer",
-              fontSize: isMobile ? "14px" : "32px", 
-              fontWeight: "700",
-              color: "#000000",
-              "&:hover": {
-                color: "#6947DB",
-                textDecoration: "none",
-              },
-            }}
-          >
-            Home
-          </Link> */}
-
           {fullPathnames.map((value, index) => {
-            const to = "/" + fullPathnames.slice(0, index + 2).join("/");
-            const isLast = index === fullPathnames.length - 2;
+            const to = "/" + fullPathnames.slice(0, index + 1).join("/");
+            const isLast = index === fullPathnames.length - 1;
             const label = formatLabel(value);
 
             return isLast ? (

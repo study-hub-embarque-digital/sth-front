@@ -1,18 +1,25 @@
+import React from "react";
 import { Card, CardContent, Typography } from "@mui/material";
+import { ISalaTematica } from "../../pages/room/detail/sala-tematica/ListagemSalaTematica";
 
-const SalaTematicaCard = ({ salaTematica }) => {
+interface ISalaTematicaCard {
+  salaTematica: ISalaTematica,
+  image?: string
+}
+
+const SalaTematicaCard = ({ salaTematica, image }: ISalaTematicaCard) => {
   return (
-    <Card sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
-      {salaTematica.image ? (
+    <Card sx={{ width: 429, height: 246, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
+      {image ? (
         <img
-          src={salaTematica.image}
+          src={image}
           alt={salaTematica.salaTematicaId}
-          style={{ height: 100, width: '100%', objectFit: 'cover' }}
+          style={{ height: 173, width: '100%', objectFit: 'cover' }}
         />
       ) : (
         <div
           style={{
-            height: 100,
+            height: 173,
             width: '100%',
             backgroundColor: '#ccc',
             display: 'flex',

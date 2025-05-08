@@ -1,39 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Box, Container } from "@mui/material";
 import HeaderComponent from "../header/Header";
 import { SideMenu } from "../side-menu/SideMenu";
 import { Breadcrumb } from "../breadcumb/Breadcumb";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import MapsHomeWorkRoundedIcon from "@mui/icons-material/MapsHomeWorkRounded";
-import BusinessCenterRoundedIcon from "@mui/icons-material/BusinessCenterRounded";
-import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
-import { Outlet } from "react-router-dom";
 
-  export default function BaseLayout({ homePath, removeLast=false }) {
-  const menuItems = [
-    { text: "Home", icon: HomeRoundedIcon, route: "/admin" },
-    { text: "Squads", icon: GroupsRoundedIcon, route: "/squads" },
-    { text: "Alunos", icon: SchoolRoundedIcon, route: "/alunos" },
-    // { text: "Empresas", icon: MapsHomeWorkRoundedIcon, route: "" },
-    // { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "" },
-    {
-      text: "Mentores",
-      icon: FolderRoundedIcon,
-      route: "/mentores",
-    },
-    // {
-    //   text: "Mentores",
-    //   icon: BusinessCenterRoundedIcon,
-    //   route: "/mentores",
-    // },
-    // { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "" },
-  ];
+export default function BaseLayout({ children, homePath, menuItems }) {
   const [open, setOpen] = useState(true);
   const drawerWidth = 120;
+  const [headerHeight, setHeaderHeight] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
@@ -43,12 +18,23 @@ import { Outlet } from "react-router-dom";
         flexDirection: "column",
         bgcolor: "background.default",
         minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
-      <HeaderComponent onToggleMenu={() => setOpen(!open)} />
+      <Container
+        fixed
+        sx={{ position: "fixed", top: 0, zIndex: 1100, width: "100%" }}
+      >
+        <HeaderComponent
+          onToggleMenu={() => setOpen(!open)}
+          onHeightChange={(height) => setHeaderHeight(height)}
+        />
+      </Container>
 
-      <Box sx={{ display: "flex", flexGrow: 1, marginTop: "80px" }}>
-        {open && (
+      <Box
+        sx={{ display: "flex", flexGrow: 1, marginTop: "64px", zIndex: "0" }}
+      >
+        {open && !isMobile && (
           <Box sx={{ width: drawerWidth, flexShrink: 0 }}>
             <SideMenu
               open={open}
@@ -69,36 +55,37 @@ import { Outlet } from "react-router-dom";
             alignItems: "center",
             minWidth: "320px",
             width: "100%",
+            paddingTop: `${headerHeight}px`,
           }}
         >
           <Container maxWidth="xl">
-            <Breadcrumb homePath={homePath} removeLast={removeLast}/>
+            <Breadcrumb homePath={homePath} removeLast={true} />
           </Container>
 
           <Container
-            maxWidth="sx"
+            maxWidth="lg"
             sx={{
-              maxWidth: "100%",
               flexGrow: 1,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "flex-start",
+              justifyContent: "center",
               paddingY: 3,
             }}
           >
             <Box
               sx={{
                 width: "100%",
-                maxWidth: "100%",
+                maxWidth: "1200px",
+                padding: 2,
                 boxSizing: "border-box",
                 display: "flex",
-                justifyContent: "flex-start",
+                justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
               }}
             >
-              <Outlet />
+              {children}
             </Box>
           </Container>
         </Box>

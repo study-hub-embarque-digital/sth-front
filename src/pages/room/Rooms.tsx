@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import LayoutAluno from "../../components/LayoutAluno";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/aluno/SearchBar";
 import { getRooms } from "../../services/roomService";
 import { Box } from "@mui/material";
@@ -22,14 +21,14 @@ const Rooms = () => {
   }, []);
 
   return (
-    <LayoutAluno title="rooms">
+    <Box sx={{ width: '100%', height: '100%' }}>
       <SearchBar placeholder={"Buscar room's..."}></SearchBar>
       <Box sx={{ display: 'flex', alignItems: 'center', overflowX: 'auto' }}>
-        {rooms.map((room, index) => (
-          <RoomCard key={index} room={room} />
+        {rooms.map((room) => (
+          <RoomCard key={room?.roomId} room={room} />
         ))}
       </Box>
-    </LayoutAluno>
+    </Box>
   );
 };
 

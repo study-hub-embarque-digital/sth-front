@@ -7,21 +7,39 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Button,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useEffect, useState } from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const SideMenu = ({ open, drawerWidth, menuItems }) => {
   const location = useLocation();
   const isDesktop = useMediaQuery("(min-width:900px)");
   const isMobile = useMediaQuery("(max-width:600px)");
-
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const drawerVariant = isDesktop ? "persistent" : "temporary";
-  const paddingHeader = "1.2rem";
-
+  const { logout } = useAuth();
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
+
+  const handleCancel = () => {
+    setLogoutDialogOpen(false);
+  }
+
+  const handleAccept = () => {
+    setLogoutDialogOpen(false);
+    logout();
+  }
 
   useEffect(() => {
     if (headerRef.current) {
@@ -34,7 +52,7 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
       variant={drawerVariant}
       anchor="left"
       open={open}
-      onClose={() => open(false)}
+      // onClose={() => open(false)}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -51,11 +69,11 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
       <Toolbar />
       <Box sx={{ overflow: "auto", height: "calc(100vh - 64px)" }}>
         <List>
-          {menuItems.map((item) => (
+          {menuItems.map((item, index) => (
             <Link
               to={item.route}
               style={{ textDecoration: "none" }}
-              key={item.route}
+              key={`${item.route}_${index}`}
             >
               <ListItem disablePadding>
                 <ListItemButton
@@ -106,7 +124,69 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
             </Link>
           ))}
         </List>
+
+
+      </Box>
+
+      <LogoutDialog
+        handleAccept={handleAccept}
+        handleCancel={handleCancel}
+        open={logoutDialogOpen} />
+
+
+      <Box
+        onClick={() => setLogoutDialogOpen(true)}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          cursor: 'pointer',
+          mb: 10,
+        }}
+      >
+
+        <IconButton>
+          <LogoutIcon fontSize="large" sx={{ fontSize: isMobile ? "30px" : "50px" }} />
+        </IconButton>
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: '0.75rem',
+            color: "#545454",
+            fontWeight: 500,
+            mt: 0.5
+          }}
+        >
+          Logout
+        </Typography>
       </Box>
     </Drawer>
   );
 };
+
+const LogoutDialog = ({ open, handleAccept, handleCancel }) => {
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleCancel}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Sair da conta"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Essa ação fará com que você seja deslogado de sua conta e seja redirecionado para página de login. Certeza que deseja continuar?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => handleCancel()}>Cancelar</Button>
+        <Button onClick={() => handleAccept()} autoFocus>
+          Continuar
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
