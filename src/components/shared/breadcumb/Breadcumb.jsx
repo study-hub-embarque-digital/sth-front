@@ -10,7 +10,6 @@ export const Breadcrumb = ({ homePath, removeLast = false }) => {
 
   let fullPathnames = location.pathname.split("/").filter(Boolean);
 
-  // Remove o último segmento apenas se `removeLast` for `true`
   if (removeLast) {
     fullPathnames = fullPathnames.slice(0, -1);
   }
@@ -29,13 +28,13 @@ export const Breadcrumb = ({ homePath, removeLast = false }) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          padding: isMobile ? "10px 20px" : "15px 40px", 
+          padding: isMobile ? "10px 20px" : "15px 40px",
         }}
       >
         <IconButton
           onClick={() => navigate(-1)}
           sx={{
-            marginRight: isMobile ? 1 : 2, 
+            marginRight: isMobile ? 1 : 2,
             backgroundColor: "#351C75",
             padding: isMobile ? "0px" : "8px",
             color: "white",
@@ -50,64 +49,46 @@ export const Breadcrumb = ({ homePath, removeLast = false }) => {
 
         <Breadcrumbs
           aria-label="breadcrumb"
-          sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }} 
+          sx={{ my: 2, fontSize: isMobile ? "14px" : "32px" }}
         >
-          <Link
-            underline="hover"
-            color="inherit"
-            onClick={() => navigate(homePath)}
-            sx={{
-              cursor: "pointer",
-              fontSize: isMobile ? "14px" : "32px", 
-              fontWeight: "700",
-              color: "#000000",
-              "&:hover": {
-                color: "#6947DB",
-                textDecoration: "none",
-              },
-            }}
-          >
-            Home
-          </Link>
+          {fullPathnames.map((value, index) => {
+            const to = "/" + fullPathnames.slice(0, index + 1).join("/");
+            const isLast = index === fullPathnames.length - 1;
+            const label = formatLabel(value);
 
-            {fullPathnames.slice(1).map((value, index) => {
-              const to = "/" + fullPathnames.slice(0, index + 2).join("/");
-              const isLast = index === fullPathnames.length - 2;
-              const label = formatLabel(value);
-
-              return isLast ? (
-                <Typography
-                  sx={{
-                    fontSize: isMobile ? "14px" : "32px",
-                    fontWeight: "700",
-                    color: "#000000",
-                  }}
-                  color="text.primary"
-                  key={to}
-                >
-                  {label}
-                </Typography>
-              ) : (
-                <Link
-                  underline="hover"
-                  color="inherit"
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: isMobile ? "14px" : "32px",
-                    fontWeight: "700",
-                    color: "#000000",
-                    "&:hover": {
-                      color: "#6947DB",
-                      textDecoration: "none",
-                    },
-                  }}
-                  onClick={() => navigate(to)}
-                  key={to}
-                >
-                  {label}
-                </Link>
-              );
-            })}
+            return isLast ? (
+              <Typography
+                sx={{
+                  fontSize: isMobile ? "14px" : "32px",
+                  fontWeight: "700",
+                  color: (theme) => theme.palette.breadcrumb,
+                }}
+                color="text.primary"
+                key={to}
+              >
+                {label}
+              </Typography>
+            ) : (
+              <Link
+                underline="hover"
+                color="inherit"
+                sx={{
+                  cursor: "pointer",
+                  fontSize: isMobile ? "14px" : "32px",
+                  fontWeight: "700",
+                  color: (theme) => theme.palette.breadcrumb,
+                  "&:hover": {
+                    color: "#6947DB",
+                    textDecoration: "none",
+                  },
+                }}
+                onClick={() => navigate(to)}
+                key={to}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </Breadcrumbs>
       </Box>
     </div>

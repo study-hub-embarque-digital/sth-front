@@ -5,8 +5,9 @@ import globalService from "../../services/globalService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { permissions } from "../../utils/permissions";
+import React from "react";
 
-export default function ListagemAlunos() {
+export default function ListagemMentores() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -14,38 +15,42 @@ export default function ListagemAlunos() {
 
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
-    { id: "email", label: "Email", minWidth: 250 },
-    { id: "curso", label: "Curso", minWidth: 150 },
-    { id: "periodo", label: "Período", minWidth: 100 },
-    { id: "instituicao", label: "Instituição", minWidth: 200 },
-    { id: "coordenador", label: "Coordenador", minWidth: 200 },
+    { id: "cargo", label: "Cargo", minWidth: 150 },
+    { id: "areaAtuacao", label: "Área de Atuação", minWidth: 200 },
+    { id: "numeroSquads", label: "Número de Squads", minWidth: 150 },
+    { id: "empresa", label: "Empresa", minWidth: 200 },
   ];
 
-  const loadAlunos = async () => {
+  const loadMentores = async () => {
     try {
       setLoading(true);
-      const response = await globalService.getAllAlunos();
+      const response = await globalService.getAllMentores();
 
-      const formattedData = response.map((aluno) => ({
-        alunoId: aluno.alunoId,
-        nome: aluno.usuarioDto?.nome || "N/A",
-        email: aluno.usuarioDto?.email || "N/A",
-        curso: aluno.curso || "N/A",
-        periodo: aluno.periodo || "N/A",
-        instituicao: aluno.instituicaoEnsinoDto?.nome || "N/A",
-        coordenador: aluno.instituicaoEnsinoDto?.coordenador || "N/A",
-      }));
+      const formattedData = response.map((mentor) => {
+        const jobs = mentor.usuarioDto?.jobs || [];
+        const lastJob = jobs[jobs.length - 1]; // pega o último, se existir
+
+        return {
+          mentorId: mentor.id,
+          nome: mentor.usuarioDto?.nome || "N/A",
+          cargo: lastJob?.cargo || "N/A",
+          areaAtuacao: lastJob?.areaAtuacao || "N/A",
+          numeroSquads: mentor.squadDtos?.length || 0,
+          empresa: lastJob?.empregador?.nomeEmpresa || "N/A",
+        };
+      });
+
 
       setData(formattedData);
     } catch (error) {
-      console.error("Erro ao carregar os alunos:", error);
+      console.error("Erro ao carregar os mentores:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadAlunos();
+    loadMentores();
   }, []);
 
   return (
@@ -77,13 +82,13 @@ export default function ListagemAlunos() {
         <ResponsiveTable
           columns={columns}
           data={data}
-          idProperty="alunoId" // <-- Nome da propriedade com o ID
-          textButton="Cadastrar aluno"
-          onClickAdd={() => navigate("/alunos/cadastro")}
+          idProperty="mentorId" // <-- Nome da propriedade com o I
+          textButton="Cadastrar mentor"
+          onClickAdd={() => navigate("/mentores/cadastro")}
           onClickDetails={(id) => {
-            navigate(`/alunos/detalhes-aluno/${id}`);
+            navigate(`/mentores/detalhes-mentor/${id}`);
           }}
-          hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+          hasPermission={hasPermission(permissions.WRITE_MENTORES)}
         />
       )}
     </>
