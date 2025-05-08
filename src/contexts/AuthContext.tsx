@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { TokenHandler } from "../utils/TokenHandler";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 interface IAuthContext {
   isAuthenticated: boolean;
@@ -9,6 +10,7 @@ interface IAuthContext {
   hasAnyRole: (roles: string[]) => boolean;
   hasPermission: (permission: string) => boolean;
   hasAnyPermission: (permissions: string[]) => boolean;
+  logout: () => void;
 }
 
 interface IAuthProvider {
@@ -38,6 +40,7 @@ const AuthContext = createContext<IAuthContext | undefined>(undefined);
 const AuthProvider = ({ children }: IAuthProvider) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     verifyIsAuthenticatedUser();
@@ -85,6 +88,12 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     [user]
   );
 
+  const logout = () => {
+    TokenHandler.removeTokens();
+    setIsAuthenticated(false);
+    navigate('/login');
+  }
+
   const authContextValue = useMemo(() => ({
     isAuthenticated,
     user,
@@ -92,6 +101,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     hasAnyRole,
     hasPermission,
     hasAnyPermission,
+    logout
   }), [isAuthenticated, user, hasRole, hasAnyRole, hasPermission, hasAnyPermission]);
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;

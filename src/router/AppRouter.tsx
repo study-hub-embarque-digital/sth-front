@@ -1,3 +1,4 @@
+import React from "react";
 import LoginPage from "../pages/login/LoginPage";
 import Squad from "../features/mentor/squad/Squad";
 import Artigos from "../features/mentor/artigos/Artigos";
@@ -19,7 +20,6 @@ import StudentArtigosPage from "../features/student/artigos/StudentArtigosPage";
 import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
 import EditPost from "../features/student/post/EditPost";
 import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
-import { RoomsPage } from "../features/student/rooms/Rooms";
 import { permissions } from "../utils/permissions";
 import { RoomDetail } from "../pages/room/detail/RoomDetail";
 import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
@@ -38,9 +38,8 @@ const AppRouter = () => {
       <Route path="/register/student" element={<StudentRegisterPage />} />
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
-      <Route path="/rooms-page" element={<RoomsPage />} />
-      <Route path="/admin" element={<AdminPage />} > 
-      <Route path="alunos" element={<ListagemAlunos />} />
+      <Route path="/admin" element={<AdminPage />} >
+        <Route path="alunos" element={<ListagemAlunos />} />
 
       </Route>
 
@@ -89,37 +88,37 @@ const AppRouter = () => {
 
         }
       >
-      
+        <Route path="rooms" element={
+          <PrivateRoute permission={permissions.READ_ROOMS}>
+            <Rooms />
+          </PrivateRoute>
+        } />
+
+        <Route path="rooms/:roomId" element={
+          <PrivateRoute permission={permissions.READ_ROOMS}>
+            <RoomDetail />
+          </PrivateRoute>
+        } />
+
+        <Route path="rooms/:roomId/:salaTematicaId" element={
+          <PrivateRoute permission={permissions.READ_ROOMS}>
+            <RoomMeeting />
+          </PrivateRoute>
+        } />
       </Route>
 
       <Route path="student/comunidade-aluno" element={<Post />} />
       <Route path="/editar-post" element={<EditPost />} />
       <Route path="student/artigos" element={<StudentArtigosPage />} />
       <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
-      <Route path="student/forum" element={<StudentForumPage/>} />
+      <Route path="student/forum" element={<StudentForumPage />} />
       <Route path="student/forum/duvida/:id" element={<StudentForumDetailsPage />} />
-      
-      <Route path="rooms" element={
-        <PrivateRoute permission={permissions.READ_ROOMS}>
-          <Rooms />
-        </PrivateRoute>
-      } />
 
-      <Route path="rooms/:roomId" element={
-        <PrivateRoute permission={permissions.READ_ROOMS}>
-          <RoomDetail />
-        </PrivateRoute>
-      } />
 
-<Route path="rooms/:roomId/:salaTematicaId" element={
-        <PrivateRoute permission={permissions.READ_ROOMS}>
-          <RoomMeeting />
-        </PrivateRoute>
-      } />
 
 
       {/* Redireciona para a tela de seleção de perfil caso não encontre a rota */}
-      <Route path="*" element={<Navigate to="/profile" />} />
+      <Route path="*" element={<Navigate to="/student" />} />
     </Routes>
   );
 };

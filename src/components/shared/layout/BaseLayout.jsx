@@ -68,8 +68,8 @@ export default function BaseLayout({ children, homePath, menuItems, removeLast=f
               flexGrow: 1,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              // alignItems: "center",
+              // justifyContent: "center",
               paddingY: 3,
             }}
           >
