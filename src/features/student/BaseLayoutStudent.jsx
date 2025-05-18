@@ -7,7 +7,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import ArticleIcon from '@mui/icons-material/Article';
 import ForumIcon from '@mui/icons-material/Forum'; 
 
-export default function BaseLayoutStudent({ Component, removeLast=false }) {
+export default function BaseLayoutStudent({children, removeLast=false }) {
   const menuItems = [
     { text: "Home", icon: HomeRoundedIcon, route: "/student" },
     { text: 'Comunidade', icon: PeopleIcon, route: "/student/comunidade-aluno"},
@@ -19,7 +19,7 @@ export default function BaseLayoutStudent({ Component, removeLast=false }) {
   ];
   return (
     <BaseLayout homePath="/student" menuItems={menuItems} removeLast={removeLast}>
-      <Component/>
+      {children}
     </BaseLayout>
   );
 }

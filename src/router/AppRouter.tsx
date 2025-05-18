@@ -17,7 +17,7 @@ import StudentRegisterPage from "../pages/register/student/StudentRegisterPage";
 import RepresentanteRegisterPage from "../pages/register/representative/RepresentanteRegisterPage";
 import Post from "../features/student/post/Post";
 import StudentArtigosPage from "../features/student/artigos/StudentArtigosPage";
-import StudentArtigoDetalhes from "../features/student/artigos/StudentArtigoDetalhes";
+import StudentArtigoDetalhesPage from "../features/student/artigos/StudentArtigosDetalhesPage";
 import EditPost from "../features/student/post/EditPost";
 import MentorRegisterPage from "../pages/register/mentor/MentorRegisterPage";
 import { permissions } from "../utils/permissions";
@@ -110,7 +110,7 @@ const AppRouter = () => {
       <Route path="student/comunidade-aluno" element={<Post />} />
       <Route path="/editar-post" element={<EditPost />} />
       <Route path="student/artigos" element={<StudentArtigosPage />} />
-      <Route path="student/artigos/:id" element={<StudentArtigoDetalhes />} />
+      <Route path="student/artigos/:id" element={<StudentArtigoDetalhesPage />} />
       <Route path="student/forum" element={<StudentForumPage />} />
       <Route path="student/forum/duvida/:id" element={<StudentForumDetailsPage />} />
 

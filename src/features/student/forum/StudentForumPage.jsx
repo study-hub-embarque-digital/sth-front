@@ -3,6 +3,8 @@ import StudentForum from "./StudentForum";
 
 export default function StudentForumPage() {
   return (
-    <BaseLayoutStudent Component={StudentForum}></BaseLayoutStudent>
+    <BaseLayoutStudent>
+      <StudentForum/>
+    </BaseLayoutStudent>
   );
 }

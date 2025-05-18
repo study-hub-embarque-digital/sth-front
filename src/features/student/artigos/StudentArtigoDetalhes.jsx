@@ -5,8 +5,7 @@ import LayoutAluno from "../../../components/LayoutAluno";
 import BreadcrumbsNav from "../../../components/aluno/BreadcrumbsNav";
 import artigoService from "../../../services/artigoService";
 
-const StudentArtigoDetalhes = () => {
-  const { id } = useParams();
+const StudentArtigoDetalhes = ({id}) => {
   const [artigo, setArtigo] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -31,18 +30,28 @@ const StudentArtigoDetalhes = () => {
     }
   };
 
+  const formatarData = (data) => {
+    if (!data) return "Data desconhecida"; 
+  
+    const dateObj = new Date(data); 
+    return isNaN(dateObj.getTime()) ? "Data inválida" : 
+      new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }).format(dateObj);
+  };
+
   if (!artigo) return <p>Carregando artigo...</p>;
 
   return (
-    <LayoutAluno>
-      <BreadcrumbsNav />
       <Box sx={{ p: 3 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
           {artigo.titulo}
         </Typography>
-        <Typography variant="subtitle1" sx={{ mb: 2 }}>
-          Por: {artigo.autor_usuario_id} | {new Date().toLocaleDateString()}
+        <Typography variant="subtitle1">
+          Por: {artigo.autor.nome}
         </Typography>
+        <Typography variant="subtitle2" sx={{ mb: 4 }}>
+         Atualizado em {formatarData(artigo.atualizadoEm)}
+        </Typography>
+
         <Typography variant="body1" sx={{ mb: 2 }}>
           {artigo.conteudo}
         </Typography>
@@ -82,7 +91,6 @@ const StudentArtigoDetalhes = () => {
           Comentar
         </Button>
       </Box>
-    </LayoutAluno>
   );
 };
 

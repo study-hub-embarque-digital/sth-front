@@ -1,4 +1,3 @@
-// Função principal para fazer requisição API
 import { httpClient } from "../api/api";
 
 const fetchAnswers = async (id) => {
@@ -24,5 +23,4 @@ const postAnswer = async (answerData) => {
 
 };
 
-// Exporte as funções para uso em outras partes do código
 export { fetchAnswers, postAnswer };

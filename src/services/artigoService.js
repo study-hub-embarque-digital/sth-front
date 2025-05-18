@@ -41,8 +41,32 @@ const searchArtigos = async (searchTerm, searchBy = 'titulo') => {
   }
 };
 
+const postArtigo = async (newArtigo) => {
+  try {
+    const response = await httpClient.post(`/artigo`,newArtigo);
+    return response.data;
+  } catch (error) {
+    console.error("Erro no serviço de artigo:", error);
+    throw error;
+  }
+
+};
+
+const getTags = async () => {
+  try {
+    const response = await httpClient.get("/tags");
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro no serviço de duvida:", error);
+    throw error;
+  }
+};
+
 export default {
   getAllArtigos,
   getArtigoDetalhes,
   searchArtigos,
+  postArtigo,
+  getTags
 };
