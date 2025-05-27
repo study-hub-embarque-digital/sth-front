@@ -1,6 +1,4 @@
 export const permissions = {
-  READ_ROOMS: "read:rooms"
-}export const permissions = {
   READ_ADMINS: "read:admins",
   WRITE_ADMINS: "write:admins",
   DELETE_ADMINS: "delete:admins",
