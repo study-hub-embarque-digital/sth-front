@@ -65,7 +65,7 @@ const createAluno = async (data: Record<string, any>) => {
 
 const createMentor = async (data: Record<string, any>) => {
   try {
-    const response = await httpClient.post("/mentores", data);
+    const response = await httpClient.post(`/${profile}/mentores`, data);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar mentor:", error);
@@ -76,6 +76,16 @@ const createMentor = async (data: Record<string, any>) => {
 const getAllSquads = async () => {
   try {
     const response = await httpClient.get("/squads");
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar squads:", error);
+    throw error;
+  }
+};
+
+const getSquadById = async (id: string) => {
+  try {
+    const response = await httpClient.get(`/squads/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar squads:", error);
@@ -97,9 +107,14 @@ const buscarEmpregadorPorCnpj = async (cnpj: string) => {
   try {
     const response = await httpClient.get(`/empregadores/cnpj/${cnpj}`);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      // Empregador não encontrado — retornar null
+      return null;
+    }
+
     console.error("Erro ao buscar empregador por CNPJ:", error);
-    return null;
+    throw error; // repropaga para que o front saiba que houve erro real (500, etc)
   }
 };
 
@@ -123,6 +138,75 @@ const criarJob = async (data: any) => {
   }
 };
 
+const getAllRepresentantes = async () => {
+  try {
+    const response = await httpClient.get(`/${profile}/representantes`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar representantes:", error);
+    throw error;
+  }
+};
+
+const getRepresentanteById = async (id: string) => {
+  try {
+    const response = await httpClient.get(`/${profile}/representantes/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar representante por ID:", error);
+    throw error;
+  }
+};
+
+const updateRepresentante = async (id: string, payload: any) => {
+  try {
+    const response = await httpClient.put(
+      `/${profile}/representantes/${id}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar representante:", error);
+    throw error;
+  }
+};
+
+// Método para buscar todas as instituições
+const getAllInstituicoesEnsino = async () => {
+  try {
+    const response = await httpClient.get(`/${profile}/instituicoes`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar instituições:", error);
+    throw error;
+  }
+};
+
+// Método para buscar uma instituição específica
+const getInstituicaoById = async (id) => {
+  try {
+    const response = await httpClient.get(`/${profile}/instituicoes/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar instituição por ID:", error);
+    throw error;
+  }
+};
+
+// Método para atualizar uma instituição
+const updateInstituicao = async (id, payload) => {
+  try {
+    const response = await httpClient.put(
+      `/${profile}/instituicoes/${id}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar instituição:", error);
+    throw error;
+  }
+};
+
 export default {
   getAllAlunos,
   getAlunoById,
@@ -133,7 +217,14 @@ export default {
   updateMentor,
   createMentor,
   getAllSquads,
+  getSquadById,
   buscarEmpregadorPorCnpj,
   criarEmpregador,
   criarJob,
+  getAllRepresentantes,
+  getRepresentanteById,
+  updateRepresentante,
+  getAllInstituicoesEnsino,
+  getInstituicaoById,
+  updateInstituicao,
 };

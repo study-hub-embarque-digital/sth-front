@@ -41,18 +41,22 @@ import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
 
 // Admin
 import AdminPage from "../features/admin/AdminPage";
-import ListagemAlunos from "../features/admin/ListagemAlunos";
-import ListagemSquads from "../features/admin/ListagemSquad";
-import ListagemMentores from "../features/admin/ListagemMentores";
-import CadastroAluno from "../features/admin/cadastro/CadastroAluno";
+import ListagemAlunos from "../features/admin/cadastro/aluno/ListagemAlunos";
+import ListagemSquads from "../features/admin/cadastro/squad/ListagemSquad";
+import ListagemMentores from "../features/admin/cadastro/mentor/ListagemMentores";
+import CadastroAluno from "../features/admin/cadastro/aluno/CadastroAluno";
 import CadastroMentor from "../features/admin/cadastro/mentor/CadastroMentor";
-import CadastroWork from "../features/admin/cadastro/CadastroWork";
-import StudentDetails from "../features/admin/StudentDetails";
+import CadastroWork from "../features/admin/cadastro/emprego/CadastroWork";
+import StudentDetails from "../features/admin/cadastro/aluno/StudentDetails";
 import MentorDetails from "../features/admin/cadastro/mentor/MentorDetails";
-import OrgChart from "../components/shared/orgchart/OrgChart";
+import SquadOrganogram from "../features/admin/cadastro/squad/components/SquadOrganogram";
 
 // RoomsPage fallback
 import RoomsPage from "../pages/room/Rooms";
+import ListagemRepresentantes from "../features/admin/cadastro/representante/ListagemRepresentantes";
+import RepresentanteDetails from "../features/admin/cadastro/representante/RepresentanteDetails";
+import ListagemInstituicoesEnsino from "../features/admin/cadastro/instituicao-ensino/ListagemInstituicoesEnsino";
+import InstituicaoDetails from "../features/admin/cadastro/instituicao-ensino/IntituicaoDetails";
 
 const AppRouter = () => {
   return (
@@ -67,15 +71,28 @@ const AppRouter = () => {
       <Route path="/" element={<BaseLayout homePath="/rooms-page" />}>
         {/* Admin Routes */}
         <Route path="admin" element={<PrivateRoute role="ADMIN"><AdminPage /></PrivateRoute>} />
-        <Route path="chart" element={<OrgChart />} />
         <Route path="alunos" element={<ListagemAlunos />} />
         <Route path="alunos/detalhes-aluno/:id" element={<StudentDetails />} />
         <Route path="alunos/cadastro" element={<CadastroAluno />} />
+
+
         <Route path="mentores" element={<ListagemMentores />} />
         <Route path="mentores/cadastro" element={<CadastroMentor />} />
         <Route path="mentores/detalhes-mentor/:id" element={<MentorDetails />} />
-        <Route path="work/cadastro" element={<CadastroWork />} />
+
         <Route path="squads" element={<ListagemSquads />} />
+        <Route path="squads/cadastro" element={<ListagemSquads />} />
+        <Route path="squads/detalhes-squad/:id" element={<SquadOrganogram />} />
+
+        <Route path="emprego/cadastro/:usuarioId" element={<CadastroWork/>} />
+
+        <Route path="representantes" element={<ListagemRepresentantes />} />
+        <Route path="representantes/cadastro" element={<CadastroMentor />} />
+        <Route path="representantes/detalhes-representante/:id" element={<RepresentanteDetails />} />
+
+         <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
+        <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
+        <Route path="instituicoes/detalhes-instituicao/:id" element={<InstituicaoDetails />} />
       </Route>
 
       {/* Rooms fallback */}

@@ -9,13 +9,13 @@ export default function HeaderComponent({ onToggleMenu }) {
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: (theme) => theme.palette.primary.main,
+        backgroundColor: (theme) => theme.palette.header,
         zIndex: (theme) => theme.zIndex.drawer + 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         padding: {
-          xs: "10px 16px", // celular
-          sm: "15px 24px", // tablet
-          md: "10px 20px", // desktop
+          xs: "10px 16px", 
+          sm: "15px 24px", 
+          md: "10px 20px", 
         },
       }}
     >

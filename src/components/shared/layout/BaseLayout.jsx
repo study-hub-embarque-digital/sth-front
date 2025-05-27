@@ -13,23 +13,23 @@ import BusinessCenterRoundedIcon from "@mui/icons-material/BusinessCenterRounded
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import { Outlet } from "react-router-dom";
 
-  export default function BaseLayout({ homePath, removeLast=false }) {
+export default function BaseLayout({ homePath, removeLast = false }) {
   const menuItems = [
     { text: "Home", icon: HomeRoundedIcon, route: "/admin" },
     { text: "Squads", icon: GroupsRoundedIcon, route: "/squads" },
     { text: "Alunos", icon: SchoolRoundedIcon, route: "/alunos" },
     // { text: "Empresas", icon: MapsHomeWorkRoundedIcon, route: "" },
-    // { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "" },
+    { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "instituicoes" },
     {
       text: "Mentores",
       icon: FolderRoundedIcon,
       route: "/mentores",
     },
-    // {
-    //   text: "Mentores",
-    //   icon: BusinessCenterRoundedIcon,
-    //   route: "/mentores",
-    // },
+    {
+      text: "Representantes",
+      icon: BusinessCenterRoundedIcon,
+      route: "/representantes",
+    },
     // { text: "I.E's", icon: AccountBalanceRoundedIcon, route: "" },
   ];
   const [open, setOpen] = useState(true);
@@ -72,7 +72,7 @@ import { Outlet } from "react-router-dom";
           }}
         >
           <Container maxWidth="xl">
-            <Breadcrumb homePath={homePath} removeLast={removeLast}/>
+            <Breadcrumb homePath={homePath} removeLast={removeLast} />
           </Container>
 
           <Container

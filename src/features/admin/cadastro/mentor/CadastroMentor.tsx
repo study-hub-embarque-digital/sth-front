@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import globalService from "../../../../services/globalService";
 import { mentorSingupFields } from "./mentorFilds";
+import { jwtDecode } from "jwt-decode";
+import { decode } from "punycode";
 
 export default function CadastroMentor() {
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ export default function CadastroMentor() {
   // Função para converter a notação de ponto em objetos aninhados
   function convertDotNotationToNestedObject(flatObj: Record<string, any>) {
     const nestedObj: Record<string, any> = {};
-  
+
     for (const key in flatObj) {
       const keys = key.split(".");
       keys.reduce((acc, k, i) => {
@@ -22,16 +24,21 @@ export default function CadastroMentor() {
         return acc[k];
       }, nestedObj);
     }
-  
+
     return nestedObj;
   }
 
   const handleCreateMentor = async (formData: Record<string, any>) => {
     try {
       const nestedData = convertDotNotationToNestedObject(formData);  // Converte dados planos para aninhados
-      await globalService.createMentor(nestedData);
+      const response = await globalService.createMentor(nestedData);
+      const usuarioId = response.usuarioDto.usuarioId
+      console.log(response)
       alert("Mentor cadastrado com sucesso!");
-      navigate("/mentores");
+
+      navigate(`/emprego/cadastro/${usuarioId}`, {
+        state: { from: "/mentor/cadastro" }  // ou use useLocation().pathname se for dinâmico
+      });
     } catch (error) {
       console.error("Erro ao cadastrar mentor:", error);
       alert("Erro ao cadastrar mentor");

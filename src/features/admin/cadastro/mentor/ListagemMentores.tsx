@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { ResponsiveTable } from "../../components/shared/table/ResponsiveTable";
+import { ResponsiveTable } from "../../../../components/shared/table/ResponsiveTable";
 import { Skeleton } from "@mui/material";
-import globalService from "../../services/globalService";
+import globalService from "../../../../services/globalService";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { permissions } from "../../utils/permissions";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { permissions } from "../../../../utils/permissions";
 import React from "react";
 
 export default function ListagemMentores() {
@@ -15,8 +15,6 @@ export default function ListagemMentores() {
 
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
-    { id: "cargo", label: "Cargo", minWidth: 150 },
-    { id: "areaAtuacao", label: "Área de Atuação", minWidth: 200 },
     { id: "numeroSquads", label: "Número de Squads", minWidth: 150 },
     { id: "empresa", label: "Empresa", minWidth: 200 },
   ];
@@ -26,20 +24,12 @@ export default function ListagemMentores() {
       setLoading(true);
       const response = await globalService.getAllMentores();
 
-      const formattedData = response.map((mentor) => {
-        const jobs = mentor.usuarioDto?.jobs || [];
-        const lastJob = jobs[jobs.length - 1]; // pega o último, se existir
-
-        return {
-          mentorId: mentor.id,
-          nome: mentor.usuarioDto?.nome || "N/A",
-          cargo: lastJob?.cargo || "N/A",
-          areaAtuacao: lastJob?.areaAtuacao || "N/A",
-          numeroSquads: mentor.squadDtos?.length || 0,
-          empresa: lastJob?.empregador?.nomeEmpresa || "N/A",
-        };
-      });
-
+      const formattedData = response.map((mentor) => ({
+        mentorId: mentor.id,
+        nome: mentor.usuarioDto?.nome || "N/A",
+        numeroSquads: mentor.squadDtos?.length || 0,
+        empresa: mentor.empresaDto?.nomeFantasia || "N/A",
+      }));
 
       setData(formattedData);
     } catch (error) {
@@ -82,10 +72,10 @@ export default function ListagemMentores() {
         <ResponsiveTable
           columns={columns}
           data={data}
-          idProperty="mentorId" // <-- Nome da propriedade com o I
+          idProperty="mentorId"
           textButton="Cadastrar mentor"
           onClickAdd={() => navigate("/mentores/cadastro")}
-          onClickDetails={(id) => {
+          onClickDetails={(id: string) => {
             navigate(`/mentores/detalhes-mentor/${id}`);
           }}
           hasPermission={hasPermission(permissions.WRITE_MENTORES)}

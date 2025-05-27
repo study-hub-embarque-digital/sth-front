@@ -5,4 +5,5 @@ export interface IFormField {
   options?: { value: string | number; label: string }[];
   required?: boolean;
   accept?: string; // <- Para arquivos
+  disabledOnEdit?: boolean; // <-- nova propriedade
 }
