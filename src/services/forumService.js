@@ -37,5 +37,4 @@ const getTags = async () => {
   }
 };
 
-
 export { getDuvidas, getTags, postDuvida};

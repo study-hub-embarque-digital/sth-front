@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getDuvidas, getTags, postDuvida } from "../../../services/forumService"
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { green } from '@mui/material/colors';
 import { 
   Paper, Typography, Chip, Container, CircularProgress, Stack, Box,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,  Autocomplete, InputAdornment
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,  Autocomplete, InputAdornment, Avatar
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import {  Search as SearchIcon, Add as AddIcon } from '@mui/icons-material';
@@ -71,7 +73,7 @@ export default function ForumPage() {
   //new duvida
   const token = TokenHandler;
   const decoded = jwtDecode(token.accessToken);
-  const usuarioId = decoded.sub;
+  const usuarioId = decoded.usuarioId;
   const [allTags, setAllTags] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const handleOpenForm = () => setOpenForm(true);
@@ -116,8 +118,14 @@ export default function ForumPage() {
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
 
+  function formatarData(data) {
+  const diff = Math.floor((new Date() - new Date(data)) / (1000 * 60 * 60 * 24));
+  return diff === 0 ? 'hoje' : `há ${diff} dia${diff > 1 ? 's' : ''}`;
+}
+
+
   return (
-<Container sx={{ padding: 0, margin: 0, display: 'flex', flexDirection: 'column',minHeight: '100vh', position: 'relative', pb: 8}}>
+<Container sx={{ padding: 0, margin: 0, marginRight:10, marginLeft:10, display: 'flex', flexDirection: 'column',minHeight: '100vh', position: 'relative', pb: 8}}>
   
 <TextField
   fullWidth
@@ -139,80 +147,108 @@ export default function ForumPage() {
     }
   }}
 />
-  
-  <Stack spacing={2}>
-    {filteredDuvidas.map((duvida) => {
-      return (
-        <Paper 
-  elevation={0}
-  key={duvida.duvidaId}
-  onClick={() => navigate(`/student/forum/duvida/${duvida.duvidaId}`)}
-  sx={{ 
-    padding: 2,
-    borderLeft: '4px solid',
-    borderColor: 'primary.main',
-    borderRadius: 0,
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'action.hover',
-    }
-  }}
->
-  <Typography variant="h5" sx={{ mb: 1, fontWeight: 600 }}>{duvida.titulo}</Typography>
-  <Typography variant="body1" sx={{ mb: 2, lineHeight: 1.6 }}>
-    {duvida.descricao}
-  </Typography>
-  
-  <Box sx={{ 
-    display: 'flex',
-    flexDirection: { xs: 'column', sm: 'row' },
-    justifyContent: 'space-between',
-    alignItems: { xs: 'flex-start', sm: 'center' },
-    gap: 1
-  }}>
-    <Box sx={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 1,
-      maxWidth: { xs: '100%', sm: '60%' }, 
-      overflow: 'hidden',
-      minHeight: '32px'
-    }}>
+<Stack spacing={2}>
+  {filteredDuvidas.map((duvida) => (
+    <Paper
+      elevation={1}
+      key={duvida.duvidaId}
+      onClick={() => navigate(`/student/forum/duvida/${duvida.duvidaId}`)}
+      sx={{
+        p: 2,
+        borderRadius: 3,
+        cursor: 'pointer',
+        '&:hover': { boxShadow: 3 },
+      }}
+    >
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: '1fr auto' },
+          gridTemplateRows: { xs: 'auto auto auto', sm: 'auto auto' },
+          gap: 1.5,
+        }}
+      >
+        {/* Check + Título */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {duvida.resolvida ? (
+            <CheckCircleIcon sx={{ color: green[500], fontSize: 24 }} />
+          ) : (
+            <Box sx={{ width: 24, height: 24 }} />
+          )}
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {duvida.titulo}
+          </Typography>
+        </Box>
 
-      {duvida.tags.map((tag, index) => (
-        <Chip 
-          key={index} 
-          label={tag} 
-          size="small"
-          variant="outlined"
-          onClick={(e) => e.stopPropagation()}
+        {/* Avatar + Data */}
+        <Box
           sx={{
-            flexShrink: 0 
-          }}  
-        />
-      ))}
-    </Box>
-    
-    {/* Container de metadados */}
-    <Box sx={{ 
-      display: 'flex',
-      flexDirection: { xs: 'column', sm: 'row' },
-      alignItems: { xs: 'flex-start', sm: 'center' },
-      gap: { xs: 0.5, sm: 2 },
-      flexShrink: 0
-    }}>
-      <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 'medium' }}>
-        {duvida.respostasCount || 0} respostas
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        Postado por {duvida.nomeUsuario} • {new Date(duvida.criadoEm).toLocaleString()}
-      </Typography>
-    </Box>
-  </Box>
-</Paper>
-      );
-    })}
-  </Stack>
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: "space-between",
+            gap: 1,
+            gridRow: { sm: '1 / span 2' },
+            gridColumn: { xs: '1', sm: '2' },
+          }}
+        >
+        <Box
+          sx={{
+            textAlign: 'center',
+            minWidth: '80px',
+            alignSelf: { xs: 'flex-start', sm: 'center' },
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            {duvida.quantidadeSolucoes || 0}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {`resposta${duvida.quantidadeSolucoes === 1 ? '' : 's'}`}
+          </Typography>
+        </Box>
+          <Avatar
+            alt={duvida.nomeUsuario}
+            src={duvida.avatarUrl}
+            sx={{ width: 45, height: 45 }}
+          />
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{ color: 'primary.main', fontWeight: 500 }}
+            >
+              {duvida.nomeUsuario}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              atualizado {formatarData(duvida.criadoEm)}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Tags - sempre abaixo do título em telas grandes */}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            mt: { xs: 0, sm: 0.5 },
+          }}
+        >
+          {duvida.tags.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              size="small"
+              sx={{
+                backgroundColor: 'grey.200',
+                fontSize: '0.75rem',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            />
+          ))}
+        </Box>
+      </Box>
+    </Paper>
+  ))}
+</Stack>
   <Button
   variant="contained"
   onClick={handleOpenForm}

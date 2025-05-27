@@ -23,4 +23,15 @@ const postAnswer = async (answerData) => {
 
 };
 
-export { fetchAnswers, postAnswer };
+const markAsResolved = async (duvidaId) => {
+  try{
+  const response = await httpClient.patch(`/duvidas/${duvidaId}/resolvida`);
+  return response.data;
+  }
+  catch (error) {
+    console.error("Erro no serviço de duvida:", error);
+    throw error;
+  }
+  };
+
+export { fetchAnswers, postAnswer, markAsResolved};
