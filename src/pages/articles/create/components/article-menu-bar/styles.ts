@@ -24,7 +24,6 @@ export const ArticleMenuBarSelect = styled(Select)(({ theme }) => [
     height: '50px',
     marginBottom: '5px',
     [theme.breakpoints.down('sm')]: {
-    
   }
   } as CSSObject,
   theme.applyStyles('dark', {
