@@ -10,7 +10,7 @@ export const Logo = () => {
       {isSmallScreen ? (
         <svg
           viewBox="0 0 550 384"
-          style={{ width: "100%", height: "auto" }} // Ajusta o SVG para o tamanho da Box
+          style={{ width: "100%", height: "auto" }} 
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >

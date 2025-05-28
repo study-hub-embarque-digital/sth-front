@@ -53,7 +53,7 @@ const useLoginPage = () => {
       localStorage.setItem("profile", profile);
 
       if (profile) {
-        navigate(`/${profile}`);       
+        navigate(`/home`);       
       } else {
         console.error("Perfil não selecionado");
       }

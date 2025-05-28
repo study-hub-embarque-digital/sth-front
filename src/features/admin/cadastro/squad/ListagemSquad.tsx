@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ResponsiveTable } from "../../components/shared/table/ResponsiveTable";
-import globalService from "../../services/globalService";
+import { ResponsiveTable } from "../../../../components/shared/table/ResponsiveTable";
+import globalService from "../../../../services/globalService";
 import React from "react";
 import { Skeleton } from "@mui/material";
+import { permissions } from "../../../../utils/permissions";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 export default function ListagemSquads() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { hasPermission } = useAuth();
+
 
     const navigate = useNavigate();
 
     const columns = [
         { id: "nome", label: "Nome", minWidth: 170 },
         { id: "tipo", label: "Tipo", minWidth: 100 },
-        { id: "mentorId", label: "Mentor ID", minWidth: 200 },
-        { id: "empresaId", label: "Empresa ID", minWidth: 200 },
+        { id: "semestre", label: "Semestre", minWidth: 100 },
+        { id: "ciclo", label: "Ciclo", minWidth: 200 },
+        { id: "empresaNome", label: "Empresa", minWidth: 200 },
     ];
+
 
     const loadSquads = async () => {
         try {
@@ -60,7 +66,17 @@ export default function ListagemSquads() {
                     </tbody>
                 </table>
             ) : (
-                <ResponsiveTable columns={columns} data={data} />
+                <ResponsiveTable
+                    columns={columns}
+                    data={data}
+                    idProperty="squadId"
+                    textButton="Cadastrar Squad"
+                    onClickAdd={() => navigate("/squads/cadastro")}
+                    onClickDetails={(id: string) => {
+                        navigate(`/squads/detalhes-squad/${id}`);
+                    }}
+                    hasPermission={hasPermission(permissions.WRITE_SQUADS)}
+                />
             )}
         </>
     );

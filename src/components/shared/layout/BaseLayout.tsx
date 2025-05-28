@@ -4,7 +4,6 @@ import HeaderComponent from "../header/Header";
 import { SideMenu } from "../side-menu/SideMenu";
 import { Breadcrumb } from "../breadcumb/Breadcumb";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Outlet } from "react-router-dom";
 import { menuItems } from "./menu-items";
 
 interface IBaseLayout {
@@ -13,7 +12,7 @@ interface IBaseLayout {
   children?: React.ReactNode
 }
 
-export default function BaseLayout({ homePath, removeLast = false, children }: IBaseLayout) {
+export default function BaseLayout({ homePath, removeLast = false, children }: Readonly<IBaseLayout>) {
   const [open, setOpen] = useState(true);
   const drawerWidth = 120;
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -80,7 +79,6 @@ export default function BaseLayout({ homePath, removeLast = false, children }: I
                 flexDirection: "column",
               }}
             >
-              {/* <Outlet /> */}
               {children}
             </Box>
           </Container>

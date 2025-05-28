@@ -8,6 +8,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import ArticleIcon from '@mui/icons-material/Article';
 import ForumIcon from '@mui/icons-material/Forum';
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
+import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material";
 import { permissions } from "../../../utils/permissions";
@@ -43,6 +45,18 @@ const menuItems: IMenuItem[] = [
     icon: FolderRoundedIcon,
     route: "/mentores",
     permissions: [permissions.READ_MENTORES]
+  },
+  {
+    text: "I.E's",
+    icon: AccountBalanceRoundedIcon,
+    route: "/instituicoes",
+    permissions: [permissions.READ_INSTITUICOES_ENSINO]
+  },
+  {
+    text: "Representantes",
+    icon: BusinessCenterRoundedIcon,
+    route: "/representantes",
+    permissions: [permissions.READ_REPRESENTANTES]
   },
   {
     text: 'Comunidade',

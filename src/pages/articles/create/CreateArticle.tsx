@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ArticleMenuBar } from "./components/article-menu-bar/ArticleMenuBar";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Box, Chip, Stack, TextField, Typography } from "@mui/material";
+import { Box, Chip, Stack, TextField } from "@mui/material";
 import { ArticleActionsMenu } from "./components/article-actions-menu/ArticleActionsMenu";
 import { STHEditor } from "./components/sth-editor/SthEditor";
 import { postArticle } from "./service";

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { ResponsiveTable } from "../../components/shared/table/ResponsiveTable";
+import { ResponsiveTable } from "../../../../components/shared/table/ResponsiveTable";
 import { Skeleton } from "@mui/material";
-import globalService from "../../services/globalService";
+import globalService from "../../../../services/globalService";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { permissions } from "../../utils/permissions";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { permissions } from "../../../../utils/permissions";
 
 export default function ListagemAlunos() {
   const [data, setData] = useState([]);
@@ -77,7 +77,7 @@ export default function ListagemAlunos() {
         <ResponsiveTable
           columns={columns}
           data={data}
-          idProperty="alunoId" // <-- Nome da propriedade com o ID
+          idProperty="alunoId" 
           textButton="Cadastrar aluno"
           onClickAdd={() => navigate("/alunos/cadastro")}
           onClickDetails={(id) => {

@@ -1,4 +1,4 @@
-import { IFormField } from "../../../components/shared/forms/IFormField";
+import { IFormField } from "../../../../components/shared/forms/IFormField";
 
 export const empregadorFields: IFormField[] = [
     {

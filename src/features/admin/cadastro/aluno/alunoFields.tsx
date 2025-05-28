@@ -1,7 +1,6 @@
-import { IFormField } from "../../../components/shared/forms/IFormField";
+import { IFormField } from "../../../../components/shared/forms/IFormField";
 
 export const alunoFields: IFormField[] = [
- // Dados do usuário
  { name: "novoUsuarioDto.nome", label: "Nome", type: "text", required: true },
  { name: "novoUsuarioDto.email", label: "Email", type: "text", required: true },
  { name: "novoUsuarioDto.senha", label: "Senha", type: "password", required: true },
@@ -38,7 +37,6 @@ export const alunoFields: IFormField[] = [
    required: true,
  },
  
- // Dados do aluno
  {
    name: "periodo",
    label: "Período",
