@@ -1,3 +1,4 @@
+/// <reference path="./theme.d.ts" />
 import { createTheme } from "@mui/material/styles";
 
 export const LightTheme = createTheme({
@@ -10,12 +11,13 @@ export const LightTheme = createTheme({
     },
     header: "#FFFFFF",
     background: {
-      default: "#FFFFFF",
-      paper: "#F5F5F5",
+      default: "#F8F8F8",
+      paper: "#FFF",
     },
     text: {
       primary: "#1E1E1E",
       secondary: "#444444",
+      caption: '#808080'
     },
     breadcrumb: "#1E1E1E",
     button: "#351C75",

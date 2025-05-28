@@ -11,11 +11,11 @@ interface SectionGroupProps {
   spacing?: number;
 }
 
-export default function SectionGroup({ sections, spacing = 4 }: SectionGroupProps) {
+export default function SectionGroup({ sections, spacing = 4 }: Readonly<SectionGroupProps>) {
   return (
     <Container>
       {sections.map(({ title, content }, index) => (
-        <Box key={index} mb={spacing}>
+        <Box key={`${index}-${title}`} mb={spacing}>
           {title && (
             <Typography variant="h6" fontWeight="bold" mb={2}>
               {title}

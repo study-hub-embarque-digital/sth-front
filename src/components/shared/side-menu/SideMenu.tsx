@@ -1,3 +1,4 @@
+import React, { useRef, useEffect, useState } from "react";
 import {
   Drawer,
   Box,
@@ -18,11 +19,17 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useRef, useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "../../../contexts/AuthContext";
+import { IMenuItem } from "../layout/menu-items";
 
-export const SideMenu = ({ open, drawerWidth, menuItems }) => {
+interface ISideMenu {
+  open: boolean,
+  drawerWidth: number,
+  menuItems: IMenuItem[]
+}
+
+export const SideMenu = ({ open, drawerWidth, menuItems }: ISideMenu) => {
   const location = useLocation();
   const isDesktop = useMediaQuery("(min-width:900px)");
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -31,6 +38,7 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
   const { logout } = useAuth();
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
+  const { hasAnyPermission } = useAuth();
 
   const handleCancel = () => {
     setLogoutDialogOpen(false);
@@ -57,6 +65,7 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
         width: drawerWidth,
         flexShrink: 0,
         zIndex: 1200,
+        backgroundColor: '#FFF',
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
@@ -70,7 +79,7 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
       <Box sx={{ overflow: "auto", height: "calc(100vh - 64px)" }}>
         <List>
           {menuItems.map((item, index) => (
-            <Link
+            (item.permissions.length <= 0 || hasAnyPermission(item.permissions)) && <Link
               to={item.route}
               style={{ textDecoration: "none" }}
               key={`${item.route}_${index}`}
@@ -124,15 +133,12 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
             </Link>
           ))}
         </List>
-
-
       </Box>
 
       <LogoutDialog
         handleAccept={handleAccept}
         handleCancel={handleCancel}
         open={logoutDialogOpen} />
-
 
       <Box
         onClick={() => setLogoutDialogOpen(true)}
@@ -165,7 +171,6 @@ export const SideMenu = ({ open, drawerWidth, menuItems }) => {
 };
 
 const LogoutDialog = ({ open, handleAccept, handleCancel }) => {
-
   return (
     <Dialog
       open={open}

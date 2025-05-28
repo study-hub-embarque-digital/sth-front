@@ -4,11 +4,17 @@ import HeaderComponent from "../header/Header";
 import { SideMenu } from "../side-menu/SideMenu";
 import { Breadcrumb } from "../breadcumb/Breadcumb";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { menuItems } from "./menu-items";
 
-export default function BaseLayout({ children, homePath, menuItems }) {
+interface IBaseLayout {
+  homePath: string,
+  removeLast?: boolean,
+  children?: React.ReactNode
+}
+
+export default function BaseLayout({ homePath, removeLast = false, children }: Readonly<IBaseLayout>) {
   const [open, setOpen] = useState(true);
   const drawerWidth = 120;
-  const [headerHeight, setHeaderHeight] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
@@ -18,23 +24,12 @@ export default function BaseLayout({ children, homePath, menuItems }) {
         flexDirection: "column",
         bgcolor: "background.default",
         minHeight: "100vh",
-        overflow: "hidden",
       }}
     >
-      <Container
-        fixed
-        sx={{ position: "fixed", top: 0, zIndex: 1100, width: "100%" }}
-      >
-        <HeaderComponent
-          onToggleMenu={() => setOpen(!open)}
-          onHeightChange={(height) => setHeaderHeight(height)}
-        />
-      </Container>
+      <HeaderComponent onToggleMenu={() => setOpen(!open)} />
 
-      <Box
-        sx={{ display: "flex", flexGrow: 1, marginTop: "64px", zIndex: "0" }}
-      >
-        {open && !isMobile && (
+      <Box sx={{ display: "flex", flexGrow: 1, marginTop: "80px" }}>
+        {open && (
           <Box sx={{ width: drawerWidth, flexShrink: 0 }}>
             <SideMenu
               open={open}
@@ -55,32 +50,31 @@ export default function BaseLayout({ children, homePath, menuItems }) {
             alignItems: "center",
             minWidth: "320px",
             width: "100%",
-            paddingTop: `${headerHeight}px`,
           }}
         >
           <Container maxWidth="xl">
-            <Breadcrumb homePath={homePath} removeLast={true} />
+            <Breadcrumb homePath={homePath} removeLast={removeLast} />
           </Container>
 
           <Container
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
+              maxWidth: "100%",
               flexGrow: 1,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
-              paddingY: 3,
+              justifyContent: "flex-start",
+              paddingY: 0,
             }}
           >
             <Box
               sx={{
                 width: "100%",
-                maxWidth: "1200px",
-                padding: 2,
+                maxWidth: "100%",
                 boxSizing: "border-box",
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 flexDirection: "column",
               }}

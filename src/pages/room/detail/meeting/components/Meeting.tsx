@@ -5,6 +5,7 @@ import { DarkTheme } from "../../../../../theme";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import { InformationCard } from "./InformationCard";
 import { IApresentacao, IDiscussion } from "../useRoomMeeting";
+import { PersonalizedMeeting } from "./PersonalizedMeeting";
 
 interface IMeeting {
   reuniao?: any,
@@ -35,28 +36,26 @@ const Meeting = ({ reuniao, topicos, apresentacoes, apresentacaoAtual, discussio
     <Container sx={{ width: '100%', height: '100%', flexDirection: 'column', justifyContent: 'space-evenly', padding: '10px' }
     }>
       <Box>
-        {token !== "" && <JaaSMeeting
+        {token !== "" && <PersonalizedMeeting
           appId="vpaas-magic-cookie-5949bf32cbbe4eb082c593fa88929944"
           jwt={token}
-          roomName={reuniao?.reuniaoId}
+          roomName={`vpaas-magic-cookie-5949bf32cbbe4eb082c593fa88929944/${reuniao?.reuniaoId}`}
           configOverwrite={meetConfigOverwrite}
           interfaceConfigOverwrite={{
             DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
           }}
-          userInfo={{
-            displayName: user?.name ?? 'Anônimo',
-            email: user?.email ?? 'teste@email.com'
-          }}
-          onApiReady={async (externalApi) => {
+          // userInfo={{
+          //   displayName: user?.name ?? 'Anônimo',
+          //   email: user?.email ?? 'teste@email.com'
+          // }}
+          // onApiReady={async (externalApi) => {
             // here you can attach custom event listeners to the Jitsi Meet External API
             // you can also store it locally to execute commands
-            externalApi.addListener('participantJoined', (participant) => {
-              // A cada participante que entra, vamos pegar o stream de vídeo.
-              // console.log('participante juntou nessa porra', participant)
-            });
-            console.log(externalApi)
-          }}
-          getIFrameRef={(iframeRef) => { iframeRef.style.height = '400px'; }}
+            // externalApi.addListener('participantJoined', (participant) => {
+            //   console.log('entrou participante: ', participant)
+            // });
+          // }}
+          // getIFrameRef={(iframeRef) => { iframeRef.style.height = '400px'; }}
         />}
       </Box>
 
