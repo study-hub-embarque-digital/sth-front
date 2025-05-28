@@ -10,9 +10,9 @@ interface IPrivateRoute {
 }
 
 const PrivateRoute = ({ children, role, permission, validateBoth = false }: IPrivateRoute) => {
-  const { hasRole, hasPermission } = useAuth();
+  const { hasRole, hasPermission, user } = useAuth();
 
-  if (!role && !permission) return children;
+  if (!role && !permission && user?.roles && user.roles.length >= 1) return children;
 
   if (!role && permission) return hasPermission(permission) ? children : <Navigate to="/login" />;
 

@@ -17,7 +17,14 @@ export const Breadcrumb = ({ homePath, removeLast = false }) => {
   const isMobile = useMediaQuery("(max-width:600px)");
 
   const formatLabel = (slug) => {
-    return slug
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+    const splitedSlug = slug.split('-');
+    const possibleUuid = splitedSlug?.slice(splitedSlug.length - 5, splitedSlug.length);
+
+    const finalSlug = uuidRegex.test(possibleUuid.join("-")) ? splitedSlug?.slice(0, splitedSlug.length - 5).join("-") : splitedSlug.join("-");
+
+    return finalSlug
       .replace(/-/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase());
   };

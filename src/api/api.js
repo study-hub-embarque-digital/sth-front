@@ -38,12 +38,10 @@ const handle401Error = async (err) => {
 httpClient.interceptors.response.use(
   (res) => res,
   (err) => {
-    console.log('chegou aqui otario', err.config)
     if (!ignoredRoutes.includes(err.config.url) && !err.response.status == 401) {
       return Promise.reject(err);
     };
 
-    console.log('caiu no reject')
     return handle401Error(err);
   }
 );

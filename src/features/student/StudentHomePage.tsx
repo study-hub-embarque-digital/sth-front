@@ -1,33 +1,12 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Container, Stack, useTheme, CircularProgress } from '@mui/material';
+import artigoService from '../../services/artigoService';
+import { getRooms } from '../../services/roomService';
 import RoomCard from '../../components/aluno/RoomCards';
 import ActivityCard from '../../components/aluno/ActivityCard';
-import ArtigoCard from '../../components/aluno/ArtigoCard'; // Importe o ArtigoCard
-import artigoService from '../../services/artigoService'; // Importe o serviço de artigos
-import BaseLayoutStudent from './BaseLayoutStudent';
-import { getRooms } from '../../services/roomService';
-import BaseLayout from "../../components/shared/layout/BaseLayout";
-import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import SchoolIcon from '@mui/icons-material/School';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import ArticleIcon from '@mui/icons-material/Article';
-import ForumIcon from '@mui/icons-material/Forum';
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import { Outlet } from 'react-router-dom';
+import ArtigoCard from '../../components/aluno/ArtigoCard';
 
-
-
-function StudentPage() {
-  const menuItems = [
-    { text: "Home", icon: HomeRoundedIcon, route: "/student" },
-    { text: 'Comunidade', icon: PeopleIcon, route: "student/comunidade-aluno" },
-    { text: 'Artigos', icon: ArticleIcon, route: "student/artigos" },
-    { text: 'Entregas', icon: AssignmentIcon },
-    { text: 'Rooms', icon: SchoolIcon, route: "/student/rooms" },
-    { text: 'Squad', icon: RocketLaunchIcon },
-    { text: 'Fórum', icon: ForumIcon, route: "/student/forum" },
-  ];
+function StudentHomePage() {
   const theme = useTheme();
 
   const [artigos, setArtigos] = useState([]);
@@ -63,23 +42,13 @@ function StudentPage() {
 
 
   return (
-    <BaseLayout homePath="/student" menuItems={menuItems}>
-      <Outlet />
-    </BaseLayout>
-  );
-}
-
-export default StudentPage;
-
-/*
-
-<Container sx={{ 
+    <Container sx={{
       background: theme.palette.background.default,
       minHeight: '100vh',
     }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ 
-          fontWeight: 'bold', 
+        <Typography variant="h4" sx={{
+          fontWeight: 'bold',
           color: 'text.primary',
           mb: 3,
         }}>
@@ -94,9 +63,9 @@ export default StudentPage;
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[1]
         }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 'bold', 
-            color: 'text.primary', 
+          <Typography variant="h5" sx={{
+            fontWeight: 'bold',
+            color: 'text.primary',
             mb: 2,
             display: 'flex',
             alignItems: 'center',
@@ -104,7 +73,7 @@ export default StudentPage;
           }}>
             📚 Trilha Obrigatória
           </Typography>
-          <ActivityCard title="Take Off" featured />
+          <ActivityCard title="Take Off" />
         </Box>
 
         <Box sx={{
@@ -113,9 +82,9 @@ export default StudentPage;
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[1]
         }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 'bold', 
-            color: 'text.primary', 
+          <Typography variant="h5" sx={{
+            fontWeight: 'bold',
+            color: 'text.primary',
             mb: 2,
             display: 'flex',
             alignItems: 'center',
@@ -123,7 +92,7 @@ export default StudentPage;
           }}>
             🏠 Meus Rooms
           </Typography>
-          <Box sx={{ 
+          <Box sx={{
             display: 'flex',
             gap: 3,
             overflowX: 'auto',
@@ -149,9 +118,9 @@ export default StudentPage;
           background: theme.palette.background.paper,
           boxShadow: theme.shadows[1]
         }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 'bold', 
-            color: 'text.primary', 
+          <Typography variant="h5" sx={{
+            fontWeight: 'bold',
+            color: 'text.primary',
             mb: 2,
             display: 'flex',
             alignItems: 'center',
@@ -173,9 +142,9 @@ export default StudentPage;
           boxShadow: theme.shadows[1],
           mb: 4
         }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 'bold', 
-            color: 'text.primary', 
+          <Typography variant="h5" sx={{
+            fontWeight: 'bold',
+            color: 'text.primary',
             mb: 2,
             display: 'flex',
             alignItems: 'center',
@@ -184,11 +153,11 @@ export default StudentPage;
             📰 Artigos Recomendados
           </Typography>
           {loading ? (
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              height: 100 
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 100
             }}>
               <CircularProgress />
             </Box>
@@ -202,6 +171,7 @@ export default StudentPage;
         </Box>
       </Stack>
     </Container>
+  );
+}
 
-
-*/
+export { StudentHomePage };

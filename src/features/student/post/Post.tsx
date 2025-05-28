@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { Box, IconButton, Typography, Fab, Modal, TextField, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
-import ToggleSidebarButton from '../../../components/aluno/ToggleSidebarButton';
-import BreadcrumbsNav from '../../../components/aluno/BreadcrumbsNav';
 import PostCard from '../../../components/aluno/PostCard';
 import SearchBar from '../../../components/aluno/SearchBar';
-import LayoutAluno from '../../../components/LayoutAluno';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const Post = () => {
@@ -17,7 +14,7 @@ const Post = () => {
 
   const [posts, setPosts] = useState([
     {
-      id: 1,
+      id: "1",
       title: "Primeiros passos Docker",
       description: "Lorem ipsum dolor sit amet consectetur. Facilisis sem tortor in quam nec.",
       author: "Camilla Barreto",
@@ -26,7 +23,7 @@ const Post = () => {
       date: "29 de Outubro de 2023",
     },
     {
-      id: 2,
+      id: "2",
       title: "Introdução ao Kubernetes",
       description: "Entenda os conceitos básicos de orquestração de contêineres e suas vantagens.",
       author: "João Silva",
@@ -44,7 +41,7 @@ const Post = () => {
     tags: "",
   });
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  // const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleModal = () => setModalOpen(!modalOpen);
 
   
@@ -70,7 +67,7 @@ const Post = () => {
   };
 
   return (
-    <LayoutAluno title="Comunidade">
+    <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <IconButton sx={{ color: 'white', mr: 1 }}>
           <ArrowBackIcon />
@@ -80,11 +77,11 @@ const Post = () => {
         </Typography>
       </Box>
 
-      <SearchBar />
+      <SearchBar placeholder={"Buscar posts..."}/>
 
       <Box sx={{ mt: 2 }}>
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} onDelete={(id) => setPosts(posts.filter((p) => p.id !== id))} />
+          <PostCard key={post.id} post={post} onDelete={(id: string) => setPosts(posts.filter((p) => p.id !== id))} />
         ))}
       </Box>
 
@@ -169,7 +166,7 @@ const Post = () => {
           </Button>
         </Box>
       </Modal>
-    </LayoutAluno>
+    </>
   );
 };
 
