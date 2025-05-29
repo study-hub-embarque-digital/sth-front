@@ -48,7 +48,6 @@ jobs:
             ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_latest_release.outputs.tag }}
             ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
-            VITE_API_BASEURL: ${{ secrets.VITE_API_BASEURL }}
-            VITE_API_REFRESH_TOKEN_URL: ${{ secrets.VITE_API_REFRESH_TOKEN_URL }}
-            VITE_WS_URL: ${{ secrets.VITE_WS_URL }}
-            
+            VITE_API_BASEURL=${{ secrets.VITE_API_BASEURL }}
+            VITE_API_REFRESH_TOKEN_URL=${{ secrets.VITE_API_REFRESH_TOKEN_URL }}
+            VITE_WS_URL=${{ secrets.VITE_WS_URL }}
