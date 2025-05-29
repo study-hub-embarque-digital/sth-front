@@ -146,7 +146,7 @@ export default function ForumPage() {
         <Paper 
   elevation={0}
   key={duvida.duvidaId}
-  onClick={() => navigate(`/student/forum/duvida/${duvida.duvidaId}`)}
+  onClick={() => navigate(`/home/forum/duvida/${duvida.duvidaId}`)}
   sx={{ 
     padding: 2,
     borderLeft: '4px solid',
