@@ -10,6 +10,7 @@ const useStudentRegisterPageHook = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -20,20 +21,39 @@ const useStudentRegisterPageHook = () => {
     curso: "SI",
     instituicaoEnsinoId: ""
   });
+
   const [instituicoesEnsino, setInstituicoesEnsino] = useState([]);
   const [, , pathForRole] = useAuth();
 
-  
+  // Snackbar State
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error" | "info" | "warning",
+  });
+
+  const showMessage = (
+    message: string,
+    severity: "success" | "error" | "info" | "warning" = "info"
+  ) => {
+    setSnackbar({ open: true, message, severity });
+  };
+
   const handleGetInstituitions = async () => {
-    const dados = await getInstituicoesEnsino()
-    setInstituicoesEnsino(dados);
-  }
+    try {
+      const dados = await getInstituicoesEnsino();
+      setInstituicoesEnsino(dados);
+    } catch (error) {
+      console.error("Erro ao buscar instituições:", error);
+      showMessage("Erro ao buscar instituições", "error");
+    }
+  };
 
   useEffect(() => {
     handleGetInstituitions();
-  }, [])
+  }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -41,17 +61,17 @@ const useStudentRegisterPageHook = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (loading) return;
 
-    setLoading(true);
-
     if (formData.senha !== formData.confirmPassword) {
-      alert("Senha de cofirmação diferente");
+      showMessage("Senha de confirmação diferente", "error");
       return;
     }
+
+    setLoading(true);
 
     const body = {
       novoUsuarioDto: {
@@ -64,30 +84,38 @@ const useStudentRegisterPageHook = () => {
       curso: formData.curso,
       instituicaoEnsinoId: formData.instituicaoEnsinoId
     };
+
     try {
       const response = await registerStudent(body);
-      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken)
+      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken);
 
-      const path = pathForRole();
-      navigate(path);
-    } catch (error) {
-      console.error(error.message || 'Ocorreu um erro ao tentar cadastrar!');
+      showMessage("Aluno cadastrado com sucesso!", "success");
+      navigate(pathForRole());
+    } catch (error: any) {
+      console.error(error?.message || "Ocorreu um erro ao tentar cadastrar!");
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao cadastrar aluno.";
+      showMessage(message, "error");
     } finally {
-      setLoading(false); // Habilita o botão novamente após o fim da requisição
+      setLoading(false);
     }
   };
 
-  return [
+  return {
     showPassword,
-    setShowPassword, 
-    showConfirmPassword, 
-    setShowConfirmPassword, 
-    handleChange, 
-    handleSubmit, 
+    setShowPassword,
+    showConfirmPassword,
+    setShowConfirmPassword,
+    handleChange,
+    handleSubmit,
     formData,
     loading,
-    instituicoesEnsino
-  ];
-}
+    instituicoesEnsino,
+    snackbar,
+    setSnackbar,
+  };
+};
 
 export { useStudentRegisterPageHook };

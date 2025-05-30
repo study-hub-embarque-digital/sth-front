@@ -5,25 +5,37 @@ import globalService from "../../../../services/globalService";
 import { IFormField } from "../../../../components/shared/forms/IFormField";
 import { mentorDetailsFields } from "./mentorFilds";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
-import EmpregoDetails from "../emprego/EmpregoDetails";
 import SectionGroup from "../../../../components/shared/layout/SectionGroup";
 import { People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar } from "@mui/material";
 
-
 export default function MentorDetails() {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({});
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { hasRole } = useAuth();
-  const { hasPermission } = useAuth();
+  const { hasRole, hasPermission } = useAuth();
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error" | "warning" | "info",
+  });
+
+  const showMessage = (
+    message: string,
+    severity: "success" | "error" | "warning" | "info" = "info"
+  ) => {
+    setSnackbar({
+      open: true,
+      message,
+      severity,
+    });
+  };
 
   const loadMentor = async () => {
     try {
       const mentor = await globalService.getMentorById(id!);
-
       setInitialValues({
         nome: mentor.usuarioDto?.nome,
         email: mentor.usuarioDto?.email,
@@ -34,33 +46,28 @@ export default function MentorDetails() {
         isActive: mentor.usuarioDto?.isActive,
         senha: "",
 
-        // NOVOS CAMPOS
         empresa: mentor.empresaDto?.nomeFantasia,
         cnpj: mentor.empresaDto?.cnpj,
-        squads: mentor.squadDtos?.map(s => s.nome).join(", "), // opcional, você pode tratar como quiser
+        squads: mentor.squadDtos?.map((s) => s.nome).join(", "),
       });
-
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao carregar o mentor:", error);
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao carregar mentor";
+      showMessage(message, "error");
     } finally {
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     loadMentor();
   }, [id]);
 
   const handleSubmit = async (data: Record<string, any>) => {
-    const {
-      nome,
-      email,
-      senha,
-      isActive,
-      phone,
-      gender,
-    } = data;
+    const { nome, email, senha, isActive, phone, gender } = data;
 
     const payload = {
       usuarioDto: {
@@ -70,25 +77,22 @@ export default function MentorDetails() {
         isActive,
         phone,
         gender,
-      }
+      },
     };
 
-
     try {
-      // Envia a requisição para salvar os dados
       await globalService.updateMentor(id!, payload);
-
-
-      // Sucesso: Atualiza os initialValues com os dados mais recentes
-      setInitialValues({ ...data });  // Atualiza o estado com os dados salvos
-
-      setSnackbarOpen(true); // abre alerta de sucesso
-    } catch (error) {
-      console.error("Erro ao atualizar aluno:", error);
+      setInitialValues({ ...data });
+      showMessage("Mentor atualizado com sucesso!", "success");
+    } catch (error: any) {
+      console.error("Erro ao atualizar mentor:", error);
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao atualizar mentor";
+      showMessage(message, "error");
     }
-
   };
-
 
   const filteredFields: IFormField[] = mentorDetailsFields.filter((field) => {
     if (field.name === "senha" && hasRole("ADMIN")) {
@@ -105,49 +109,44 @@ export default function MentorDetails() {
         sections={[
           {
             title: "Dados do Mentor",
-            content: <DynamicForms
-              hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-
-              fields={filteredFields}
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              button={{
-                textButton: "Novo Mentor",
-                icon: <People />,
-                permission: true,
-                onClickAdd: () => console.log("clicou"),
-              }}
-            />,
+            content: (
+              <DynamicForms
+                hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+                fields={filteredFields}
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                button={{
+                  textButton: "Novo Mentor",
+                  icon: <People />,
+                  permission: true,
+                  onClickAdd: () => console.log("clicou"),
+                }}
+              />
+            ),
           },
+          // Se quiser ativar os dados de trabalho, pode ativar aqui:
           // {
           //   title: "Dados de trabalho",
-          //   content: <EmpregoDetails
-          //     data={jobDto}
-          //     isEditable={true}
-
-          //   />
+          //   content: <EmpregoDetails data={jobDto} isEditable={true} />
           // }
         ]}
       />
+
       <Snackbar
-        open={snackbarOpen}
+        open={snackbar.open}
         autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success" variant="filled">
-          Aluno atualizado com sucesso!
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
         </Alert>
       </Snackbar>
     </>
   );
 }
-
-// onSubmit={(data) => {
-//   globalService.updateJob(jobDto.jobId, data)
-//     .then(() => alert("Emprego atualizado com sucesso!"))
-//     .catch((err) => {
-//       console.error(err);
-//       alert("Erro ao atualizar emprego.");
-//     });
-// }}

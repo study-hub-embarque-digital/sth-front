@@ -20,15 +20,33 @@ const useMentorRegisterPageHook = () => {
   const [empresas, setEmpresas] = useState([]);
   const [, , pathForRole] = useAuth();
 
-  
+  // Estado para Snackbar
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error" | "info" | "warning",
+  });
+
+  const showMessage = (
+    message: string,
+    severity: "success" | "error" | "info" | "warning" = "info"
+  ) => {
+    setSnackbar({ open: true, message, severity });
+  };
+
   const handleGetEmpresas = async () => {
-    const dados = await getEmpresas()
-    setEmpresas(dados);
-  }
+    try {
+      const dados = await getEmpresas();
+      setEmpresas(dados);
+    } catch (error) {
+      console.error("Erro ao buscar empresas", error);
+      showMessage("Erro ao buscar empresas", "error");
+    }
+  };
 
   useEffect(() => {
     handleGetEmpresas();
-  }, [])
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,12 +61,12 @@ const useMentorRegisterPageHook = () => {
 
     if (loading) return;
 
-    setLoading(true);
-
     if (formData.senha !== formData.confirmPassword) {
-      alert("Senha de cofirmação diferente");
+      showMessage("Senha de confirmação diferente.", "error");
       return;
     }
+
+    setLoading(true);
 
     const body = {
       novoUsuarioDto: {
@@ -58,30 +76,38 @@ const useMentorRegisterPageHook = () => {
         dataNascimento: formData.dataNascimento,
       }
     };
+
     try {
       const response = await registerMentor(body);
-      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken)
+      TokenHandler.defineTokens(response?.accessToken, response?.refreshToken);
 
       const path = pathForRole();
+      showMessage("Mentor cadastrado com sucesso!", "success");
       navigate(path);
-    } catch (error) {
-      console.error(error.message || 'Ocorreu um erro ao tentar cadastrar!');
+    } catch (error: any) {
+      console.error(error?.message || 'Ocorreu um erro ao tentar cadastrar!');
+      showMessage(
+        error?.response?.data?.message || error?.message || "Erro ao cadastrar mentor.",
+        "error"
+      );
     } finally {
-      setLoading(false); // Habilita o botão novamente após o fim da requisição
+      setLoading(false);
     }
   };
 
-  return [
+  return {
     showPassword,
-    setShowPassword, 
-    showConfirmPassword, 
-    setShowConfirmPassword, 
-    handleChange, 
-    handleSubmit, 
+    setShowPassword,
+    showConfirmPassword,
+    setShowConfirmPassword,
+    handleChange,
+    handleSubmit,
     formData,
     loading,
-    empresas
-  ];
-}
+    empresas,
+    snackbar,
+    setSnackbar,
+  };
+};
 
 export { useMentorRegisterPageHook };
