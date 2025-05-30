@@ -22,35 +22,54 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useAuth } from "../../../contexts/AuthContext";
 
-export const ResponsiveTable = ({
+interface ResponsiveTableProps {
+  columns: any[];
+  data: any[];
+  idProperty: string;
+  onClickDetails: (id: string) => void;
+  textButton: string;
+  onClickAdd: () => void;
+  hasPermission: boolean;
+  searchTerm?: string; // opcional
+  setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
   columns,
   data,
   idProperty,
   onClickDetails,
   textButton,
   onClickAdd,
-  hasPermission
+  hasPermission,
+  searchTerm,
+  setSearchTerm,
 }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (
+    event: any,
+    newPage: React.SetStateAction<number>
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: {
+    target: { value: string | number };
+  }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
   const [age, setAge] = React.useState("");
 
-  const handleChange = (event) => {
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setAge(event.target.value);
   };
-
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
@@ -95,6 +114,8 @@ export const ResponsiveTable = ({
           <InputLabel htmlFor="search-input">Pesquisar</InputLabel>
           <OutlinedInput
             id="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton>

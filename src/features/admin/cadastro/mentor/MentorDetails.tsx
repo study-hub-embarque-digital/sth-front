@@ -11,7 +11,6 @@ import { People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar } from "@mui/material";
 
-
 export default function MentorDetails() {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({});
@@ -37,9 +36,8 @@ export default function MentorDetails() {
         // NOVOS CAMPOS
         empresa: mentor.empresaDto?.nomeFantasia,
         cnpj: mentor.empresaDto?.cnpj,
-        squads: mentor.squadDtos?.map(s => s.nome).join(", "), // opcional, você pode tratar como quiser
+        squads: mentor.squadDtos?.map((s: { nome: any }) => s.nome).join(", "), // opcional, você pode tratar como quiser
       });
-
     } catch (error) {
       console.error("Erro ao carregar o mentor:", error);
     } finally {
@@ -47,20 +45,12 @@ export default function MentorDetails() {
     }
   };
 
-
   useEffect(() => {
     loadMentor();
   }, [id]);
 
   const handleSubmit = async (data: Record<string, any>) => {
-    const {
-      nome,
-      email,
-      senha,
-      isActive,
-      phone,
-      gender,
-    } = data;
+    const { nome, email, senha, isActive, phone, gender } = data;
 
     const payload = {
       usuarioDto: {
@@ -70,25 +60,21 @@ export default function MentorDetails() {
         isActive,
         phone,
         gender,
-      }
+      },
     };
-
 
     try {
       // Envia a requisição para salvar os dados
       await globalService.updateMentor(id!, payload);
 
-
       // Sucesso: Atualiza os initialValues com os dados mais recentes
-      setInitialValues({ ...data });  // Atualiza o estado com os dados salvos
+      setInitialValues({ ...data }); // Atualiza o estado com os dados salvos
 
       setSnackbarOpen(true); // abre alerta de sucesso
     } catch (error) {
       console.error("Erro ao atualizar aluno:", error);
     }
-
   };
-
 
   const filteredFields: IFormField[] = mentorDetailsFields.filter((field) => {
     if (field.name === "senha" && hasRole("ADMIN")) {
@@ -105,19 +91,20 @@ export default function MentorDetails() {
         sections={[
           {
             title: "Dados do Mentor",
-            content: <DynamicForms
-              hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-
-              fields={filteredFields}
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              button={{
-                textButton: "Novo Mentor",
-                icon: <People />,
-                permission: true,
-                onClickAdd: () => console.log("clicou"),
-              }}
-            />,
+            content: (
+              <DynamicForms
+                hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+                fields={filteredFields}
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                button={{
+                  textButton: "Novo Mentor",
+                  icon: <People />,
+                  permission: true,
+                  onClickAdd: () => console.log("clicou"),
+                }}
+              />
+            ),
           },
           // {
           //   title: "Dados de trabalho",
@@ -135,7 +122,11 @@ export default function MentorDetails() {
         onClose={() => setSnackbarOpen(false)}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success" variant="filled">
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+          variant="filled"
+        >
           Aluno atualizado com sucesso!
         </Alert>
       </Snackbar>
