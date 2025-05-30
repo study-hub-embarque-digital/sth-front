@@ -20,7 +20,6 @@ const useMentorRegisterPageHook = () => {
   const [empresas, setEmpresas] = useState([]);
   const [, , pathForRole] = useAuth();
 
-  // Estado para Snackbar
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
