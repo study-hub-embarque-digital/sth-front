@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { permissions } from "../../../../utils/permissions";
 import React from "react";
+import { Mentor } from "../../../../types/mentor/mentor";
 
 export default function ListagemMentores() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Mentor[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
@@ -24,12 +26,19 @@ export default function ListagemMentores() {
       setLoading(true);
       const response = await globalService.getAllMentores();
 
-      const formattedData = response.map((mentor) => ({
-        mentorId: mentor.id,
-        nome: mentor.usuarioDto?.nome || "N/A",
-        numeroSquads: mentor.squadDtos?.length || 0,
-        empresa: mentor.empresaDto?.nomeFantasia || "N/A",
-      }));
+      const formattedData = response.map(
+        (mentor: {
+          id: any;
+          usuarioDto: { nome: any };
+          squadDtos: string | any[];
+          empresaDto: { nomeFantasia: any };
+        }) => ({
+          mentorId: mentor.id,
+          nome: mentor.usuarioDto?.nome || "N/A",
+          numeroSquads: mentor.squadDtos?.length || 0,
+          empresa: mentor.empresaDto?.nomeFantasia || "N/A",
+        })
+      );
 
       setData(formattedData);
     } catch (error) {
@@ -38,6 +47,10 @@ export default function ListagemMentores() {
       setLoading(false);
     }
   };
+
+  const filteredData = data.filter((item) =>
+    item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     loadMentores();
@@ -71,13 +84,15 @@ export default function ListagemMentores() {
       ) : (
         <ResponsiveTable
           columns={columns}
-          data={data}
+          data={filteredData}
           idProperty="mentorId"
           textButton="Cadastrar mentor"
           onClickAdd={() => navigate("/mentores/cadastro")}
           onClickDetails={(id: string) => {
             navigate(`/mentores/detalhes-mentor/${id}`);
           }}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
           hasPermission={hasPermission(permissions.WRITE_MENTORES)}
         />
       )}
