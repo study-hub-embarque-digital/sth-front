@@ -72,8 +72,8 @@ export default function ListagemRepresentantes() {
       data={data}
       idProperty="representanteId"
       textButton="Cadastrar representante"
-      onClickAdd={() => navigate("/representantes/cadastro")}
-      onClickDetails={(id) => navigate(`/representantes/detalhes-representante/${id}`)}
+      onClickAdd={() => navigate("cadastro")}
+      onClickDetails={(id) => navigate(`detalhes-representante/${id}`)}
       hasPermission={hasPermission(permissions.WRITE_REPRESENTANTES)}
     />
   );

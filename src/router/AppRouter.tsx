@@ -25,7 +25,7 @@ import { RoomDetail } from "../pages/room/detail/RoomDetail";
 import { RoomMeeting } from "../pages/room/detail/meeting/RoomMeeting";
 
 // Admin
-import AdminPage from "../features/admin/AdminPage";
+import AdminPage from "../features/admin/cadastro/homes/AdminPage";
 import ListagemAlunos from "../features/admin/cadastro/aluno/ListagemAlunos";
 import ListagemSquads from "../features/admin/cadastro/squad/ListagemSquad";
 import ListagemMentores from "../features/admin/cadastro/mentor/ListagemMentores";
@@ -53,6 +53,7 @@ import ListagemInstituicoesEnsino from "../features/admin/cadastro/instituicao-e
 import InstituicaoDetails from "../features/admin/cadastro/instituicao-ensino/IntituicaoDetails";
 import { useAuth } from "../contexts/AuthContext";
 import { roles } from "../utils/roles";
+import SquadCreate from "../features/admin/cadastro/squad/SquadCreate";
 
 const AppRouter = () => {
   const { hasRole } = useAuth();
@@ -64,32 +65,6 @@ const AppRouter = () => {
       <Route path="/register/student" element={<StudentRegisterPage />} />
       <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
-
-      {/* <Route path="/" element={<BaseLayout homePath="/home" />}>
-        <Route path="admin" element={<PrivateRoute role="ADMIN"><AdminPage /></PrivateRoute>} />
-        <Route path="alunos" element={<ListagemAlunos />} />
-        <Route path="alunos/detalhes-aluno/:id" element={<StudentDetails />} />
-        <Route path="alunos/cadastro" element={<CadastroAluno />} />
-
-
-        <Route path="mentores" element={<ListagemMentores />} />
-        <Route path="mentores/cadastro" element={<CadastroMentor />} />
-        <Route path="mentores/detalhes-mentor/:id" element={<MentorDetails />} />
-
-        <Route path="squads" element={<ListagemSquads />} />
-        <Route path="squads/cadastro" element={<ListagemSquads />} />
-        <Route path="squads/detalhes-squad/:id" element={<SquadOrganogram />} />
-
-        <Route path="emprego/cadastro/:usuarioId" element={<CadastroWork />} />
-
-        <Route path="representantes" element={<ListagemRepresentantes />} />
-        <Route path="representantes/cadastro" element={<CadastroMentor />} />
-        <Route path="representantes/detalhes-representante/:id" element={<RepresentanteDetails />} />
-
-        <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
-        <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
-        <Route path="instituicoes/detalhes-instituicao/:id" element={<InstituicaoDetails />} />
-      </Route> */}
 
       {/* Student */}
       <Route
@@ -116,6 +91,31 @@ const AppRouter = () => {
             </PrivateRoute>} />
         }
 
+
+        <Route path="alunos" element={<ListagemAlunos />} />
+        <Route path="alunos/detalhes-aluno/:id" element={<StudentDetails />} />
+        <Route path="alunos/cadastro" element={<CadastroAluno />} />
+
+
+        <Route path="mentores" element={<ListagemMentores />} />
+        <Route path="mentores/cadastro" element={<CadastroMentor />} />
+        <Route path="mentores/detalhes-mentor/:id" element={<MentorDetails />} />
+
+        <Route path="squads" element={<ListagemSquads />} />
+        <Route path="squads/cadastro" element={<SquadCreate />} />
+        <Route path="squads/detalhes-squad/:id" element={<SquadOrganogram />} />
+
+        <Route path="emprego/cadastro/:usuarioId" element={<CadastroWork />} />
+
+        <Route path="representantes" element={<ListagemRepresentantes />} />
+        <Route path="representantes/cadastro" element={<CadastroMentor />} />
+        <Route path="representantes/detalhes-representante/:id" element={<RepresentanteDetails />} />
+
+        <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
+        <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
+        <Route path="instituicoes/detalhes-instituicao/:id" element={<InstituicaoDetails />} />
+
+
         <Route path="rooms" element={<PrivateRoute permission={permissions.READ_ROOMS}> <Rooms /> </PrivateRoute>} />
         <Route
           path="rooms/:roomId"
@@ -132,29 +132,6 @@ const AppRouter = () => {
         <Route path="forum" element={<StudentForumDetails />} />
         <Route path="forum/duvida/:id" element={<StudentForumDetailsPage />} />
 
-
-        <Route path="alunos" element={<ListagemAlunos />} />
-        <Route path="alunos/detalhes-aluno/:id" element={<StudentDetails />} />
-        <Route path="alunos/cadastro" element={<CadastroAluno />} />
-
-
-        <Route path="mentores" element={<ListagemMentores />} />
-        <Route path="mentores/cadastro" element={<CadastroMentor />} />
-        <Route path="mentores/detalhes-mentor/:id" element={<MentorDetails />} />
-
-        <Route path="squads" element={<ListagemSquads />} />
-        <Route path="squads/cadastro" element={<ListagemSquads />} />
-        <Route path="squads/detalhes-squad/:id" element={<SquadOrganogram />} />
-
-        <Route path="emprego/cadastro/:usuarioId" element={<CadastroWork />} />
-
-        <Route path="representantes" element={<ListagemRepresentantes />} />
-        <Route path="representantes/cadastro" element={<CadastroMentor />} />
-        <Route path="representantes/detalhes-representante/:id" element={<RepresentanteDetails />} />
-
-        <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
-        <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
-        <Route path="instituicoes/detalhes-instituicao/:id" element={<InstituicaoDetails />} />
       </Route>
 
       { }

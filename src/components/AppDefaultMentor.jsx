@@ -13,7 +13,6 @@ import ChatIcon from "@mui/icons-material/Chat";
 import PeopleIcon from "@mui/icons-material/People";
 import "./components.scss";
 
-// Definição do menu de navegação
 const NAVIGATION = [
   {
     segment: "mentor",

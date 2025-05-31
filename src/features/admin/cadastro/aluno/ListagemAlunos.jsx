@@ -79,9 +79,9 @@ export default function ListagemAlunos() {
           data={data}
           idProperty="alunoId" 
           textButton="Cadastrar aluno"
-          onClickAdd={() => navigate("/alunos/cadastro")}
+          onClickAdd={() => navigate("cadastro")}
           onClickDetails={(id) => {
-            navigate(`/alunos/detalhes-aluno/${id}`);
+            navigate(`detalhes-aluno/${id}`);
           }}
           hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
         />
