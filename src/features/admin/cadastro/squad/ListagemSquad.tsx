@@ -20,7 +20,6 @@ export default function ListagemSquads() {
         { id: "tipo", label: "Tipo", minWidth: 100 },
         { id: "semestre", label: "Semestre", minWidth: 100 },
         { id: "ciclo", label: "Ciclo", minWidth: 200 },
-        { id: "empresaNome", label: "Empresa", minWidth: 200 },
     ];
 
 
@@ -71,9 +70,9 @@ export default function ListagemSquads() {
                     data={data}
                     idProperty="squadId"
                     textButton="Cadastrar Squad"
-                    onClickAdd={() => navigate("squads/cadastro")}
+                    onClickAdd={() => navigate("cadastro")}
                     onClickDetails={(id: string) => {
-                        navigate(`squads/detalhes-squad/${id}`);
+                        navigate(`detalhes-squad/${id}`);
                     }}
                     hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
                 />
