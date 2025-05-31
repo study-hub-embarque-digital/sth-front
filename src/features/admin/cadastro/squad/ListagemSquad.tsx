@@ -71,11 +71,11 @@ export default function ListagemSquads() {
                     data={data}
                     idProperty="squadId"
                     textButton="Cadastrar Squad"
-                    onClickAdd={() => navigate("/squads/cadastro")}
+                    onClickAdd={() => navigate("squads/cadastro")}
                     onClickDetails={(id: string) => {
-                        navigate(`/squads/detalhes-squad/${id}`);
+                        navigate(`squads/detalhes-squad/${id}`);
                     }}
-                    hasPermission={hasPermission(permissions.WRITE_SQUADS)}
+                    hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
                 />
             )}
         </>

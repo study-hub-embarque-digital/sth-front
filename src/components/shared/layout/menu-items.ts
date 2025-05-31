@@ -31,31 +31,31 @@ const menuItems: IMenuItem[] = [
   {
     text: "Squads",
     icon: GroupsRoundedIcon,
-    route: "/squads",
-    permissions: [permissions.READ_SQUADS]
+    route: "/home/squads",
+    permissions: []
   },
   {
     text: "Alunos",
     icon: SchoolRoundedIcon,
-    route: "/alunos",
-    permissions: [permissions.READ_ALUNOS]
+    route: "/home/alunos",
+    permissions: []
   },
   {
     text: "Mentores",
     icon: FolderRoundedIcon,
-    route: "/mentores",
+    route: "/home/mentores",
     permissions: [permissions.READ_MENTORES]
   },
   {
     text: "I.E's",
     icon: AccountBalanceRoundedIcon,
-    route: "/instituicoes",
+    route: "/home/instituicoes",
     permissions: [permissions.READ_INSTITUICOES_ENSINO]
   },
   {
     text: "Representantes",
     icon: BusinessCenterRoundedIcon,
-    route: "/representantes",
+    route: "/home/representantes",
     permissions: [permissions.READ_REPRESENTANTES]
   },
   {

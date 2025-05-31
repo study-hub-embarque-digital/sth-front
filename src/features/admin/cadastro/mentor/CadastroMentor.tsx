@@ -36,7 +36,7 @@ export default function CadastroMentor() {
       console.log(response)
       alert("Mentor cadastrado com sucesso!");
 
-      navigate(`/emprego/cadastro/${usuarioId}`, {
+      navigate(`/home/emprego/cadastro/${usuarioId}`, {
         state: { from: "/mentor/cadastro" }  // ou use useLocation().pathname se for dinâmico
       });
     } catch (error) {

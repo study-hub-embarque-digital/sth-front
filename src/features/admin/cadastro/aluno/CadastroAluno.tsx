@@ -46,13 +46,13 @@ export default function CadastroAluno() {
 
       // 3. Se ele trabalha com TI, redireciona para cadastro de emprego
       if (nestedData.isWorkingInIt && alunoSalvo?.alunoId) {
-        navigate(`/emprego/cadastro/${alunoSalvo.alunoId}`, {
+        navigate(`/home/emprego/cadastro/${alunoSalvo.alunoId}`, {
           state: { from: "/alunos/cadastro" }
         });
       } else {
         // 4. Senão, vai pra listagem de alunos
         setTimeout(() => {
-          navigate("/alunos");
+          navigate("/home/alunos");
         }, 1000);
       }
 
