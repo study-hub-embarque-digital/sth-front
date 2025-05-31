@@ -1,9 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { getInstituicoesEnsino } from "../../../services/utilsService";
 import { registerStudent } from "../../../services/authService";
 import { useAuth } from "../../../hooks/useAuth";
 import { TokenHandler } from "../../../utils/TokenHandler";
+
+type SnackbarSeverity = "success" | "error" | "info" | "warning";
+
+interface SnackbarState {
+  open: boolean;
+  message: string;
+  severity: SnackbarSeverity;
+}
+
+interface FormData {
+  nome: string;
+  email: string;
+  senha: string;
+  confirmPassword: string;
+  dataNascimento: string;
+  periodo: number;
+  curso: string;
+  instituicaoEnsinoId: string;
+}
 
 const useStudentRegisterPageHook = () => {
   const navigate = useNavigate();
@@ -11,7 +30,7 @@ const useStudentRegisterPageHook = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nome: "",
     email: "",
     senha: "",
@@ -19,27 +38,28 @@ const useStudentRegisterPageHook = () => {
     dataNascimento: "",
     periodo: 0,
     curso: "SI",
-    instituicaoEnsinoId: ""
+    instituicaoEnsinoId: "",
   });
 
-  const [instituicoesEnsino, setInstituicoesEnsino] = useState([]);
+  const [instituicoesEnsino, setInstituicoesEnsino] = useState<any[]>([]); // ideal tipar conforme estrutura
+
   const [, , pathForRole] = useAuth();
 
-  // Snackbar State
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
-    severity: "success" as "success" | "error" | "info" | "warning",
+    severity: "success",
   });
 
   const showMessage = (
     message: string,
-    severity: "success" | "error" | "info" | "warning" = "info"
+    severity: SnackbarSeverity = "info"
   ) => {
     setSnackbar({ open: true, message, severity });
   };
 
-  const handleGetInstituitions = async () => {
+  // Corrigido typo no nome da função para "handleGetInstitutions"
+  const handleGetInstitutions = async () => {
     try {
       const dados = await getInstituicoesEnsino();
       setInstituicoesEnsino(dados);
@@ -50,18 +70,20 @@ const useStudentRegisterPageHook = () => {
   };
 
   useEffect(() => {
-    handleGetInstituitions();
+    handleGetInstitutions();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
+    // Se o campo for "periodo", converta para número
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "periodo" ? Number(value) : value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (loading) return;
@@ -82,7 +104,7 @@ const useStudentRegisterPageHook = () => {
       },
       periodo: formData.periodo,
       curso: formData.curso,
-      instituicaoEnsinoId: formData.instituicaoEnsinoId
+      instituicaoEnsinoId: formData.instituicaoEnsinoId,
     };
 
     try {

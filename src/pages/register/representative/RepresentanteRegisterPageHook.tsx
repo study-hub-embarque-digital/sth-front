@@ -1,34 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { getEmpresas } from "../../../services/utilsService";
-import { registerMentor } from "../../../services/authService";
 import { useAuth } from "../../../hooks/useAuth";
+import { registerRepresentative } from "../../../services/authService";
 import { TokenHandler } from "../../../utils/TokenHandler";
 
-const useMentorRegisterPageHook = () => {
+type SnackbarSeverity = "success" | "error" | "info" | "warning";
+
+interface SnackbarState {
+  open: boolean;
+  message: string;
+  severity: SnackbarSeverity;
+}
+
+interface FormData {
+  nome: string;
+  email: string;
+  senha: string;
+  confirmPassword: string;
+  dataNascimento: string;
+  empresaId: string;
+}
+
+const useRepresentanteRegisterPageHook = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState<FormData>({
     nome: "",
     email: "",
     senha: "",
     confirmPassword: "",
-    dataNascimento: ""
+    dataNascimento: "",
+    empresaId: "",
   });
-  const [empresas, setEmpresas] = useState([]);
+
+  const [empresas, setEmpresas] = useState<any[]>([]); // ideal tipar conforme estrutura real
+
   const [, , pathForRole] = useAuth();
 
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
-    severity: "success" as "success" | "error" | "info" | "warning",
+    severity: "success",
   });
 
   const showMessage = (
     message: string,
-    severity: "success" | "error" | "info" | "warning" = "info"
+    severity: SnackbarSeverity = "info"
   ) => {
     setSnackbar({ open: true, message, severity });
   };
@@ -38,7 +59,7 @@ const useMentorRegisterPageHook = () => {
       const dados = await getEmpresas();
       setEmpresas(dados);
     } catch (error) {
-      console.error("Erro ao buscar empresas", error);
+      console.error("Erro ao buscar empresas:", error);
       showMessage("Erro ao buscar empresas", "error");
     }
   };
@@ -47,21 +68,21 @@ const useMentorRegisterPageHook = () => {
     handleGetEmpresas();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (loading) return;
 
     if (formData.senha !== formData.confirmPassword) {
-      showMessage("Senha de confirmação diferente.", "error");
+      showMessage("Senha de confirmação diferente", "error");
       return;
     }
 
@@ -73,22 +94,24 @@ const useMentorRegisterPageHook = () => {
         email: formData.email,
         senha: formData.senha,
         dataNascimento: formData.dataNascimento,
-      }
+      },
+      empresaId: formData.empresaId,
     };
 
     try {
-      const response = await registerMentor(body);
+      const response = await registerRepresentative(body);
       TokenHandler.defineTokens(response?.accessToken, response?.refreshToken);
 
-      const path = pathForRole();
-      showMessage("Mentor cadastrado com sucesso!", "success");
-      navigate(path);
+      showMessage("Representante cadastrado com sucesso!", "success");
+
+      navigate(pathForRole());
     } catch (error: any) {
-      console.error(error?.message || 'Ocorreu um erro ao tentar cadastrar!');
-      showMessage(
-        error?.response?.data?.message || error?.message || "Erro ao cadastrar mentor.",
-        "error"
-      );
+      console.error(error?.message || "Ocorreu um erro ao tentar cadastrar!");
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao cadastrar representante.";
+      showMessage(message, "error");
     } finally {
       setLoading(false);
     }
@@ -109,4 +132,4 @@ const useMentorRegisterPageHook = () => {
   };
 };
 
-export { useMentorRegisterPageHook };
+export { useRepresentanteRegisterPageHook };
