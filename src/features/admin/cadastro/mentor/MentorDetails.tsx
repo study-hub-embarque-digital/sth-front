@@ -9,12 +9,12 @@ import { People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar, CircularProgress, Box } from "@mui/material";
 
-// Tipagem dos parâmetros da rota
+
 type RouteParams = {
   id: string;
 };
 
-// Tipagem do Mentor baseado na API
+
 interface MentorDto {
   usuarioDto: {
     nome: string;
@@ -34,7 +34,7 @@ interface MentorDto {
   }[];
 }
 
-// Tipagem para o Snackbar
+
 interface SnackbarState {
   open: boolean;
   message: string;
@@ -53,7 +53,6 @@ export default function MentorDetails() {
     severity: "success",
   });
 
-  // Função para mostrar mensagens no Snackbar
   const showMessage = (message: string, severity: SnackbarState["severity"] = "info") => {
     setSnackbar({
       open: true,
@@ -62,12 +61,10 @@ export default function MentorDetails() {
     });
   };
 
-  // Fechar snackbar
   const handleCloseSnackbar = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  // Carregar os dados do mentor pela API
   const loadMentor = async () => {
     try {
       if (!id) throw new Error("ID do mentor não fornecido");
@@ -82,7 +79,7 @@ export default function MentorDetails() {
         gender: mentor.usuarioDto?.gender || "",
         ethnicity: mentor.usuarioDto?.ethnicity || "",
         isActive: mentor.usuarioDto?.isActive ?? true,
-        senha: "", // campo senha fica vazio inicialmente
+        senha: "",
 
         empresa: mentor.empresaDto?.nomeFantasia || "",
         cnpj: mentor.empresaDto?.cnpj || "",
@@ -100,7 +97,6 @@ export default function MentorDetails() {
     }
   };
 
-  // Carrega o mentor sempre que o `id` mudar
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -108,7 +104,6 @@ export default function MentorDetails() {
     }
   }, [id]);
 
-  // Função para salvar as alterações do mentor
   const handleSubmit = async (data: MentorFormFields) => {
     const { nome, email, senha, isActive, phone, gender } = data;
 
@@ -116,7 +111,7 @@ export default function MentorDetails() {
       usuarioDto: {
         nome,
         email,
-        senha: senha || undefined, // evita enviar senha vazia
+        senha: senha || undefined,
         isActive,
         phone,
         gender,
@@ -127,7 +122,7 @@ export default function MentorDetails() {
       if (!id) throw new Error("ID do mentor não fornecido");
 
       await globalService.updateMentor(id, payload);
-      setInitialValues({ ...data, senha: "" }); // limpa o campo senha após salvar
+      setInitialValues({ ...data, senha: "" });
       showMessage("Mentor atualizado com sucesso!", "success");
     } catch (error: any) {
       console.error("Erro ao atualizar mentor:", error);
@@ -139,7 +134,6 @@ export default function MentorDetails() {
     }
   };
 
-  // Filtra campos para esconder o campo 'senha' caso não tenha role ADMIN
   const filteredFields = mentorDetailsFields.filter(
     (field) => !(field.name === "senha" && !hasRole("ADMIN"))
   );

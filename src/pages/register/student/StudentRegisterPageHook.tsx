@@ -58,7 +58,6 @@ const useStudentRegisterPageHook = () => {
     setSnackbar({ open: true, message, severity });
   };
 
-  // Corrigido typo no nome da função para "handleGetInstitutions"
   const handleGetInstitutions = async () => {
     try {
       const dados = await getInstituicoesEnsino();
@@ -76,7 +75,6 @@ const useStudentRegisterPageHook = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    // Se o campo for "periodo", converta para número
     setFormData((prevData) => ({
       ...prevData,
       [name]: name === "periodo" ? Number(value) : value,

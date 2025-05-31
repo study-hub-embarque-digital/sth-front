@@ -37,7 +37,7 @@ const useRepresentanteRegisterPageHook = () => {
     empresaId: "",
   });
 
-  const [empresas, setEmpresas] = useState<any[]>([]); // ideal tipar conforme estrutura real
+  const [empresas, setEmpresas] = useState<any[]>([]);
 
   const [, , pathForRole] = useAuth();
 
