@@ -41,7 +41,7 @@ const useStudentRegisterPageHook = () => {
     instituicaoEnsinoId: "",
   });
 
-  const [instituicoesEnsino, setInstituicoesEnsino] = useState<any[]>([]); // ideal tipar conforme estrutura
+  const [instituicoesEnsino, setInstituicoesEnsino] = useState<any[]>([]);
 
   const [, , pathForRole] = useAuth();
 
