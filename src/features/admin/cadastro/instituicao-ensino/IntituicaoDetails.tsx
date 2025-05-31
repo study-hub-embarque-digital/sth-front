@@ -115,6 +115,7 @@ export default function InstituicaoDetails() {
             title: "Dados da Instituição",
             content: (
               <DynamicForms
+                showEditButton={true}
                 fields={instituicaoFields}
                 initialValues={initialValues}
                 onSubmit={handleSubmit}

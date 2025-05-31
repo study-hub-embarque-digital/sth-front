@@ -17,14 +17,14 @@ export default function StudentDetails() {
   const { hasRole } = useAuth();
   const { hasPermission } = useAuth();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [jobDto, setJobDto] = useState(null); 
+  const [jobDto, setJobDto] = useState(null);
 
 
   const loadAluno = async () => {
     try {
       const aluno = await globalService.getAlunoById(id!);
       const lastJob = aluno?.jobs?.[aluno.jobs.length - 1];
-      setJobDto(lastJob); 
+      setJobDto(lastJob);
 
       setInitialValues({
         nome: aluno.usuarioDto.nome,
@@ -90,7 +90,7 @@ export default function StudentDetails() {
     try {
       await globalService.updateAluno(id!, payload);
 
-      setInitialValues({ ...data });  
+      setInitialValues({ ...data });
 
       setSnackbarOpen(true);
     } catch (error) {
@@ -120,6 +120,7 @@ export default function StudentDetails() {
               hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
               initialValues={initialValues}
               onSubmit={handleSubmit}
+              showEditButton={true}
             />
           },
           {

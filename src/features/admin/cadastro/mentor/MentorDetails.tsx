@@ -107,7 +107,7 @@ export default function MentorDetails() {
             title: "Dados do Mentor",
             content: <DynamicForms
               hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-
+              showEditButton={true}
               fields={filteredFields}
               initialValues={initialValues}
               onSubmit={handleSubmit}

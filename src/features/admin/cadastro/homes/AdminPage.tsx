@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Skeleton } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -13,19 +13,29 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import graficosService from "../../services/graficos/graficosAdminService";
-import { Skeleton } from "@mui/material";
+import graficosService from "../../../../services/graficos/graficosAdminService";
+import React from "react";
+
+interface ChartData {
+  name: string;
+  value: number;
+}
+
+interface EmpresasCicloData {
+  ciclo: string;
+  empresas: number;
+}
 
 export default function AdminPage() {
-  const [squadsEmpresa, setSquadsEmpresa] = useState([]);
-  const [alunosIES, setAlunosIES] = useState([]);
-  const [empresasCiclo, setEmpresasCiclo] = useState([]);
-  const [alunosTrabalhoPeriodo, setAlunosTrabalhoPeriodo] = useState([]);
-  const [alunosGenero, setAlunosGenero] = useState([]);
-  const [alunosCurso, setAlunosCurso] = useState([]);
-  const [squadsDemoday, setSquadsDemoday] = useState([]);
+  const [squadsEmpresa, setSquadsEmpresa] = useState<ChartData[]>([]);
+  const [alunosIES, setAlunosIES] = useState<ChartData[]>([]);
+  const [empresasCiclo, setEmpresasCiclo] = useState<EmpresasCicloData[]>([]);
+  const [alunosTrabalhoPeriodo, setAlunosTrabalhoPeriodo] = useState<ChartData[]>([]);
+  const [alunosGenero, setAlunosGenero] = useState<ChartData[]>([]);
+  const [alunosCurso, setAlunosCurso] = useState<ChartData[]>([]);
+  const [squadsDemoday, setSquadsDemoday] = useState<ChartData[]>([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,6 +115,7 @@ export default function AdminPage() {
 
     fetchData();
   }, []);
+
 
   return (
     <Grid container spacing={2}>
