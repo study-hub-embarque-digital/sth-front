@@ -1,4 +1,3 @@
-// Função principal para fazer requisição API
 import { httpClient } from "../api/api";
 
 const fetchAnswers = async (id) => {
@@ -24,5 +23,15 @@ const postAnswer = async (answerData) => {
 
 };
 
-// Exporte as funções para uso em outras partes do código
-export { fetchAnswers, postAnswer };
+const markAsResolved = async (duvidaId) => {
+  try{
+  const response = await httpClient.patch(`/duvidas/${duvidaId}/resolvida`);
+  return response.data;
+  }
+  catch (error) {
+    console.error("Erro no serviço de duvida:", error);
+    throw error;
+  }
+  };
+
+export { fetchAnswers, postAnswer, markAsResolved};
