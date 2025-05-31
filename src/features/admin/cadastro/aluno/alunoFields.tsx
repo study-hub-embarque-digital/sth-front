@@ -1,4 +1,5 @@
 import { IFormField } from "../../../../components/shared/forms/IFormField";
+
 export const getAlunoFields = (instituicoes: any[]): IFormField[] => [
   { name: "novoUsuarioDto.nome", label: "Nome", type: "text", required: true },
   { name: "novoUsuarioDto.email", label: "Email", type: "text", required: true },
@@ -53,9 +54,18 @@ export const getAlunoFields = (instituicoes: any[]): IFormField[] => [
     ],
     required: true,
   },
-  { name: "curso", label: "Curso", type: "text", required: true },
   {
-    name: "instituicaoDeEnsinoId",
+    name: "curso",
+    label: "Curso",
+    type: "select",
+    required: true,
+    options: [
+      { value: "ANALISE_E_DESENVOLVIMENTO_DE_SISTEMAS", label: "Análise e Desenvolvimento de Sistemas" },
+      { value: "SISTEMAS_PARA_INTERNET", label: "Sistemas para Internet" }
+    ]
+  },
+  {
+    name: "instituicaoEnsinoId",
     label: "Instituição",
     type: "select",
     required: true,
@@ -74,6 +84,12 @@ export const getAlunoFields = (instituicoes: any[]): IFormField[] => [
       { label: "Grow Up", value: "GROW_UP" },
       { label: "Take Off", value: "TAKE_OFF" },
     ],
+    required: true,
+  },
+  {
+    name: "entrada",
+    label: "Entrada",
+    type: "text",
     required: true,
   },
   {
