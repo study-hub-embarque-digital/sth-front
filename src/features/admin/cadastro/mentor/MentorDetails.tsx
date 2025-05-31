@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import globalService from "../../../../services/globalService";
-import { mentorDetailsFields, MentorFormFields } from "./mentorFilds";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import SectionGroup from "../../../../components/shared/layout/SectionGroup";
 import { People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar, CircularProgress, Box } from "@mui/material";
-
+import { mentorDetailsFields } from "./mentorFilds";
 
 type RouteParams = {
   id: string;
@@ -43,7 +42,7 @@ interface SnackbarState {
 
 export default function MentorDetails() {
   const { id } = useParams<RouteParams>();
-  const [initialValues, setInitialValues] = useState<Partial<MentorFormFields>>({});
+  const [initialValues, setInitialValues] = useState<Partial<any>>({});
   const [loading, setLoading] = useState<boolean>(true);
   const { hasRole, hasPermission } = useAuth();
 
@@ -104,7 +103,7 @@ export default function MentorDetails() {
     }
   }, [id]);
 
-  const handleSubmit = async (data: MentorFormFields) => {
+  const handleSubmit = async (data: any) => {
     const { nome, email, senha, isActive, phone, gender } = data;
 
     const payload = {
