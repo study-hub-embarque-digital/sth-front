@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import globalService from "../../../../services/globalService";
-import { alunoFields } from "./alunoFields";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar } from "@mui/material";
+import squadsService from "../../../../services/squadsService";
+import { getAlunoFields } from "./alunoFields";
 
 export default function CadastroAluno() {
   const navigate = useNavigate();
@@ -13,7 +14,16 @@ export default function CadastroAluno() {
   const [formValues, setFormValues] = useState({});
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
+  const [instituicoes, setInstituicoes] = useState([]);
 
+  useEffect(() => {
+    squadsService
+      .getInstituicoes()
+      .then((instituicoes) => setInstituicoes(instituicoes ?? []))
+      .catch(() => console.error("Erro ao buscar Instituições"));
+  }, []);
+
+  const alunoFields = getAlunoFields(instituicoes);
 
   function convertDotNotationToNestedObject(flatObj: Record<string, any>) {
     const nestedObj: Record<string, any> = {};
