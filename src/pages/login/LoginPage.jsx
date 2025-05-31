@@ -19,12 +19,11 @@ import {
 } from "@mui/icons-material";
 import logo from "../../assets/logoInitial.png";
 import { useLoginPage } from "./LoginPageHook";
-import { useAuth } from "../../hooks/useAuth";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [
+  const {
     handleChange,
     handleClickShowPassword,
     handleSubmit,
@@ -32,17 +31,13 @@ const LoginPage = () => {
     formData,
     showPassword,
     loading,
-  ] = useLoginPage();
+  } = useLoginPage();
 
-  const [, isAuthenticated, pathForRole] = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      navigate(pathForRole());
-    }
-  }, [isAuthenticated, pathForRole, navigate]);
+  if (isAuthenticated) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <Grid container style={{ height: "100vh" }}>
