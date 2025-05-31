@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { TokenHandler } from "../utils/TokenHandler";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IAuthContext {
   isAuthenticated: boolean;
   user: IUser | null;
+  loadingUser: boolean,
   hasRole: (role: string) => boolean;
   hasAnyRole: (roles: string[]) => boolean;
   hasPermission: (permission: string) => boolean;
@@ -38,13 +39,15 @@ interface IAccessToken {
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 const AuthProvider = ({ children }: IAuthProvider) => {
+  const [loadingUser, setLoadingUser] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     verifyIsAuthenticatedUser();
-  }, []);
+  }, [location.pathname]);
 
   const verifyIsAuthenticatedUser = () => {
     const token: string | null = TokenHandler.accessToken;
@@ -52,6 +55,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     if (!token) {
       setIsAuthenticated(false);
       setUser(null);
+      setLoadingUser(false);
       return;
     }
 
@@ -66,6 +70,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     });
 
     setIsAuthenticated(true);
+    setLoadingUser(false);
   };
 
   const hasRole = useMemo(
@@ -96,13 +101,14 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 
   const authContextValue = useMemo(() => ({
     isAuthenticated,
+    loadingUser,
     user,
     hasRole,
     hasAnyRole,
     hasPermission,
     hasAnyPermission,
     logout
-  }), [isAuthenticated, user, hasRole, hasAnyRole, hasPermission, hasAnyPermission]);
+  }), [isAuthenticated, user, loadingUser, hasRole, hasAnyRole, hasPermission, hasAnyPermission]);
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
