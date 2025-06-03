@@ -56,7 +56,9 @@ import InstituicaoDetails from "../features/admin/cadastro/instituicao-ensino/In
 import { useAuth } from "../contexts/AuthContext";
 import { roles } from "../utils/roles";
 import SquadCreate from "../features/admin/cadastro/squad/SquadCreate";
-
+import ListagemEmpresas from "../features/admin/cadastro/empresas/ListagemEmpresas";
+import EmpresaDetails from "../features/admin/cadastro/empresas/EmpresaDetails";
+import CadastroEmpresa from "../features/admin/cadastro/empresas/CadastrarEmpresa";
 
 const AppRouter = () => {
   const { hasRole } = useAuth();
@@ -66,7 +68,10 @@ const AppRouter = () => {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register/student" element={<StudentRegisterPage />} />
-      <Route path="/register/representative" element={<RepresentanteRegisterPage />} />
+      <Route
+        path="/register/representative"
+        element={<RepresentanteRegisterPage />}
+      />
       <Route path="/register/mentor" element={<MentorRegisterPage />} />
 
       {/* Student */}
@@ -78,31 +83,40 @@ const AppRouter = () => {
           </PrivateRoute>
         }
       >
-        {hasRole(roles.ALUNO_ROLE) &&
+        {hasRole(roles.ALUNO_ROLE) && (
           <Route
-            index path=""
-            element={<PrivateRoute>
-              <StudentHomePage />
-            </PrivateRoute>} />
-        }
+            index
+            path=""
+            element={
+              <PrivateRoute>
+                <StudentHomePage />
+              </PrivateRoute>
+            }
+          />
+        )}
 
-        {hasRole(roles.ADMIN_ROLE) &&
+        {hasRole(roles.ADMIN_ROLE) && (
           <Route
-            index path=""
-            element={<PrivateRoute>
-              <AdminPage />
-            </PrivateRoute>} />
-        }
-
+            index
+            path=""
+            element={
+              <PrivateRoute>
+                <AdminPage />
+              </PrivateRoute>
+            }
+          />
+        )}
 
         <Route path="alunos" element={<ListagemAlunos />} />
         <Route path="alunos/detalhes-aluno/:id" element={<StudentDetails />} />
         <Route path="alunos/cadastro" element={<CadastroAluno />} />
 
-
         <Route path="mentores" element={<ListagemMentores />} />
         <Route path="mentores/cadastro" element={<CadastroMentor />} />
-        <Route path="mentores/detalhes-mentor/:id" element={<MentorDetails />} />
+        <Route
+          path="mentores/detalhes-mentor/:id"
+          element={<MentorDetails />}
+        />
 
         <Route path="squads" element={<ListagemSquads />} />
         <Route path="squads/cadastro" element={<SquadCreate />} />
@@ -112,19 +126,50 @@ const AppRouter = () => {
 
         <Route path="representantes" element={<ListagemRepresentantes />} />
         <Route path="representantes/cadastro" element={<CadastroMentor />} />
-        <Route path="representantes/detalhes-representante/:id" element={<RepresentanteDetails />} />
+        <Route
+          path="representantes/detalhes-representante/:id"
+          element={<RepresentanteDetails />}
+        />
 
         <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
         <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
-        <Route path="instituicoes/detalhes-instituicao/:id" element={<InstituicaoDetails />} />
+        <Route
+          path="instituicoes/detalhes-instituicao/:id"
+          element={<InstituicaoDetails />}
+        />
 
+        <Route path="empresas" element={<ListagemEmpresas />} />
+        <Route path="empresas/cadastro" element={<CadastroEmpresa />} />
+        <Route
+          path="empresas/detalhes-empresa/:id"
+          element={<EmpresaDetails />}
+        />
 
-        <Route path="rooms" element={<PrivateRoute permission={permissions.READ_ROOMS}> <Rooms /> </PrivateRoute>} />
+        <Route
+          path="rooms"
+          element={
+            <PrivateRoute permission={permissions.READ_ROOMS}>
+              {" "}
+              <Rooms />{" "}
+            </PrivateRoute>
+          }
+        />
         <Route
           path="rooms/:roomId"
           element={
-            <PrivateRoute permission={permissions.READ_ROOMS}><RoomDetail /></PrivateRoute>} />
-        <Route path="rooms/:roomId/:salaTematicaId" element={<PrivateRoute permission={permissions.READ_ROOMS}><RoomMeeting /></PrivateRoute>} />
+            <PrivateRoute permission={permissions.READ_ROOMS}>
+              <RoomDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="rooms/:roomId/:salaTematicaId"
+          element={
+            <PrivateRoute permission={permissions.READ_ROOMS}>
+              <RoomMeeting />
+            </PrivateRoute>
+          }
+        />
         <Route path="comunidade" element={<Community />} />
         <Route path="editar-post" element={<EditPost />} />
 
@@ -134,10 +179,9 @@ const AppRouter = () => {
 
         <Route path="forum" element={<ForumPage />} />
         <Route path="forum/duvida/:id" element={<StudentForumDetails />} />
-
       </Route>
 
-      { }
+      {}
 
       {/* Global rooms (acesso direto) */}
       {/* <Route path="rooms" element={<PrivateRoute permission={permissions.READ_ROOMS}><Rooms /></PrivateRoute>} />
