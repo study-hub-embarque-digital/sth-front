@@ -151,20 +151,19 @@ export default function MentorDetails() {
         sections={[
           {
             title: "Dados do Mentor",
-            content: (
-              <DynamicForms
-                hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-                fields={filteredFields}
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                button={{
-                  textButton: "Salvar Alterações",
-                  icon: <People />,
-                  permission: true,
-                  onClickAdd: () => console.log("Botão adicional clicado"),
-                }}
-              />
-            ),
+            content: <DynamicForms
+              hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+              showEditButton={true}
+              fields={filteredFields}
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              button={{
+                textButton: "Novo Mentor",
+                icon: <People />,
+                permission: true,
+                onClickAdd: () => console.log("clicou"),
+              }}
+            />,
           },
         ]}
       />

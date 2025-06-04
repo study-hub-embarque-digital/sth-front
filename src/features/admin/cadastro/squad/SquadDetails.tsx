@@ -10,6 +10,10 @@ export default function SquadDetails() {
                 {
                     title: 'Squad',
                     content: <SquadOrganogram />
+                },
+                 {
+                    title: 'Calendário',
+                    // content: <MentoriaCalendar />
                 }
             ]} />
         </>

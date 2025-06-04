@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../../services/authService";
 import { TokenHandler } from "../../utils/TokenHandler";
-import { jwtDecode } from "jwt-decode";
 
 const useLoginPage = () => {
   const navigate = useNavigate();
@@ -27,10 +26,10 @@ const useLoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('bateu aqui')
 
     if (loading) return;
 
-    // Define o estado do botão como "carregando"-
     setLoading(true);
 
     const body = {
@@ -40,39 +39,34 @@ const useLoginPage = () => {
 
     try {
       const response = await loginService(body);
-      TokenHandler.defineTokens(response.accessToken, response.refreshToken);
 
-      const token = TokenHandler.accessToken;
-
-      const decodedToken = jwtDecode(token);
-
-      const roles = decodedToken.roles;
-
-      const profile = roles.map((role) => role.toLowerCase());
-      
-      localStorage.setItem("profile", profile);
-
-      if (profile) {
-        navigate(`/home`);       
-      } else {
-        console.error("Perfil não selecionado");
+      if (!response.accessToken) {
+        setLoading(false);
+        return;
       }
+      
+      TokenHandler.defineTokens(response.accessToken, response.refreshToken);
+      navigate(`/home`);
+
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false); 
     }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
-
-    const profile = localStorage.getItem("profile"); // Recupera o perfil armazenado
-    console.log("PROFILE", profile);
-    navigate(`/register/${profile}`); // Redireciona para a página de registro
+    const profile = localStorage.getItem("profile");
+    navigate(`/register/${profile}`);
   };
 
-  return [
+  const navigateToHome = () => {
+    navigate(`/home`);
+  }
+
+  return {
     handleChange,
     handleClickShowPassword,
     handleSubmit,
@@ -80,7 +74,8 @@ const useLoginPage = () => {
     formData,
     showPassword,
     loading,
-  ];
+    navigateToHome
+  };
 };
 
 export { useLoginPage };

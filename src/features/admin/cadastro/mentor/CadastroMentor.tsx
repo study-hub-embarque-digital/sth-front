@@ -55,8 +55,9 @@ export default function CadastroMentor() {
       const usuarioId = response.usuarioDto.usuarioId;
       showMessage("Mentor cadastrado com sucesso!", "success");
 
-      navigate(`/emprego/cadastro/${usuarioId}`, {
-        state: { from: "/mentor/cadastro" },
+
+      navigate(`/home/emprego/cadastro/${usuarioId}`, {
+        state: { from: "/mentor/cadastro" } 
       });
     } catch (error: any) {
       console.error("Erro ao cadastrar mentor:", error);
