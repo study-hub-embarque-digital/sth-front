@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import React from "react";
 import { permissions } from "../../../../utils/permissions";
+import { Representante } from "../../../../types/representante/representante";
 
 export default function ListagemRepresentantes() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Representante[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
@@ -24,12 +26,18 @@ export default function ListagemRepresentantes() {
       setLoading(true);
       const response = await globalService.getAllRepresentantes();
 
-      const formatted = response.map((r) => ({
-        representanteId: r.id,
-        nome: r.usuarioDto?.nome || "N/A",
-        email: r.usuarioDto?.email || "N/A",
-        empresa: r.empresaDto?.nomeFantasia || "N/A",
-      }));
+      const formatted = response.map(
+        (r: {
+          id: any;
+          usuarioDto: { nome: any; email: any };
+          empresaDto: { nomeFantasia: any };
+        }) => ({
+          representanteId: r.id,
+          nome: r.usuarioDto?.nome || "N/A",
+          email: r.usuarioDto?.email || "N/A",
+          empresa: r.empresaDto?.nomeFantasia || "N/A",
+        })
+      );
 
       setData(formatted);
     } catch (err) {
@@ -38,6 +46,10 @@ export default function ListagemRepresentantes() {
       setLoading(false);
     }
   };
+
+  const filteredData = data.filter((item) =>
+    item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     loadRepresentantes();
@@ -69,12 +81,14 @@ export default function ListagemRepresentantes() {
   ) : (
     <ResponsiveTable
       columns={columns}
-      data={data}
+      data={filteredData}
       idProperty="representanteId"
       textButton="Cadastrar representante"
       onClickAdd={() => navigate("cadastro")}
       onClickDetails={(id) => navigate(`detalhes-representante/${id}`)}
       hasPermission={hasPermission(permissions.WRITE_REPRESENTANTES)}
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
     />
   );
 }

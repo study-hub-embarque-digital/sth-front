@@ -34,6 +34,7 @@ interface MentorDto {
 }
 
 
+
 interface SnackbarState {
   open: boolean;
   message: string;
@@ -79,7 +80,6 @@ export default function MentorDetails() {
         ethnicity: mentor.usuarioDto?.ethnicity || "",
         isActive: mentor.usuarioDto?.isActive ?? true,
         senha: "",
-
         empresa: mentor.empresaDto?.nomeFantasia || "",
         cnpj: mentor.empresaDto?.cnpj || "",
         squads: mentor.squadDtos?.map((s) => s.nome).join(", ") || "",
@@ -103,7 +103,7 @@ export default function MentorDetails() {
     }
   }, [id]);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Record<string, any>) => {
     const { nome, email, senha, isActive, phone, gender } = data;
 
     const payload = {
@@ -120,7 +120,7 @@ export default function MentorDetails() {
     try {
       if (!id) throw new Error("ID do mentor não fornecido");
 
-      await globalService.updateMentor(id, payload);
+      await globalService.updateMentor(id!, payload);
       setInitialValues({ ...data, senha: "" });
       showMessage("Mentor atualizado com sucesso!", "success");
     } catch (error: any) {
@@ -151,19 +151,21 @@ export default function MentorDetails() {
         sections={[
           {
             title: "Dados do Mentor",
-            content: <DynamicForms
-              hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-              showEditButton={true}
-              fields={filteredFields}
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              button={{
-                textButton: "Novo Mentor",
-                icon: <People />,
-                permission: true,
-                onClickAdd: () => console.log("clicou"),
-              }}
-            />,
+            content: (
+              <DynamicForms
+                hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+                showEditButton={true}
+                fields={filteredFields}
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                button={{
+                  textButton: "Novo Mentor",
+                  icon: <People />,
+                  permission: true,
+                  onClickAdd: () => console.log("clicou"),
+                }}
+              />
+            ),
           },
         ]}
       />
@@ -186,3 +188,14 @@ export default function MentorDetails() {
     </>
   );
 }
+
+// onSubmit={(data) => {
+//   globalService.updateJob(jobDto.jobId, data)
+//     .then(() => alert("Emprego atualizado com sucesso!"))
+//     .catch((err) => {
+//       console.error(err);
+//       alert("Erro ao atualizar emprego.");
+//     });
+// }}
+
+
