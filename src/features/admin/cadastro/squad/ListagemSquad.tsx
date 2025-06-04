@@ -74,9 +74,9 @@ export default function ListagemSquads() {
           data={filteredData}
           idProperty="squadId"
           textButton="Cadastrar Squad"
-          onClickAdd={() => navigate("/squads/cadastro")}
+          onClickAdd={() => navigate("cadastro")}
           onClickDetails={(id: string) => {
-            navigate(`/squads/detalhes-squad/${id}`);
+            navigate(`detalhes-squad/${id}`);
           }}
           hasPermission={hasPermission(permissions.WRITE_SQUADS)}
           searchTerm={searchTerm}

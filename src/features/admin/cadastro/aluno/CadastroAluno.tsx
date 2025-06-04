@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import globalService from "../../../../services/globalService";
-import { alunoFields } from "./alunoFields";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar } from "@mui/material";
+import squadsService from "../../../../services/squadsService";
+import { getAlunoFields } from "./alunoFields";
 
 export default function CadastroAluno() {
   const navigate = useNavigate();
@@ -13,7 +14,16 @@ export default function CadastroAluno() {
   const [formValues, setFormValues] = useState({});
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
+  const [instituicoes, setInstituicoes] = useState([]);
 
+  useEffect(() => {
+    squadsService
+      .getInstituicoes()
+      .then((instituicoes) => setInstituicoes(instituicoes ?? []))
+      .catch(() => console.error("Erro ao buscar Instituições"));
+  }, []);
+
+  const alunoFields = getAlunoFields(instituicoes);
 
   function convertDotNotationToNestedObject(flatObj: Record<string, any>) {
     const nestedObj: Record<string, any> = {};
@@ -46,13 +56,13 @@ export default function CadastroAluno() {
 
       // 3. Se ele trabalha com TI, redireciona para cadastro de emprego
       if (nestedData.isWorkingInIt && alunoSalvo?.alunoId) {
-        navigate(`/emprego/cadastro/${alunoSalvo.alunoId}`, {
+        navigate(`/home/emprego/cadastro/${alunoSalvo.alunoId}`, {
           state: { from: "/alunos/cadastro" }
         });
       } else {
         // 4. Senão, vai pra listagem de alunos
         setTimeout(() => {
-          navigate("/alunos");
+          navigate("/home/alunos");
         }, 1000);
       }
 

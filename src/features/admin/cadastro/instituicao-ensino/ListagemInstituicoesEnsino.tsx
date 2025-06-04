@@ -87,9 +87,9 @@ export default function ListagemInstituicoesEnsino() {
           data={filteredData}
           idProperty="instituicaoEnsinoId"
           textButton="Cadastrar instituição"
-          onClickAdd={() => navigate("/instituicoes/cadastro")}
+          onClickAdd={() => navigate("cadastro")}
           onClickDetails={(id) => {
-            navigate(`/instituicoes/detalhes-instituicao/${id}`);
+            navigate(`detalhes-instituicao/${id}`);
           }}
           hasPermission={hasPermission(permissions.WRITE_INSTITUICOES_ENSINO)}
           searchTerm={searchTerm}

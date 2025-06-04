@@ -87,9 +87,9 @@ export default function ListagemMentores() {
           data={filteredData}
           idProperty="mentorId"
           textButton="Cadastrar mentor"
-          onClickAdd={() => navigate("/mentores/cadastro")}
+          onClickAdd={() => navigate("cadastro")}
           onClickDetails={(id: string) => {
-            navigate(`/mentores/detalhes-mentor/${id}`);
+            navigate(`detalhes-mentor/${id}`);
           }}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

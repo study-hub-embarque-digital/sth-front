@@ -2,23 +2,24 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
-import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import SchoolIcon from '@mui/icons-material/School';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import ArticleIcon from '@mui/icons-material/Article';
-import ForumIcon from '@mui/icons-material/Forum';
-import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
-import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
+import PeopleIcon from "@mui/icons-material/People";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import SchoolIcon from "@mui/icons-material/School";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import ArticleIcon from "@mui/icons-material/Article";
+import ForumIcon from "@mui/icons-material/Forum";
+import BusinessIcon from "@mui/icons-material/Business";
+import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
+import BusinessCenterRoundedIcon from "@mui/icons-material/BusinessCenterRounded";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material";
 import { permissions } from "../../../utils/permissions";
 
 export interface IMenuItem {
-  text: string,
-  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>,
-  route: string,
-  permissions: string[],
+  text: string;
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  route: string;
+  permissions: string[];
 }
 
 const menuItems: IMenuItem[] = [
@@ -26,73 +27,79 @@ const menuItems: IMenuItem[] = [
     text: "Home",
     icon: HomeRoundedIcon,
     route: "/home",
-    permissions: []
+    permissions: [],
   },
   {
     text: "Squads",
     icon: GroupsRoundedIcon,
-    route: "/squads",
-    permissions: [permissions.READ_SQUADS]
+    route: "/home/squads",
+    permissions: [],
   },
   {
     text: "Alunos",
     icon: SchoolRoundedIcon,
-    route: "/alunos",
-    permissions: [permissions.READ_ALUNOS]
+    route: "/home/alunos",
+    permissions: [],
   },
   {
     text: "Mentores",
     icon: FolderRoundedIcon,
-    route: "/mentores",
-    permissions: [permissions.READ_MENTORES]
+    route: "/home/mentores",
+    permissions: [permissions.READ_MENTORES],
   },
   {
     text: "I.E's",
     icon: AccountBalanceRoundedIcon,
-    route: "/instituicoes",
-    permissions: [permissions.READ_INSTITUICOES_ENSINO]
+    route: "/home/instituicoes",
+    permissions: [permissions.READ_INSTITUICOES_ENSINO],
   },
   {
     text: "Representantes",
     icon: BusinessCenterRoundedIcon,
-    route: "/representantes",
-    permissions: [permissions.READ_REPRESENTANTES]
+    route: "/home/representantes",
+    permissions: [permissions.READ_REPRESENTANTES],
   },
   {
-    text: 'Comunidade',
+    text: "Empresas",
+    icon: BusinessIcon,
+    route: "/home/empresas",
+    permissions: [],
+  },
+  {
+    text: "Comunidadee",
     icon: PeopleIcon,
     route: "/home/comunidade",
-    permissions: []
+    permissions: [],
   },
   {
-    text: 'Artigos',
+    text: "Artigos",
     icon: ArticleIcon,
     route: "/home/artigos",
-    permissions: []
+    permissions: [],
   },
   {
-    text: 'Entregas',
+    text: "Entregas",
     icon: AssignmentIcon,
     route: "",
-    permissions: []
+    permissions: [],
   },
   {
-    text: 'Rooms',
+    text: "Rooms",
     icon: SchoolIcon,
     route: "/home/rooms",
-    permissions: [permissions.READ_ROOMS]
+    permissions: [permissions.READ_ROOMS],
   },
   {
-    text: 'Squad',
+    text: "Squad",
     icon: RocketLaunchIcon,
     route: "",
-    permissions: []
+    permissions: [],
   },
   {
-    text: 'Fórum',
+    text: "Fórum",
     icon: ForumIcon,
     route: "/home/forum",
-    permissions: []
+    permissions: [],
   },
 ];
 

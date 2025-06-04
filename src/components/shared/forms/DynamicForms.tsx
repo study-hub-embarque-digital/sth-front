@@ -30,6 +30,8 @@ interface DynamicFormProps {
   initialValues?: Record<string, any>;
   onSubmit: (formData: Record<string, any>) => void;
   hasPermission?: boolean;
+  showEditButton?: boolean;
+  defaultEditable?: boolean;
   button?: Button;
 }
 
@@ -38,10 +40,14 @@ export const DynamicForms: React.FC<DynamicFormProps> = ({
   initialValues = {},
   onSubmit,
   hasPermission,
-  button
+  showEditButton = false,
+  button,
+  defaultEditable
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>(initialValues);
-  const [editable, setEditable] = useState(!Object.keys(initialValues).length);
+  const [editable, setEditable] = useState(
+    defaultEditable !== undefined ? defaultEditable : !Object.keys(initialValues).length
+  );
   const navigate = useNavigate();
 
 
@@ -109,7 +115,7 @@ export const DynamicForms: React.FC<DynamicFormProps> = ({
               {button.textButton}
             </Button>
           )}
-          {hasPermission && Object.keys(initialValues).length > 0 && (
+          {hasPermission && showEditButton && (
             <Button
               variant="contained"
               size="medium"

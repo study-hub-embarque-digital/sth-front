@@ -33,6 +33,8 @@ interface ResponsiveTableProps {
   hasPermission: boolean;
   searchTerm?: string; // opcional
   setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
+  filtroIdade?: any;
+  filtroStatus?: any;
 }
 
 export const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
@@ -45,6 +47,8 @@ export const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
   hasPermission,
   searchTerm,
   setSearchTerm,
+  filtroIdade,
+  filtroStatus,
 }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -127,34 +131,42 @@ export const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
           />
         </FormControl>
 
-        {/* Filtro por idade */}
-        <FormControl sx={{ flex: 1, minWidth: 120 }}>
-          <InputLabel id="select-age-label">Idade</InputLabel>
-          <Select
-            labelId="select-age-label"
-            value={age}
-            onChange={handleChange}
-            label="Idade"
-          >
-            <MenuItem value={20}>Vinte</MenuItem>
-            <MenuItem value={21}>Vinte e um</MenuItem>
-            <MenuItem value={22}>Vinte e dois</MenuItem>
-          </Select>
-        </FormControl>
+        {!filtroIdade && (
+          <>
+            {/* Filtro por idade */}
+            <FormControl sx={{ flex: 1, minWidth: 120 }}>
+              <InputLabel id="select-age-label">Idade</InputLabel>
+              <Select
+                labelId="select-age-label"
+                value={age}
+                onChange={handleChange}
+                label="Idade"
+              >
+                <MenuItem value={20}>Vinte</MenuItem>
+                <MenuItem value={21}>Vinte e um</MenuItem>
+                <MenuItem value={22}>Vinte e dois</MenuItem>
+              </Select>
+            </FormControl>
+          </>
+        )}
 
-        {/* Filtro por status */}
-        <FormControl sx={{ flex: 1, minWidth: 120 }}>
-          <InputLabel id="select-status-label">Status</InputLabel>
-          <Select
-            labelId="select-status-label"
-            value={status}
-            onChange={handleChange}
-            label="Status"
-          >
-            <MenuItem value={1}>Ativo</MenuItem>
-            <MenuItem value={0}>Inativo</MenuItem>
-          </Select>
-        </FormControl>
+        {!filtroStatus && (
+          <>
+            {/* Filtro por status */}
+            <FormControl sx={{ flex: 1, minWidth: 120 }}>
+              <InputLabel id="select-status-label">Status</InputLabel>
+              <Select
+                labelId="select-status-label"
+                value={status}
+                onChange={handleChange}
+                label="Status"
+              >
+                <MenuItem value={1}>Ativo</MenuItem>
+                <MenuItem value={0}>Inativo</MenuItem>
+              </Select>
+            </FormControl>
+          </>
+        )}
       </Box>
 
       <TableContainer sx={{ width: "100%", overflowX: "auto" }}>

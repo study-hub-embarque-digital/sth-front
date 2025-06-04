@@ -10,39 +10,39 @@ import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import { permissions } from "../../../../utils/permissions";
 
 const representanteDetailsFields: IFormField[] = [
-  { name: "nome", label: "Nome", type: "text", required: true },
-  { name: "email", label: "Email", type: "text", required: true },
-  { name: "phone", label: "Telefone", type: "text" },
-  {
-    name: "gender",
-    label: "Gênero",
-    type: "select",
-    options: [
-      { label: "Mulher Cis", value: "MULHER_CIS" },
-      { label: "Homem Cis", value: "HOMEM_CIS" },
-      { label: "Mulher Trans", value: "MULHER_TRANS" },
-      { label: "Homem Trans", value: "HOMEM_TRANS" },
-      { label: "Não Binário", value: "NAO_BINARIO" },
-      { label: "Prefiro não informar", value: "NAO_INFORMAR" },
-    ],
-  },
-  {
-    name: "ethnicity",
-    label: "Etnia",
-    type: "select",
-    options: [
-      { label: "Preto", value: "PRETO" },
-      { label: "Pardo", value: "PARDO" },
-      { label: "Branco", value: "BRANCO" },
-      { label: "Indígena", value: "INDIGENA" },
-      { label: "Amarelo", value: "AMARELO" },
-      { label: "Outros", value: "OUTROS" },
-      { label: "Prefiro não informar", value: "NAO_INFORMAR" },
-    ],
-  },
-  { name: "dataNascimento", label: "Nascimento", type: "date" },
-  { name: "empresa", label: "Empresa", type: "text", disabledOnEdit: true },
-  { name: "cnpj", label: "CNPJ", type: "text", disabledOnEdit: true },
+    { name: "nome", label: "Nome", type: "text", required: true },
+    { name: "email", label: "Email", type: "text", required: true },
+    { name: "phone", label: "Telefone", type: "text" },
+    {
+        name: "gender",
+        label: "Gênero",
+        type: "select",
+        options: [
+            { label: "Mulher Cis", value: "MULHER_CIS" },
+            { label: "Homem Cis", value: "HOMEM_CIS" },
+            { label: "Mulher Trans", value: "MULHER_TRANS" },
+            { label: "Homem Trans", value: "HOMEM_TRANS" },
+            { label: "Não Binário", value: "NAO_BINARIO" },
+            { label: "Prefiro não informar", value: "NAO_INFORMAR" },
+        ],
+    },
+    {
+        name: "ethnicity",
+        label: "Etnia",
+        type: "select",
+        options: [
+            { label: "Preto", value: "PRETO" },
+            { label: "Pardo", value: "PARDO" },
+            { label: "Branco", value: "BRANCO" },
+            { label: "Indígena", value: "INDIGENA" },
+            { label: "Amarelo", value: "AMARELO" },
+            { label: "Outros", value: "OUTROS" },
+            { label: "Prefiro não informar", value: "NAO_INFORMAR" },
+        ],
+    },
+    { name: "dataNascimento", label: "Nascimento", type: "date" },
+    { name: "empresa", label: "Empresa", type: "text", disabledOnEdit: true },
+    { name: "cnpj", label: "CNPJ", type: "text", disabledOnEdit: true },
 ];
 
 
@@ -115,6 +115,7 @@ export default function RepresentanteDetails() {
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                                 hasPermission={hasPermission(permissions.WRITE_REPRESENTANTES)}
+                                showEditButton={true}
                             />
                         ),
                     },
