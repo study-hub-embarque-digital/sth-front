@@ -7,6 +7,8 @@ import {
   StepLabel,
   Typography,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import globalService from "../../../../services/globalService";
@@ -22,26 +24,39 @@ export default function CadastroWork() {
   const [cnpj, setCnpj] = useState("");
   const [empregadorId, setEmpregadorId] = useState<string | null>(null);
   const [empregadorDados, setEmpregadorDados] = useState<Record<string, any>>({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info",
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || "/";
 
+  const showMessage = (
+    message: string,
+    severity: "success" | "error" | "warning" | "info" = "info"
+  ) => {
+    setSnackbar({
+      open: true,
+      message,
+      severity,
+    });
+  };
 
   const limparCnpj = (valor: string) => valor.trim().replace(/\D/g, "");
 
   const buscarEmpregador = async () => {
     const cnpjLimpo = limparCnpj(cnpj);
     try {
-      console.group('ESTA MERD====', cnpjLimpo, '====')
       const result = await globalService.buscarEmpregadorPorCnpj(cnpjLimpo);
-      console.log(result)
+
       if (!result) {
-        alert("Empregador não encontrado. Preencha os dados.");
+        showMessage("Empregador não encontrado. Preencha os dados.", "warning");
         setEmpregadorDados({ cnpjEmpresa: cnpjLimpo });
         setActiveStep(1); // Vai para cadastro do empregador
-      }
-      else {
+      } else {
         setEmpregadorId(result.empregadorId);
         setEmpregadorDados(result);
         setActiveStep(2); // Vai direto para o emprego
@@ -52,12 +67,10 @@ export default function CadastroWork() {
         err?.message ||
         "Erro ao buscar empregador";
 
-      alert(message);
+      showMessage(message, "error");
       setEmpregadorDados({ cnpjEmpresa: cnpjLimpo });
       setActiveStep(1);
-
     }
-
   };
 
   const salvarEmpregador = async (form: Record<string, any>) => {
@@ -65,9 +78,14 @@ export default function CadastroWork() {
       const novo = await globalService.criarEmpregador(form);
       setEmpregadorId(novo.empregadorId);
       setActiveStep(2);
-    } catch (err) {
+      showMessage("Empregador cadastrado com sucesso!", "success");
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Erro ao salvar empregador";
       console.error(err);
-      alert("Erro ao salvar empregador");
+      showMessage(message, "error");
     }
   };
 
@@ -79,14 +97,17 @@ export default function CadastroWork() {
         empregadorId,
       };
       await globalService.criarJob(payload);
-      alert("Emprego cadastrado com sucesso!");
-      navigate(from); // redireciona de volta
-    } catch (err) {
+      showMessage("Emprego cadastrado com sucesso!", "success");
+      navigate(from);
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Erro ao cadastrar emprego";
       console.error(err);
-      alert("Erro ao cadastrar emprego");
+      showMessage(message, "error");
     }
   };
-
 
   return (
     <Box sx={{ p: 4, maxWidth: 900, mx: "auto" }}>
@@ -110,7 +131,12 @@ export default function CadastroWork() {
             onChange={(e) => setCnpj(limparCnpj(e.target.value))}
             fullWidth
           />
-          <Button fullWidth variant="contained" color="primary" onClick={buscarEmpregador}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={buscarEmpregador}
+          >
             Buscar
           </Button>
         </Box>
@@ -131,15 +157,31 @@ export default function CadastroWork() {
 
       {activeStep === 2 && (
         <>
-          <DynamicForms
-            fields={jobFields}
-            onSubmit={cadastrarEmprego}
-          />
-          <Button onClick={() => setActiveStep(empregadorId ? 0 : 1)} sx={{ mt: 2 }}>
+          <DynamicForms fields={jobFields} onSubmit={cadastrarEmprego} />
+          <Button
+            onClick={() => setActiveStep(empregadorId ? 0 : 1)}
+            sx={{ mt: 2 }}
+          >
             Voltar
           </Button>
         </>
       )}
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity as any}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
