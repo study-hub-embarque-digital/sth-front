@@ -1,8 +1,20 @@
 import { httpClient } from "../api/api";
+import { IConteudoEstudo } from "../pages/room/detail/biblioteca/interfaces";
 
 export const getRooms = async () => {
   try {
     const response = await httpClient.get(`/rooms`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar rooms:", error);
+    throw error;
+  }
+};
+
+export const generateRooms = async () => {
+  try {
+    const response = await httpClient.get(`/rooms/generate`);
 
     return response.data;
   } catch (error) {
@@ -17,7 +29,7 @@ export interface IRoom {
   description: string,
   title: string,
   image: string,
-  conteudosRecomendados: IConteudoRecomndado[]
+  conteudosRecomendados: IConteudoEstudo[]
 }
 
 export interface IConteudoRecomndado {

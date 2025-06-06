@@ -4,6 +4,7 @@ import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typog
 import { useParams } from "react-router-dom";
 import { RoomTabPanel } from "./room-tab-panel/RoomTabPanel";
 import { ISalaTematica, ListagemSalaTematica } from "./sala-tematica/ListagemSalaTematica";
+import Biblioteca from "./biblioteca/Biblioteca";
 
 const RoomDetail = () => {
   const [room, setRoom] = useState<IRoom | undefined>();
@@ -47,7 +48,7 @@ const RoomDetail = () => {
     <Box sx={{ width: '100%' }}> {/* sx={{ display: 'flex', alignItems: 'center', overflowX: 'auto' }} */}
       <Box>
         {room?.image ?
-          <img src={room?.image} alt={room?.title} />
+          <img src={room?.image} alt={room?.title} width={'100%'} style={{ borderRadius: '20px' }} />
           :
           <div
             style={{
@@ -98,27 +99,21 @@ const RoomDetail = () => {
           {
             title: 'Salas Temáticas',
             index: 0,
-            element: <ListagemSalaTematica salasTematica={salas} roomId={roomId} />
+            element: <ListagemSalaTematica salasTematica={salas} roomId={roomId} image={room?.image} />
           },
           {
             title: 'Biblioteca',
             index: 1,
-            element: <p>Teste 2</p>
+            element: <Biblioteca conteudos={room?.conteudosRecomendados ?? []} />
           },
-          {
-            title: 'Playground',
-            index: 2,
-            element: <p>Teste 3</p>
-          }
+          // {
+          //   title: 'Playground',
+          //   index: 2,
+          //   element: <p>Teste 3</p>
+          // }
         ]}
       />
-      {/* {salas.map((sala) => (
-        <Button key={sala?.salaTematicaId} onClick={() => navigate(`/rooms/${roomId}/${sala?.salaTematicaId}`)}>
-          <SalaTematicaCard salaTematica={sala} />
-        </Button>
-      ))} */}
-      {/* <iframe src="https://stackblitz.com/edit/vitejs-vite-9lcy3mbf?embed=1&file=index.html" width={'100%'} height={400}></iframe> */}
-    </Box>
+      </Box>
   );
 };
 
