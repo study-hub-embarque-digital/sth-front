@@ -1,12 +1,13 @@
 import { TextField, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = ({ placeholder }) => {
+const SearchBar = ({ placeholder, onChangeValue }) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
       <TextField
         variant="outlined"
         placeholder={placeholder ?? "Buscar..."}
+        onChange={e => onChangeValue(e.target.value)}
         sx={{
           backgroundColor: 'white',
           borderRadius: 4,

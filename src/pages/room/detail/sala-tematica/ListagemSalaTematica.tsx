@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Button } from "@mui/material";
-import { getSalasOfRoom } from "../../../../services/roomService";
 import { SalaTematicaCard } from "../../../../components/aluno/SalaTematicaCard";
 import { useNavigate } from "react-router-dom";
 
@@ -12,17 +11,18 @@ export interface ISalaTematica {
 
 interface IListagemSalaTematica {
   salasTematica: ISalaTematica[],
-  roomId: string | undefined
+  roomId: string | undefined,
+  image: string | undefined
 }
 
-const ListagemSalaTematica = ({ salasTematica, roomId }: IListagemSalaTematica) => {
+const ListagemSalaTematica = ({ salasTematica, roomId, image }: IListagemSalaTematica) => {
   const navigate = useNavigate();
 
   return (
-    <Box>
+    <Box marginBottom={'20px'}>
       {salasTematica.map((sala) => (
-        <Button key={sala?.salaTematicaId} onClick={() => navigate(`/student/rooms/${roomId}/${sala?.salaTematicaId}`)}>
-          <SalaTematicaCard salaTematica={sala} />
+        <Button key={sala?.salaTematicaId} onClick={() => navigate(`/home/rooms/${roomId}/${sala?.salaTematicaId}`)}>
+          <SalaTematicaCard salaTematica={sala} image={image} />
         </Button>
       ))}
     </Box>

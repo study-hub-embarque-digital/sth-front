@@ -6,7 +6,7 @@ const RoomCard = ({ room }) => {
     const navigate = useNavigate();
 
   return (
-    <Card onClick={() => navigate(`${room.roomId}`)} sx={{ width: 150, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
+    <Card onClick={() => navigate(`${room.roomId}`)} sx={{ width: '300px', backgroundColor: '#FFF', marginRight: 2, flexShrink: 0 }}>
       {room.image ? (
         <img
           src={room.image}
@@ -38,12 +38,12 @@ const RoomCard = ({ room }) => {
           {room.title || 'Room'}
         </Typography>
         
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{ textAlign: 'center' }}
         >
-          {(room.description?.slice(0, 115) + '...') || 'Descrição indisponível'}
-        </Typography>
+          {(room.description?.slice(0, 50) + '...') || 'Descrição indisponível'}
+        </Typography> */}
       </CardContent>
     </Card>
   );

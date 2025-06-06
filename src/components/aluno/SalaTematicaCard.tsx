@@ -9,7 +9,7 @@ interface ISalaTematicaCard {
 
 const SalaTematicaCard = ({ salaTematica, image }: ISalaTematicaCard) => {
   return (
-    <Card sx={{ width: 429, height: 246, backgroundColor: '#FFD700', marginRight: 2, flexShrink: 0 }}>
+    <Card sx={{ width: 429, height: 246, backgroundColor: '#FFF', marginRight: 2, flexShrink: 0 }}>
       {image ? (
         <img
           src={image}

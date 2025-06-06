@@ -2,7 +2,7 @@ import React from "react";
 import { CustomizedFloatButton } from "./styles";
 
 interface IFloatButtonProps {
-  children: React.ReactNode,
+  children?: React.ReactNode,
   fixed?: boolean,
   position?: 'BOTTOM_RIGTH',
   onClick: () => void
