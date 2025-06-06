@@ -22,35 +22,58 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useAuth } from "../../../contexts/AuthContext";
 
-export const ResponsiveTable = ({
+interface ResponsiveTableProps {
+  columns: any[];
+  data: any[];
+  idProperty: string;
+  onClickDetails: (id: string) => void;
+  textButton: string;
+  onClickAdd: () => void;
+  hasPermission: boolean;
+  searchTerm?: string; // opcional
+  setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
+  filtroIdade?: any;
+  filtroStatus?: any;
+}
+
+export const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
   columns,
   data,
   idProperty,
   onClickDetails,
   textButton,
   onClickAdd,
-  hasPermission
+  hasPermission,
+  searchTerm,
+  setSearchTerm,
+  filtroIdade,
+  filtroStatus,
 }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (
+    event: any,
+    newPage: React.SetStateAction<number>
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: {
+    target: { value: string | number };
+  }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
   const [age, setAge] = React.useState("");
 
-  const handleChange = (event) => {
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setAge(event.target.value);
   };
-
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
@@ -95,6 +118,8 @@ export const ResponsiveTable = ({
           <InputLabel htmlFor="search-input">Pesquisar</InputLabel>
           <OutlinedInput
             id="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton>
@@ -106,34 +131,42 @@ export const ResponsiveTable = ({
           />
         </FormControl>
 
-        {/* Filtro por idade */}
-        <FormControl sx={{ flex: 1, minWidth: 120 }}>
-          <InputLabel id="select-age-label">Idade</InputLabel>
-          <Select
-            labelId="select-age-label"
-            value={age}
-            onChange={handleChange}
-            label="Idade"
-          >
-            <MenuItem value={20}>Vinte</MenuItem>
-            <MenuItem value={21}>Vinte e um</MenuItem>
-            <MenuItem value={22}>Vinte e dois</MenuItem>
-          </Select>
-        </FormControl>
+        {!filtroIdade && (
+          <>
+            {/* Filtro por idade */}
+            <FormControl sx={{ flex: 1, minWidth: 120 }}>
+              <InputLabel id="select-age-label">Idade</InputLabel>
+              <Select
+                labelId="select-age-label"
+                value={age}
+                onChange={handleChange}
+                label="Idade"
+              >
+                <MenuItem value={20}>Vinte</MenuItem>
+                <MenuItem value={21}>Vinte e um</MenuItem>
+                <MenuItem value={22}>Vinte e dois</MenuItem>
+              </Select>
+            </FormControl>
+          </>
+        )}
 
-        {/* Filtro por status */}
-        <FormControl sx={{ flex: 1, minWidth: 120 }}>
-          <InputLabel id="select-status-label">Status</InputLabel>
-          <Select
-            labelId="select-status-label"
-            value={status}
-            onChange={handleChange}
-            label="Status"
-          >
-            <MenuItem value={1}>Ativo</MenuItem>
-            <MenuItem value={0}>Inativo</MenuItem>
-          </Select>
-        </FormControl>
+        {!filtroStatus && (
+          <>
+            {/* Filtro por status */}
+            <FormControl sx={{ flex: 1, minWidth: 120 }}>
+              <InputLabel id="select-status-label">Status</InputLabel>
+              <Select
+                labelId="select-status-label"
+                value={status}
+                onChange={handleChange}
+                label="Status"
+              >
+                <MenuItem value={1}>Ativo</MenuItem>
+                <MenuItem value={0}>Inativo</MenuItem>
+              </Select>
+            </FormControl>
+          </>
+        )}
       </Box>
 
       <TableContainer sx={{ width: "100%", overflowX: "auto" }}>

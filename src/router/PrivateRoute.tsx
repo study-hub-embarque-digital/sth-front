@@ -10,7 +10,9 @@ interface IPrivateRoute {
 }
 
 const PrivateRoute = ({ children, role, permission, validateBoth = false }: IPrivateRoute) => {
-  const { hasRole, hasPermission, user } = useAuth();
+  const { hasRole, hasPermission, user, loadingUser } = useAuth();
+
+  if (loadingUser) return null;
 
   if (!role && !permission && user?.roles && user.roles.length >= 1) return children;
 

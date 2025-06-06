@@ -67,8 +67,6 @@ export default function SquadCreateStepper() {
             .finally(() => setLoading(false));
     }, []);
 
-    // .catch(() => setSnackbar({ open: true, message: "Erro ao buscar instituições", severity: "error" }))
-
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

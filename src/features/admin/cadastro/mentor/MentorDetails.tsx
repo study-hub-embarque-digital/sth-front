@@ -2,102 +2,148 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import globalService from "../../../../services/globalService";
-import { IFormField } from "../../../../components/shared/forms/IFormField";
-import { mentorDetailsFields } from "./mentorFilds";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
-import EmpregoDetails from "../emprego/EmpregoDetails";
 import SectionGroup from "../../../../components/shared/layout/SectionGroup";
 import { People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, CircularProgress, Box } from "@mui/material";
+import { mentorDetailsFields } from "./mentorFilds";
 
+type RouteParams = {
+  id: string;
+};
+
+
+interface MentorDto {
+  usuarioDto: {
+    nome: string;
+    email: string;
+    dataNascimento: string;
+    phone: string;
+    gender: string;
+    ethnicity: string;
+    isActive: boolean;
+  };
+  empresaDto?: {
+    nomeFantasia: string;
+    cnpj: string;
+  };
+  squadDtos?: {
+    nome: string;
+  }[];
+}
+
+
+
+interface SnackbarState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "warning" | "error";
+}
 
 export default function MentorDetails() {
-  const { id } = useParams();
-  const [initialValues, setInitialValues] = useState({});
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const { hasRole } = useAuth();
-  const { hasPermission } = useAuth();
+  const { id } = useParams<RouteParams>();
+  const [initialValues, setInitialValues] = useState<Partial<any>>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const { hasRole, hasPermission } = useAuth();
+
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const showMessage = (message: string, severity: SnackbarState["severity"] = "info") => {
+    setSnackbar({
+      open: true,
+      message,
+      severity,
+    });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   const loadMentor = async () => {
     try {
-      const mentor = await globalService.getMentorById(id!);
+      if (!id) throw new Error("ID do mentor não fornecido");
+
+      const mentor: MentorDto = await globalService.getMentorById(id);
 
       setInitialValues({
-        nome: mentor.usuarioDto?.nome,
-        email: mentor.usuarioDto?.email,
-        dataNascimento: mentor.usuarioDto?.dataNascimento,
-        phone: mentor.usuarioDto?.phone,
-        gender: mentor.usuarioDto?.gender,
-        ethnicity: mentor.usuarioDto?.ethnicity,
-        isActive: mentor.usuarioDto?.isActive,
+        nome: mentor.usuarioDto?.nome || "",
+        email: mentor.usuarioDto?.email || "",
+        dataNascimento: mentor.usuarioDto?.dataNascimento || "",
+        phone: mentor.usuarioDto?.phone || "",
+        gender: mentor.usuarioDto?.gender || "",
+        ethnicity: mentor.usuarioDto?.ethnicity || "",
+        isActive: mentor.usuarioDto?.isActive ?? true,
         senha: "",
-
-        // NOVOS CAMPOS
-        empresa: mentor.empresaDto?.nomeFantasia,
-        cnpj: mentor.empresaDto?.cnpj,
-        squads: mentor.squadDtos?.map(s => s.nome).join(", "), // opcional, você pode tratar como quiser
+        empresa: mentor.empresaDto?.nomeFantasia || "",
+        cnpj: mentor.empresaDto?.cnpj || "",
+        squads: mentor.squadDtos?.map((s) => s.nome).join(", ") || "",
       });
-
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao carregar o mentor:", error);
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao carregar mentor";
+      showMessage(message, "error");
     } finally {
       setLoading(false);
     }
   };
 
-
   useEffect(() => {
-    loadMentor();
+    if (id) {
+      setLoading(true);
+      loadMentor();
+    }
   }, [id]);
 
   const handleSubmit = async (data: Record<string, any>) => {
-    const {
-      nome,
-      email,
-      senha,
-      isActive,
-      phone,
-      gender,
-    } = data;
+    const { nome, email, senha, isActive, phone, gender } = data;
 
     const payload = {
       usuarioDto: {
         nome,
         email,
-        senha,
+        senha: senha || undefined,
         isActive,
         phone,
         gender,
-      }
+      },
     };
 
-
     try {
-      // Envia a requisição para salvar os dados
+      if (!id) throw new Error("ID do mentor não fornecido");
+
       await globalService.updateMentor(id!, payload);
-
-
-      // Sucesso: Atualiza os initialValues com os dados mais recentes
-      setInitialValues({ ...data });  // Atualiza o estado com os dados salvos
-
-      setSnackbarOpen(true); // abre alerta de sucesso
-    } catch (error) {
-      console.error("Erro ao atualizar aluno:", error);
+      setInitialValues({ ...data, senha: "" });
+      showMessage("Mentor atualizado com sucesso!", "success");
+    } catch (error: any) {
+      console.error("Erro ao atualizar mentor:", error);
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Erro ao atualizar mentor";
+      showMessage(message, "error");
     }
-
   };
 
+  const filteredFields = mentorDetailsFields.filter(
+    (field) => !(field.name === "senha" && !hasRole("ADMIN"))
+  );
 
-  const filteredFields: IFormField[] = mentorDetailsFields.filter((field) => {
-    if (field.name === "senha" && hasRole("ADMIN")) {
-      return false;
-    }
-    return true;
-  });
-
-  if (loading) return <p>Carregando...</p>;
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="60vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -105,38 +151,38 @@ export default function MentorDetails() {
         sections={[
           {
             title: "Dados do Mentor",
-            content: <DynamicForms
-              hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-              showEditButton={true}
-              fields={filteredFields}
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              button={{
-                textButton: "Novo Mentor",
-                icon: <People />,
-                permission: true,
-                onClickAdd: () => console.log("clicou"),
-              }}
-            />,
+            content: (
+              <DynamicForms
+                hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+                showEditButton={true}
+                fields={filteredFields}
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                button={{
+                  textButton: "Novo Mentor",
+                  icon: <People />,
+                  permission: true,
+                  onClickAdd: () => console.log("clicou"),
+                }}
+              />
+            ),
           },
-          // {
-          //   title: "Dados de trabalho",
-          //   content: <EmpregoDetails
-          //     data={jobDto}
-          //     isEditable={true}
-
-          //   />
-          // }
         ]}
       />
+
       <Snackbar
-        open={snackbarOpen}
+        open={snackbar.open}
         autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
+        onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success" variant="filled">
-          Aluno atualizado com sucesso!
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
         </Alert>
       </Snackbar>
     </>
@@ -151,3 +197,5 @@ export default function MentorDetails() {
 //       alert("Erro ao atualizar emprego.");
 //     });
 // }}
+
+

@@ -8,76 +8,81 @@ import { permissions } from "../../../../utils/permissions";
 import { useAuth } from "../../../../contexts/AuthContext";
 
 export default function ListagemSquads() {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { hasPermission } = useAuth();
+  const [data, setData] = useState<Squad[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { hasPermission } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const columns = [
+    { id: "nome", label: "Nome", minWidth: 170 },
+    { id: "tipo", label: "Tipo", minWidth: 100 },
+    { id: "semestre", label: "Semestre", minWidth: 100 },
+    { id: "ciclo", label: "Ciclo", minWidth: 200 },
+    { id: "empresaNome", label: "Empresa", minWidth: 200 },
+  ];
 
-    const columns = [
-        { id: "nome", label: "Nome", minWidth: 170 },
-        { id: "tipo", label: "Tipo", minWidth: 100 },
-        { id: "semestre", label: "Semestre", minWidth: 100 },
-        { id: "ciclo", label: "Ciclo", minWidth: 200 },
-        { id: "empresaNome", label: "Empresa", minWidth: 200 },
-    ];
+  const loadSquads = async () => {
+    try {
+      setLoading(true);
+      const response = await globalService.getAllSquads();
+      setData(response);
+    } catch (error) {
+      console.error("Erro ao carregar os squads:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const filteredData = data.filter((item) =>
+    item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    const loadSquads = async () => {
-        try {
-            setLoading(true);
-            const response = await globalService.getAllSquads();
-            setData(response);
-        } catch (error) {
-            console.error("Erro ao carregar os squads:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  useEffect(() => {
+    loadSquads();
+  }, []);
 
-    useEffect(() => {
-        loadSquads();
-    }, []);
-
-    return (
-        <>
-            {loading ? (
-                <table>
-                    <thead>
-                        <tr>
-                            {columns.map((col) => (
-                                <th key={col.id}>
-                                    <Skeleton width={col.minWidth || 100} />
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {[...Array(5)].map((_, index) => (
-                            <tr key={index}>
-                                {columns.map((col) => (
-                                    <td key={col.id}>
-                                        <Skeleton width="80%" />
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            ) : (
-                <ResponsiveTable
-                    columns={columns}
-                    data={data}
-                    idProperty="squadId"
-                    textButton="Cadastrar Squad"
-                    onClickAdd={() => navigate("squads/cadastro")}
-                    onClickDetails={(id: string) => {
-                        navigate(`squads/detalhes-squad/${id}`);
-                    }}
-                    hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
-                />
-            )}
-        </>
-    );
+  return (
+    <>
+      {loading ? (
+        <table>
+          <thead>
+            <tr>
+              {columns.map((col) => (
+                <th key={col.id}>
+                  <Skeleton width={col.minWidth || 100} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, index) => (
+              <tr key={index}>
+                {columns.map((col) => (
+                  <td key={col.id}>
+                    <Skeleton width="80%" />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <ResponsiveTable
+          columns={columns}
+          data={filteredData}
+          idProperty="squadId"
+          textButton="Cadastrar Squad"
+          onClickAdd={() => navigate("cadastro")}
+          onClickDetails={(id: string) => {
+            navigate(`detalhes-squad/${id}`);
+          }}
+          hasPermission={hasPermission(permissions.WRITE_SQUADS)}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+      )}
+    </>
+  );
 }

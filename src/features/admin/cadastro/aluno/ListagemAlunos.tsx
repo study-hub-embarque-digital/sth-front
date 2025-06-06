@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import { ResponsiveTable } from "../../../../components/shared/table/ResponsiveTable";
 import { Skeleton } from "@mui/material";
 import globalService from "../../../../services/globalService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { permissions } from "../../../../utils/permissions";
+import React from "react";
+import { ResponsiveTable } from "../../../../components/shared/table/ResponsiveTable";
 
 export default function ListagemAlunos() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Alunos[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { hasPermission } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
@@ -26,15 +28,23 @@ export default function ListagemAlunos() {
       setLoading(true);
       const response = await globalService.getAllAlunos();
 
-      const formattedData = response.map((aluno) => ({
-        alunoId: aluno.alunoId,
-        nome: aluno.usuarioDto?.nome || "N/A",
-        email: aluno.usuarioDto?.email || "N/A",
-        curso: aluno.curso || "N/A",
-        periodo: aluno.periodo || "N/A",
-        instituicao: aluno.instituicaoEnsinoDto?.nome || "N/A",
-        coordenador: aluno.instituicaoEnsinoDto?.coordenador || "N/A",
-      }));
+      const formattedData = response.map(
+        (aluno: {
+          alunoId: any;
+          usuarioDto: { nome: any; email: any };
+          curso: any;
+          periodo: any;
+          instituicaoEnsinoDto: { nome: any; coordenador: any };
+        }) => ({
+          alunoId: aluno.alunoId,
+          nome: aluno.usuarioDto?.nome || "N/A",
+          email: aluno.usuarioDto?.email || "N/A",
+          curso: aluno.curso || "N/A",
+          periodo: aluno.periodo || "N/A",
+          instituicao: aluno.instituicaoEnsinoDto?.nome || "N/A",
+          coordenador: aluno.instituicaoEnsinoDto?.coordenador || "N/A",
+        })
+      );
 
       setData(formattedData);
     } catch (error) {
@@ -43,6 +53,10 @@ export default function ListagemAlunos() {
       setLoading(false);
     }
   };
+
+  const filteredData = data.filter((item) =>
+    item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     loadAlunos();
@@ -76,14 +90,16 @@ export default function ListagemAlunos() {
       ) : (
         <ResponsiveTable
           columns={columns}
-          data={data}
-          idProperty="alunoId" 
+          data={filteredData}
+          idProperty="alunoId"
           textButton="Cadastrar aluno"
           onClickAdd={() => navigate("cadastro")}
           onClickDetails={(id) => {
             navigate(`detalhes-aluno/${id}`);
           }}
           hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
         />
       )}
     </>
