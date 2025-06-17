@@ -15,7 +15,7 @@ const getAllEmpresas = async () => {
 
 const getEmpresaById = async (id: string) => {
   try {
-    const response = await httpClient.get(`/empresas/${id}`);
+    const response = await httpClient.get(`/empresas/id:${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar empresa por ID:", error);

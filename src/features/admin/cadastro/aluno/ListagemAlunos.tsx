@@ -116,6 +116,8 @@ export default function ListagemAlunos() {
           hasPermission={hasPermission(permissions.WRITE_ALUNOS)}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          filtroIdade={true}
+          filtroStatus={true}
         />
       )}
     </>

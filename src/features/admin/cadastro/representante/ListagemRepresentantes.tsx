@@ -89,6 +89,8 @@ export default function ListagemRepresentantes() {
       hasPermission={hasPermission(permissions.WRITE_REPRESENTANTES)}
       searchTerm={searchTerm}
       setSearchTerm={setSearchTerm}
+      filtroIdade={true}
+      filtroStatus={true}
     />
   );
 }

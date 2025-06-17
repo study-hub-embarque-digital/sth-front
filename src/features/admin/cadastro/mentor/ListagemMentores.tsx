@@ -94,6 +94,8 @@ export default function ListagemMentores() {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           hasPermission={hasPermission(permissions.WRITE_MENTORES)}
+          filtroIdade={true}
+          filtroStatus={true}
         />
       )}
     </>
