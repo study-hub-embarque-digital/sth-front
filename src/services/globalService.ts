@@ -140,6 +140,15 @@ const criarJob = async (data: any) => {
     throw error;
   }
 };
+const createIes = async (data: any) => {
+  try {
+    const response = await httpClient.post("/instituicoes", data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao criar IES:", error);
+    throw error;
+  }
+};
 
 const getAllRepresentantes = async () => {
   try {
@@ -224,4 +233,5 @@ export default {
   getAllInstituicoesEnsino,
   getInstituicaoById,
   updateInstituicao,
+  createIes,
 };
