@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -7,13 +7,13 @@ import ReactFlow, {
   useEdgesState,
   addEdge,
   Position,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
-import { useNavigate } from 'react-router-dom';
+} from "reactflow";
+import "reactflow/dist/style.css";
+import { useNavigate } from "react-router-dom";
 
-import { Card, CardContent, Typography, Avatar } from '@mui/material';
-import globalService from '../../../../../services/globalService';
-import { useParams } from 'react-router-dom';
+import { Card, CardContent, Typography, Avatar } from "@mui/material";
+import globalService from "../../../../../services/globalService";
+import { useParams } from "react-router-dom";
 
 const nodeTypes = {};
 const snapGrid: [number, number] = [20, 20];
@@ -25,39 +25,58 @@ const SquadOrganogram = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-
   const getInitials = (name: string) => {
     return name
-      .split(' ')
+      .split(" ")
       .map((n) => n[0])
-      .join('')
+      .join("")
       .toUpperCase();
   };
 
-  const nodeCard = (id: string, name: string, role: string, photo: string, type: 'mentor' | 'aluno' | 'representante') => (
-    <Card
-      onClick={() => navigate(`/${type}s/detalhes-${type}/${id}`)}
-      sx={{
-        width: 130,
-        textAlign: 'center',
-        backgroundColor: '#9c27b0',
-        color: '#fff',
-        cursor: 'pointer',
-        transition: '0.3s',
-        '&:hover': {
-          transform: 'scale(1.05)',
-          boxShadow: 6,
-        },
-      }}
+  const nodeCard = (
+    id: string,
+    name: string,
+    role: string,
+    photo: string,
+    type: "mentor" | "aluno" | "representante"
+  ) => (
+    <div
+      onClick={() => navigate(`/home/${type}s/detalhes-${type}/${id}`)}
+      style={{ cursor: "pointer" }}
     >
-      <CardContent>
-        <Avatar sx={{ width: 56, height: 56, mx: 'auto', mb: 1, bgcolor: '#7b1fa2' }} src={photo}>
-          {!photo && getInitials(name)}
-        </Avatar>
-        <Typography variant="body2" fontWeight="bold">{name}</Typography>
-        <Typography variant="caption">{role}</Typography>
-      </CardContent>
-    </Card>
+      <Card
+        sx={{
+          width: 130,
+          textAlign: "center",
+          backgroundColor: "#9c27b0",
+          color: "#fff",
+          transition: "0.3s",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: 6,
+          },
+        }}
+      >
+        <CardContent>
+          <Avatar
+            sx={{
+              width: 56,
+              height: 56,
+              mx: "auto",
+              mb: 1,
+              bgcolor: "#7b1fa2",
+            }}
+            src={photo}
+          >
+            {!photo && getInitials(name)}
+          </Avatar>
+          <Typography variant="body2" fontWeight="bold">
+            {name}
+          </Typography>
+          <Typography variant="caption">{role}</Typography>
+        </CardContent>
+      </Card>
+    </div>
   );
 
   useEffect(() => {
@@ -76,28 +95,51 @@ const SquadOrganogram = () => {
         }));
 
         const mentorNode = {
-          id: 'mentor',
+          id: "mentor",
           position: { x: 250, y: 0 },
-          data: { label: nodeCard(mentor.id, mentor.nome, 'Mentor(a)', mentor.fotoPerfil, 'mentor') },
+          data: {
+            label: nodeCard(
+              mentor.id,
+              mentor.nome,
+              "Mentor(a)",
+              mentor.fotoPerfil,
+              "mentor"
+            ),
+          },
           sourcePosition: Position.Bottom,
-          type: 'default',
+          type: "default",
         };
 
         const repNodes = reps.map((rep: any, i: number) => ({
           id: rep.id,
           position: { x: 100 + i * 300, y: 100 },
-          data: { label: nodeCard(rep.id, rep.nome, 'Representante', rep.fotoPerfil, 'representante') },
+          data: {
+            label: nodeCard(
+              rep.id,
+              rep.nome,
+              "Representante",
+              rep.fotoPerfil,
+              "representante"
+            ),
+          },
           sourcePosition: Position.Bottom,
           targetPosition: Position.Top,
-          type: 'default',
+          type: "default",
         }));
 
         const squadNode = {
-          id: 'squad',
+          id: "squad",
           position: { x: 250, y: 200 },
           data: {
             label: (
-              <Card sx={{ width: 130, textAlign: 'center', backgroundColor: '#6a1b9a', color: '#fff' }}>
+              <Card
+                sx={{
+                  width: 130,
+                  textAlign: "center",
+                  backgroundColor: "#6a1b9a",
+                  color: "#fff",
+                }}
+              >
                 <CardContent>
                   <Typography variant="body2" fontWeight="bold">
                     {squad.nome}
@@ -108,29 +150,42 @@ const SquadOrganogram = () => {
           },
           sourcePosition: Position.Bottom,
           targetPosition: Position.Top,
-          type: 'default',
+          type: "default",
         };
 
         const memberNodes = members.map((member: any, i: number) => ({
           id: member.id,
           position: { x: 50 + i * 150, y: 350 },
-          data: { label: nodeCard(member.id, member.nome, 'Aluno(a)', member.fotoPerfil, 'aluno') },
+          data: {
+            label: nodeCard(
+              member.id,
+              member.nome,
+              "Aluno(a)",
+              member.fotoPerfil,
+              "aluno"
+            ),
+          },
           targetPosition: Position.Top,
-          type: 'default',
+          type: "default",
         }));
 
         // Monta edges dinamicamente
         const newEdges = [
-          { id: 'e-mentor-squad', source: 'mentor', target: 'squad', animated: true },
+          {
+            id: "e-mentor-squad",
+            source: "mentor",
+            target: "squad",
+            animated: true,
+          },
           ...reps.map((rep: any) => ({
             id: `e-${rep.id}-squad`,
             source: rep.id,
-            target: 'squad',
+            target: "squad",
             animated: true,
           })),
           ...members.map((member: any) => ({
             id: `e-squad-${member.id}`,
-            source: 'squad',
+            source: "squad",
             target: member.id,
             animated: true,
           })),
@@ -146,10 +201,14 @@ const SquadOrganogram = () => {
     fetchSquad();
   }, [id]);
 
-  const onConnect = useCallback((params: any) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)), []);
+  const onConnect = useCallback(
+    (params: any) =>
+      setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
+    []
+  );
 
   return (
-    <div style={{ width: '100%', height: 600 }}>
+    <div style={{ width: "100%", height: 600 }}>
       <ReactFlow
         elementsSelectable={false}
         nodesDraggable={false}

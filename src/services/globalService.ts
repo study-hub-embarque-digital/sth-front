@@ -5,7 +5,7 @@ console.log("PROFILE ATUAL:", profile);
 
 const getAllAlunos = async () => {
   try {
-    const response = await httpClient.get(`/${profile}/alunos`);
+    const response = await httpClient.get(`/alunos`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar todos os alunos:", error);
@@ -15,7 +15,7 @@ const getAllAlunos = async () => {
 
 const getAlunoById = async (id: string) => {
   try {
-    const response = await httpClient.get(`/${profile}/alunos/${id}`);
+    const response = await httpClient.get(`/alunos/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar aluno por ID:", error);
@@ -25,7 +25,7 @@ const getAlunoById = async (id: string) => {
 
 const getMentorById = async (id: string) => {
   try {
-    const response = await httpClient.get(`/${profile}/mentores/${id}`);
+    const response = await httpClient.get(`/mentores/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar mentor por ID:", error);
@@ -35,7 +35,7 @@ const getMentorById = async (id: string) => {
 
 const updateAluno = async (id: string, data: Record<string, any>) => {
   try {
-    const response = await httpClient.put(`/${profile}/alunos/${id}`, data);
+    const response = await httpClient.put(`/alunos/${id}`, data);
     return response.data;
   } catch (error) {
     console.error("Erro ao atualizar aluno:", error);
@@ -45,7 +45,7 @@ const updateAluno = async (id: string, data: Record<string, any>) => {
 
 const updateMentor = async (id: string, data: Record<string, any>) => {
   try {
-    const response = await httpClient.put(`/${profile}/mentores/${id}`, data);
+    const response = await httpClient.put(`/mentores/${id}`, data);
     return response.data;
   } catch (error) {
     console.error("Erro ao atualizar mentor:", error);
@@ -65,7 +65,7 @@ const createAluno = async (data: Record<string, any>) => {
 
 const createMentor = async (data: Record<string, any>) => {
   try {
-    const response = await httpClient.post(`/${profile}/mentores`, data);
+    const response = await httpClient.post(`/mentores`, data);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar mentor:", error);
@@ -95,7 +95,7 @@ const getSquadById = async (id: string) => {
 
 const getAllMentores = async () => {
   try {
-    const response = await httpClient.get(`/${profile}/mentores`);
+    const response = await httpClient.get(`/mentores`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar mentores:", error);
@@ -108,7 +108,10 @@ const buscarEmpregadorPorCnpj = async (cnpj: string) => {
     const response = await httpClient.get(`/empregadores/cnpj/${cnpj}`);
     return response.data;
   } catch (error: any) {
-    if (error.response && error.response.status === 404) {
+    if (
+      error.response &&
+      (error.response.status === 400 || error.response.status === 400)
+    ) {
       // Empregador não encontrado — retornar null
       return null;
     }
@@ -140,7 +143,7 @@ const criarJob = async (data: any) => {
 
 const getAllRepresentantes = async () => {
   try {
-    const response = await httpClient.get(`/${profile}/representantes`);
+    const response = await httpClient.get(`/representantes`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar representantes:", error);
@@ -150,7 +153,7 @@ const getAllRepresentantes = async () => {
 
 const getRepresentanteById = async (id: string) => {
   try {
-    const response = await httpClient.get(`/${profile}/representantes/${id}`);
+    const response = await httpClient.get(`/representantes/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar representante por ID:", error);
@@ -160,10 +163,7 @@ const getRepresentanteById = async (id: string) => {
 
 const updateRepresentante = async (id: string, payload: any) => {
   try {
-    const response = await httpClient.put(
-      `/${profile}/representantes/${id}`,
-      payload
-    );
+    const response = await httpClient.put(`/representantes/${id}`, payload);
     return response.data;
   } catch (error) {
     console.error("Erro ao atualizar representante:", error);
@@ -174,7 +174,7 @@ const updateRepresentante = async (id: string, payload: any) => {
 // Método para buscar todas as instituições
 const getAllInstituicoesEnsino = async () => {
   try {
-    const response = await httpClient.get(`/${profile}/instituicoes`);
+    const response = await httpClient.get(`/instituicoes`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar instituições:", error);
@@ -185,7 +185,7 @@ const getAllInstituicoesEnsino = async () => {
 // Método para buscar uma instituição específica
 const getInstituicaoById = async (id) => {
   try {
-    const response = await httpClient.get(`/${profile}/instituicoes/${id}`);
+    const response = await httpClient.get(`/instituicoes/${id}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar instituição por ID:", error);
@@ -196,10 +196,7 @@ const getInstituicaoById = async (id) => {
 // Método para atualizar uma instituição
 const updateInstituicao = async (id, payload) => {
   try {
-    const response = await httpClient.put(
-      `/${profile}/instituicoes/${id}`,
-      payload
-    );
+    const response = await httpClient.put(`/instituicoes/${id}`, payload);
     return response.data;
   } catch (error) {
     console.error("Erro ao atualizar instituição:", error);
