@@ -23,7 +23,9 @@ export default function CadastroWork() {
   const [activeStep, setActiveStep] = useState(0);
   const [cnpj, setCnpj] = useState("");
   const [empregadorId, setEmpregadorId] = useState<string | null>(null);
-  const [empregadorDados, setEmpregadorDados] = useState<Record<string, any>>({});
+  const [empregadorDados, setEmpregadorDados] = useState<Record<string, any>>(
+    {}
+  );
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -62,31 +64,22 @@ export default function CadastroWork() {
         setActiveStep(2); // Vai direto para o emprego
       }
     } catch (err: any) {
-      const message =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Erro ao buscar empregador";
+      // const message =
+      //   err?.response?.data?.message ||
+      //   err?.message ||
+      //   "Erro ao buscar empregador";
 
-      showMessage(message, "error");
+      // showMessage(message, "error");
       setEmpregadorDados({ cnpjEmpresa: cnpjLimpo });
       setActiveStep(1);
     }
   };
 
   const salvarEmpregador = async (form: Record<string, any>) => {
-    try {
       const novo = await globalService.criarEmpregador(form);
       setEmpregadorId(novo.empregadorId);
       setActiveStep(2);
       showMessage("Empregador cadastrado com sucesso!", "success");
-    } catch (err: any) {
-      const message =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Erro ao salvar empregador";
-      console.error(err);
-      showMessage(message, "error");
-    }
   };
 
   const cadastrarEmprego = async (form: Record<string, any>) => {
@@ -148,6 +141,7 @@ export default function CadastroWork() {
             fields={empregadorFields}
             initialValues={empregadorDados}
             onSubmit={salvarEmpregador}
+            defaultEditable={true}
           />
           <Button onClick={() => setActiveStep(0)} sx={{ mt: 2 }}>
             Voltar
@@ -157,7 +151,12 @@ export default function CadastroWork() {
 
       {activeStep === 2 && (
         <>
-          <DynamicForms fields={jobFields} onSubmit={cadastrarEmprego} />
+          <DynamicForms
+            fields={jobFields}
+            onSubmit={cadastrarEmprego}
+            defaultEditable={true}
+            hasPermission={true}
+          />
           <Button
             onClick={() => setActiveStep(empregadorId ? 0 : 1)}
             sx={{ mt: 2 }}

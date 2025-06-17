@@ -14,6 +14,30 @@ export default function ListagemAlunos() {
   const { hasPermission } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
 
+  const formatCurso = (cursoEnum: string) => {
+    return cursoEnum
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
+  const formatPeriodo = (periodoEnum: string) => {
+    const periodosMap: Record<string, number> = {
+      PRIMEIRO: 1,
+      SEGUNDO: 2,
+      TERCEIRO: 3,
+      QUARTO: 4,
+      QUINTO: 5,
+      SEXTO: 6,
+      SETIMO: 7,
+      OITAVO: 8,
+      NONO: 9,
+      DECIMO: 10,
+    };
+    const numero = periodosMap[periodoEnum] || null;
+    return numero ? `${numero}º` : "N/A";
+  };
+
   const columns = [
     { id: "nome", label: "Nome", minWidth: 200 },
     { id: "email", label: "Email", minWidth: 250 },
@@ -28,23 +52,15 @@ export default function ListagemAlunos() {
       setLoading(true);
       const response = await globalService.getAllAlunos();
 
-      const formattedData = response.map(
-        (aluno: {
-          alunoId: any;
-          usuarioDto: { nome: any; email: any };
-          curso: any;
-          periodo: any;
-          instituicaoEnsinoDto: { nome: any; coordenador: any };
-        }) => ({
-          alunoId: aluno.alunoId,
-          nome: aluno.usuarioDto?.nome || "N/A",
-          email: aluno.usuarioDto?.email || "N/A",
-          curso: aluno.curso || "N/A",
-          periodo: aluno.periodo || "N/A",
-          instituicao: aluno.instituicaoEnsinoDto?.nome || "N/A",
-          coordenador: aluno.instituicaoEnsinoDto?.coordenador || "N/A",
-        })
-      );
+      const formattedData = response.map((aluno: any) => ({
+        alunoId: aluno.alunoId,
+        nome: aluno.usuarioDto?.nome || "N/A",
+        email: aluno.usuarioDto?.email || "N/A",
+        curso: formatCurso(aluno.curso),
+        periodo: formatPeriodo(aluno.periodo),
+        instituicao: aluno.instituicaoEnsinoDto?.nome || "N/A",
+        coordenador: aluno.instituicaoEnsinoDto?.coordenador || "N/A",
+      }));
 
       setData(formattedData);
     } catch (error) {
