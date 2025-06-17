@@ -11,6 +11,7 @@ const useLoginPage = () => {
     email: "",
     senha: "",
   });
+  const [errorOpen, setErrorOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,19 +42,20 @@ const useLoginPage = () => {
       const response = await loginService(body);
 
       if (!response.accessToken) {
-        setLoading(false);
         return;
       }
-      
+
       TokenHandler.defineTokens(response.accessToken, response.refreshToken);
       navigate(`/home`);
 
-    } catch (error) {
-      console.error(error);
+    } catch {
+      setErrorOpen(true);
+      setTimeout(() => {
+        setErrorOpen(false)
+      }, 3000)
+    } finally {
+      setLoading(false);
     }
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const handleRegister = (e) => {
@@ -74,7 +76,8 @@ const useLoginPage = () => {
     formData,
     showPassword,
     loading,
-    navigateToHome
+    navigateToHome,
+    errorOpen
   };
 };
 
