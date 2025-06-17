@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import globalService from "../../../../services/globalService";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import SectionGroup from "../../../../components/shared/layout/SectionGroup";
-import { People } from "@mui/icons-material";
+import { AccountBalanceRounded, People } from "@mui/icons-material";
 import { permissions } from "../../../../utils/permissions";
 import { Alert, Snackbar, CircularProgress, Box } from "@mui/material";
 import { mentorDetailsFields } from "./mentorFilds";
@@ -12,7 +12,6 @@ import { mentorDetailsFields } from "./mentorFilds";
 type RouteParams = {
   id: string;
 };
-
 
 interface MentorDto {
   usuarioDto: {
@@ -27,13 +26,12 @@ interface MentorDto {
   empresaDto?: {
     nomeFantasia: string;
     cnpj: string;
+    empresaId: string;
   };
   squadDtos?: {
     nome: string;
   }[];
 }
-
-
 
 interface SnackbarState {
   open: boolean;
@@ -46,6 +44,7 @@ export default function MentorDetails() {
   const [initialValues, setInitialValues] = useState<Partial<any>>({});
   const [loading, setLoading] = useState<boolean>(true);
   const { hasRole, hasPermission } = useAuth();
+  const navigate = useNavigate();
 
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
@@ -53,7 +52,10 @@ export default function MentorDetails() {
     severity: "success",
   });
 
-  const showMessage = (message: string, severity: SnackbarState["severity"] = "info") => {
+  const showMessage = (
+    message: string,
+    severity: SnackbarState["severity"] = "info"
+  ) => {
     setSnackbar({
       open: true,
       message,
@@ -65,12 +67,14 @@ export default function MentorDetails() {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  let empresaId;
   const loadMentor = async () => {
     try {
       if (!id) throw new Error("ID do mentor não fornecido");
 
       const mentor: MentorDto = await globalService.getMentorById(id);
 
+      empresaId = mentor.empresaDto?.empresaId
       setInitialValues({
         nome: mentor.usuarioDto?.nome || "",
         email: mentor.usuarioDto?.email || "",
@@ -139,7 +143,12 @@ export default function MentorDetails() {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="60vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="60vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -159,10 +168,13 @@ export default function MentorDetails() {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 button={{
-                  textButton: "Novo Mentor",
-                  icon: <People />,
+                  textButton: "Ver empresa",
+                  icon: <AccountBalanceRounded />,
                   permission: true,
-                  onClickAdd: () => console.log("clicou"),
+                  onClickAdd: () =>
+                    navigate(
+                      `/home/empresas/detalhes-empresa/${empresaId}`
+                    ),
                 }}
               />
             ),
@@ -197,5 +209,3 @@ export default function MentorDetails() {
 //       alert("Erro ao atualizar emprego.");
 //     });
 // }}
-
-

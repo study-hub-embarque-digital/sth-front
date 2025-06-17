@@ -37,17 +37,17 @@ export const mentorDetailsFields: IFormField[] = [
   {
     name: "empresa",
     label: "Nome da empresa",
-    type: "text"
+    type: "text",
   },
   {
     name: "cnpj",
     label: "CNPJ",
-    type: "text"
+    type: "text",
   },
   {
     name: "squads",
     label: "Squads (separados por vírgula)",
-    type: "text"
+    type: "text",
   },
 
   {
@@ -57,12 +57,21 @@ export const mentorDetailsFields: IFormField[] = [
   },
 ];
 
-
-export const mentorSingupFields: IFormField[] = [
+export const mentorSingupFields = (empresas: any[]): IFormField[] => [
   { name: "usuarioDto.nome", label: "Nome", type: "text", required: true },
   { name: "usuarioDto.email", label: "E-mail", type: "text", required: true },
-  { name: "usuarioDto.senha", label: "Senha", type: "password", required: true }, // <- novo
-  { name: "usuarioDto.dataNascimento", label: "Data de Nascimento", type: "date", required: true },
+  {
+    name: "usuarioDto.senha",
+    label: "Senha",
+    type: "password",
+    required: true,
+  }, // <- novo
+  {
+    name: "usuarioDto.dataNascimento",
+    label: "Data de Nascimento",
+    type: "date",
+    required: true,
+  },
   {
     name: "usuarioDto.ethnicity",
     label: "Etnia",
@@ -76,7 +85,7 @@ export const mentorSingupFields: IFormField[] = [
       { label: "Amarelo", value: "AMARELO" },
       { label: "Outros", value: "OUTROS" },
       { label: "Prefiro não informar", value: "NAO_INFORMAR" },
-    ]
+    ],
   },
   { name: "usuarioDto.phone", label: "Telefone", type: "text", required: true },
   {
@@ -92,7 +101,22 @@ export const mentorSingupFields: IFormField[] = [
       { label: "Outros", value: "OUTROS" },
       { label: "Prefiro não informar", value: "NAO_INFORMAR" },
     ],
-    required: true
+    required: true,
   },
-  { name: "usuarioDto.isActive", label: "Está ativo no programa?", type: "checkbox", required: true },
+  {
+    name: "usuarioDto.isActive",
+    label: "Está ativo no programa?",
+    type: "checkbox",
+    required: true,
+  },
+  {
+    name: "empresaId",
+    label: "Empresa",
+    type: "select",
+    required: true,
+    options: empresas.map((empresa) => ({
+      value: empresa.empresaId,
+      label: empresa.nomeFantasia ?? "(Sem nome)",
+    })),
+  },
 ];

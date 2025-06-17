@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DynamicForms } from "../../../../components/shared/forms/DynamicForms";
 import globalService from "../../../../services/globalService";
+import empresaService from "../../../../services/empresas";
+
 import { mentorSingupFields } from "./mentorFilds";
-import {
-  Snackbar,
-  Alert,
-  Box,
-  Typography
-} from "@mui/material";
+import { Snackbar, Alert, Box, Typography } from "@mui/material";
 
 export default function CadastroMentor() {
   const navigate = useNavigate();
@@ -18,6 +15,15 @@ export default function CadastroMentor() {
     message: "",
     severity: "info",
   });
+
+  const [empresas, setEmpresas] = useState([]);
+
+  useEffect(() => {
+    empresaService
+      .getAllEmpresas()
+      .then((res) => setEmpresas(res ?? []))
+      .catch(() => console.error("Erro ao buscar empresas"));
+  }, []);
 
   const showMessage = (
     message: string,
@@ -54,11 +60,6 @@ export default function CadastroMentor() {
       const response = await globalService.createMentor(nestedData);
       const usuarioId = response.usuarioDto.usuarioId;
       showMessage("Mentor cadastrado com sucesso!", "success");
-
-
-      navigate(`/home/emprego/cadastro/${usuarioId}`, {
-        state: { from: "/mentor/cadastro" } 
-      });
     } catch (error: any) {
       console.error("Erro ao cadastrar mentor:", error);
       const message =
@@ -70,13 +71,9 @@ export default function CadastroMentor() {
   };
 
   return (
-    <Box sx={{ p: 4, maxWidth: 900, mx: "auto" }}>
-      <Typography variant="h5" gutterBottom>
-        Cadastro de Mentor
-      </Typography>
-
+    <>
       <DynamicForms
-        fields={mentorSingupFields}
+        fields={mentorSingupFields(empresas)}
         onSubmit={handleCreateMentor}
       />
 
@@ -95,6 +92,6 @@ export default function CadastroMentor() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </>
   );
 }

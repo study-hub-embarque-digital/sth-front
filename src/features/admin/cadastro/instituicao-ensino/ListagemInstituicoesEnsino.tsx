@@ -94,6 +94,8 @@ export default function ListagemInstituicoesEnsino() {
           hasPermission={hasPermission(permissions.WRITE_INSTITUICOES_ENSINO)}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          filtroIdade={true}
+          filtroStatus={true}
         />
       )}
     </>
