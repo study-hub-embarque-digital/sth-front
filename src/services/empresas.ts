@@ -55,7 +55,7 @@ const deleteEmpresa = async (id: string) => {
 
 const getEmpresaByNomeFantasia = async (nomeFantasia: string) => {
   try {
-    const response = await httpClient.get(`/empresas/${nomeFantasia}`);
+    const response = await httpClient.get(`/empresas/nome-fantasia/${nomeFantasia}`);
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar empresa por Nome Fantasia:", error);
