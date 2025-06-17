@@ -1,6 +1,6 @@
 /// <reference path="./theme.d.ts" />
 import { createTheme } from "@mui/material/styles";
-
+// ajuste pipe
 export const LightTheme = createTheme({
   palette: {
     primary: {
