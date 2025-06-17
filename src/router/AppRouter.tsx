@@ -59,6 +59,7 @@ import SquadCreate from "../features/admin/cadastro/squad/SquadCreate";
 import ListagemEmpresas from "../features/admin/cadastro/empresas/ListagemEmpresas";
 import EmpresaDetails from "../features/admin/cadastro/empresas/EmpresaDetails";
 import CadastroEmpresa from "../features/admin/cadastro/empresas/CadastrarEmpresa";
+import CadastroIes from "../features/admin/cadastro/instituicao-ensino/CadrastorIes";
 
 const AppRouter = () => {
   const { hasRole } = useAuth();
@@ -132,7 +133,7 @@ const AppRouter = () => {
         />
 
         <Route path="instituicoes" element={<ListagemInstituicoesEnsino />} />
-        <Route path="instituicoes/cadastro" element={<CadastroMentor />} />
+        <Route path="instituicoes/cadastro" element={<CadastroIes />} />
         <Route
           path="instituicoes/detalhes-instituicao/:id"
           element={<InstituicaoDetails />}
