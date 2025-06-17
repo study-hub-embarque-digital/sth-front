@@ -10,6 +10,8 @@ import {
   InputAdornment,
   AppBar,
   Toolbar,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import {
   AccountCircle,
@@ -31,6 +33,7 @@ const LoginPage = () => {
     formData,
     showPassword,
     loading,
+    errorOpen
   } = useLoginPage();
 
   const { isAuthenticated } = useAuth();
@@ -41,6 +44,17 @@ const LoginPage = () => {
 
   return (
     <Grid container style={{ height: "100vh" }}>
+      <Snackbar
+        open={errorOpen}
+        autoHideDuration={4000}
+        // onClose={() => {}}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert severity={'error'} variant="filled" sx={{ width: '100%' }}>
+          Email ou senha incorretos.
+        </Alert>
+      </Snackbar>
+
       <AppBar
         position="static"
         style={{
